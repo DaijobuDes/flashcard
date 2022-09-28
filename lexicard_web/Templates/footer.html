@@ -1,0 +1,82 @@
+<html>
+   <head>
+      <style>
+         .foot {
+            width: 100%;
+            background-color: var(--dark-blue);
+            box-shadow: 0px -1px var(--grey);
+            z-index:1;
+            height: fit-content;
+            margin-top: auto;
+         }
+
+         nav * {
+            color: var(--white);
+         }
+
+         @media (max-width: 750px) {
+            .foot {
+               position:relative;
+            }
+            
+            .responsive {
+               flex-direction: column;
+               align-items: center;
+               justify-content: space-between;
+               align-items: flex-start;
+            }
+
+            .marg-res {
+               margin-bottom: 2rem;
+            }
+         }
+      </style>
+   </head>
+   <body>
+      <footer class="foot flexX jcenter">
+         <nav class="wide jbetween limit responsive" style="padding: 1rem">
+            <div class="marg-res">
+               <h1><i class="fa">Lexicard</i></h1>
+               <p>
+                  Makes studying easy
+                  <br>
+                  with flash cards.
+               </p>
+            </div>
+            <div class="marg-res">
+               <p><i class="fa">Explore</i></p>
+               <a href="#"><p>Home</p></a>
+               <a href="#"><p>About Us</p></a>
+               <a href="#"><p>Capabilities</p></a>
+               <a href="#"><p>Careers</p></a>
+            </div>
+            <div class="marg-res">
+               <p><i class="fa">Visit Us</i></p>
+               <br>
+               <a href="#"><p>N. Bacalso Ave. Cebu City</p></a>
+               <a href="#"><p>Cebu, Philippines</p></a>
+               <a href="#"><p>6000</p></a>
+            </div>
+            <div class="marg-res">
+               <p><i class="fa">Lexicard</i></p>
+               <br>
+               <a href="#"><p>Instagram</p></a>
+               <a href="#"><p>Twitter</p></a>
+               <a href="#"><p>Facebook</p></a>
+            </div>
+            <div class="flexY" style="align-items:center">
+               <p class="bold"><i class="fa">Contact us</i></p>
+               <br>
+               <a href="#"><p>+63 1234 1234 123</p></a>
+               <a href="#"><p>FlashCards@gmail.com</p></a>
+               <div style="width: 15rem; height: 2px; background: white;"></div>
+               Copyright All rights Reserved
+            </div>
+         </nav>
+      </footer>
+      <a href="#">
+         <i class="fa-solid fa-arrow-circle-up" style="position:fixed; right:0; bottom:0; z-index: 1; opacity: 50%"></i>
+         <!-- <div class="action-button" style="width: fit-content; padding: 6px; position: fixed; right: 0rem; bottom: 0rem; color: var(--white); z-index: 1">TOP</div> -->
+      </a>
+   </body>
+</html>

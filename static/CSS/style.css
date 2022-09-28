@@ -1,0 +1,190 @@
+:root {
+   --light-blue: #55BDCA;
+   --dark-blue: #007ACC;
+   --action: #F07C41;
+   --darker-action: #b45e33;
+   --grey: #eee;
+   --black: #000;
+   --white: #fff;
+   --body-text: 'Roboto', sans-serif;
+}
+
+.test {
+   background-color: var(--light-blue);
+}
+
+*{
+   font-family: var(--body-text);
+   color: var(--white);
+   box-sizing: border-box;
+   margin:0;
+   padding:0;
+}
+
+html {
+   scroll-behavior: smooth;
+ }
+
+body{
+   background-color: rgb(31, 31, 31);
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+   /* justify-content: center; */
+   align-items: center;
+   position:relative;
+}
+
+li, a, button {
+   list-style: none;
+   text-decoration: none;
+   color: var(--white);
+}
+
+.bold {
+   font-weight: 600;
+}
+
+.light {
+   font-weight: 400;
+}
+
+.flexX {
+   display: flex;
+}
+
+.flexY {
+   display: flex;
+   flex-direction: column;
+}
+
+.ul-flexX {
+   display: flex;
+   list-style: none;
+}
+
+.ul-flexX li {
+   padding: 1rem;
+}
+
+.wide {
+   width: 100%;
+   flex-grow: 1;
+}
+
+.long {
+   height: 100%;
+   flex-grow: 1;
+}
+
+.unselect {
+   user-select: none;
+   -moz-user-select: none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -o-user-select: none;
+}
+
+.boxed {
+   border: solid;
+   border-width: 5px;
+   border-color: black;
+}
+
+.bord-rad {
+   border-radius: 1rem;
+}
+
+.jcenter {
+   justify-content: center;
+}
+
+.jaround {
+   justify-content: space-around;
+}
+
+.jbetween {
+   justify-content: space-between;
+}
+
+.limit {
+   max-width: 1200px;
+}
+
+.responsive {
+   display: flex;
+}
+
+.action-button {
+   background-color: var(--action);
+   padding: 1rem;
+   width: 100%;
+   border:none;
+   cursor: pointer;
+}
+
+.action-button:hover {
+   background-color: var(--darker-action);
+}
+
+.wrap {
+   flex-wrap: wrap;
+}
+
+.scrollY {
+   overflow-y: auto;
+}
+
+.scrollX {
+   overflow-x: auto;
+}
+
+.pad1 {
+   padding: 1rem;
+}
+
+.marg1 {
+   margin: 1rem;
+}
+
+.margr1 {
+   margin-right: 1rem;
+}
+
+.margl1 {
+   margin-left: 1rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+   width: 10px;
+ }
+ 
+ /* Track */
+ ::-webkit-scrollbar-track {
+   background: #212121; 
+ }
+  
+ /* Handle */
+ ::-webkit-scrollbar-thumb {
+   background: rgba(136, 136, 136, 0.475); 
+ }
+ 
+ /* Handle on hover */
+ ::-webkit-scrollbar-thumb:hover {
+   background: rgb(154, 154, 154, 0.8); 
+ }
+
+/* Actual Stuff */
+
+.cell {
+   min-height: 10rem;
+   min-width: 10rem;
+   cursor:pointer;
+   transition: ease 0.3s;
+   isolation:isolate;
+}
+
+.cell:hover{
+   background-color: var(--action);
+}

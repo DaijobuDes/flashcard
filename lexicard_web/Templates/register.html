@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="logo.png" type="image/x-icon">
+
+      <style>
+
+         .login-container{
+            margin: 10% auto;
+            overflow: hidden;
+         }
+
+         .login-img {
+            height: 300px;
+            width: 300px;
+            background: url('login.png') no-repeat;
+            background-size: cover;
+            background-position: center;
+         }
+
+         .login-details {
+            min-height: 300px;
+            width: 300px;
+            background-color: var(--light-blue);
+            padding: 1rem 3rem;
+            text-align: center;
+         }
+
+         .login-details input {
+            padding: .3rem;
+            /* text-align: center; */
+            width: 100%;
+            margin-bottom: 1rem;
+         }
+
+         input:focus {
+            outline:none;
+         }
+
+         @media (max-width: 750px) {
+            .login-container{
+               display:block;
+            }
+            
+            .login-details {
+               height: 300px;
+            }
+
+            .responsive {
+               flex-direction: column;
+               align-items: center;
+               justify-content: space-between;
+            }
+         }
+      </style>
+
+      <title>Register Page</title>
+   </head>
+   <body>
+      <header class="head"></header>
+
+      
+      <div class="login-container flexX bord-rad responsive">
+         <div class="login-img"></div>
+         <div class="login-details">
+            <form class="long">
+               <ul class="long flexY">
+               <li class="bold" style="margin-bottom: auto;">Register</li>
+               <li style="margin-top: auto;"><input placeholder="email" type="email" required></li>
+               <li><input placeholder="username" required></li>
+               
+               <li><input placeholder="password" type="password" style="margin-bottom:0" required></li>
+               
+               <li class="flexX" style="align-items: center;"><input type="checkbox" style="display:block; width: 1rem; margin-top: 15px;" required><div style="font-size: .5rem;">By ticking this box you agree with our <a href="#">Terms and Conditions</a>.</div></li>
+               <li><button class="action-button" type="submit">Register</button></li>
+            </ul>
+            </form>
+         </div>
+      </div>
+
+
+      <footer class="foot"></footer>
+      <script src="script.js"></script>
+   </body>
+</html>

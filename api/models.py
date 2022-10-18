@@ -1,5 +1,3 @@
-from secrets import choice
-from turtle import bk
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django_resized import ResizedImageField

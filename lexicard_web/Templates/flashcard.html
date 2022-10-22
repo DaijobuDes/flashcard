@@ -1,19 +1,22 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
    <head>
-      <link rel="stylesheet" type="text/css" href="style.css">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flashcard-styles.css' %}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
-      <link rel="icon" href="logo.png" type="image/x-icon">
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>{Flashcard Name}</title>
    </head>
    <body>
-      <header class="head"></header>
+      <div style="width:100%">{% include 'flashcard-header.html' %}</div>
+
 
       <div class="carousel-container">
          <div class="carousel">
            <ul class="slides">
-             <input type="radio" name="radio-buttons" id="img-1" checked />
-             <li class="slide-container" id="flash-1">
+               <input type="radio" name="radio-buttons" id="img-1" checked />
+               <li class="slide-container" id="flash-1">
                <div class="slide-image">
                   <div class="flashcard">
                      <div class="flashcard-number">Question #1</div>
@@ -41,12 +44,12 @@
                   </div>
                </div>
                <div class="carousel-controls">
-                 <label for="img-1" class="prev-slide">
-                   <span>&lsaquo;</span>
-                 </label>
-                 <label for="img-3" class="next-slide">
-                   <span>&rsaquo;</span>
-                 </label>
+                  <label for="img-1" class="prev-slide">
+                     <span>&lsaquo;</span>
+                  </label>
+                  <label for="img-3" class="next-slide">
+                     <span>&rsaquo;</span>
+                  </label>
                </div>
              </li>
              <input type="radio" name="radio-buttons" id="img-3" />
@@ -77,7 +80,8 @@
       
       
 
-      <footer class="foot"></footer>
-      <script src="script.js"></script>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+      <script src="{% static 'javascript/flashcard-script.js' %}"></script>
    </body>
 </html>

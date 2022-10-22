@@ -15,7 +15,7 @@
 
 *{
    font-family: var(--body-text);
-   color: var(--white);
+   color: var(--black);
    box-sizing: border-box;
    margin:0;
    padding:0;
@@ -159,20 +159,20 @@ li, a, button {
 ::-webkit-scrollbar {
    width: 10px;
  }
- 
+
  /* Track */
  ::-webkit-scrollbar-track {
-   background: #212121; 
+   background: #212121;
  }
-  
+
  /* Handle */
  ::-webkit-scrollbar-thumb {
-   background: rgba(136, 136, 136, 0.475); 
+   background: rgba(136, 136, 136, 0.475);
  }
- 
+
  /* Handle on hover */
  ::-webkit-scrollbar-thumb:hover {
-   background: rgb(154, 154, 154, 0.8); 
+   background: rgb(154, 154, 154, 0.8);
  }
 
 /* Actual Stuff */
@@ -227,12 +227,12 @@ ul.slides {
 }
 
 ul.slides input {
-   display: none; 
+   display: none;
 }
 
 
-.slide-container { 
-   display: block; 
+.slide-container {
+   display: block;
 }
 
 .slide-image {
@@ -243,7 +243,7 @@ ul.slides input {
    top: 0;
    opacity: 0;
    transition: .3 ease-out;
-}   
+}
 
 /* .slide-image img {
    width: auto;
@@ -363,7 +363,7 @@ input:checked + .slide-container .slide-image {
 }
 
 input:checked + .slide-container .carousel-controls label {
-    display: block; 
+    display: block;
 }
 
 input#img-1:checked ~ .carousel-dots label#img-dot-1,

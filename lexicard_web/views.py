@@ -85,7 +85,7 @@ class Register(FormView):
     """
 
     form_class = RegistrationForm
-    template_name = None
+    template_name = "register.html"
 
     def get(self, request):
         return render(request, self.template_name)
@@ -129,7 +129,5 @@ class Register(FormView):
 
             login(request, user)
 
-        return redirect("/home")
-
-
+        return redirect("/login")
 

@@ -1,4 +1,6 @@
 <html>
+   {% load static %}
+
    <head>
       <style>
          .head {
@@ -137,18 +139,18 @@
                   <label for="search-check">
                      <li><i class="fa-solid fa-search"></i></li>
                   </label>
-                  
+
                </ul>
             </nav>
          </header>
 
          <input type="checkbox" id="menu" role="button">
          <input type="checkbox" id="search-check" role="button">
-         <label for="menu" id="highlight"></label> 
+         <label for="menu" id="highlight"></label>
          <label for="search-check" id="search-highlight"></label>
          <input id="search-input"> <!--This is the search input -->
          <aside id="toggle" class="flexY" style="padding: 1rem;">
-            <img src="user.png" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center; margin: 1rem 0;" >
+            <img src="{% static 'user.png' %}" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center; margin: 1rem 0;" >
             <h2 style="align-self: center"><i class="fa">Username</i></h2>
 
             <ul style="margin-top:auto">

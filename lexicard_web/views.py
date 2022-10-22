@@ -117,3 +117,63 @@ class Register(FormView):
 
         return redirect("/register")
 
+class DashboardView(View):
+    """
+    Class handler for the main page.
+
+    Allowed methods:
+    GET
+
+    """
+
+    template_name = None
+
+    def get(self, request):
+        pass
+
+
+class ProfileView(View):
+    """
+    Class handler for user profiles.
+
+    Allowed methods:
+    GET
+
+    """
+
+    template_name = None
+
+    def get(self, request):
+        pass
+
+
+class ClassView(View):
+    """
+    Class handler for the available classes page.
+
+    Allowed methods:
+    GET POST
+
+    """
+
+    template_name = None
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
+
+class Document(View):
+    """
+    Class handler for the main page.
+
+    Allowed methods:
+    GET
+
+    """
+
+    template_name = None
+
+    def get(self, request):
+        pass

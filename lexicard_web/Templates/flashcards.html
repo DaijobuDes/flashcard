@@ -1,13 +1,16 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
    <head>
-      <link rel="stylesheet" type="text/css" href="style.css">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flashcard-styles.css' %}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
-      <link rel="icon" href="logo.png" type="image/x-icon">
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>Flashcards</title>
    </head>
    <body>
-      <header class="head"></header>
+      <div style="width:100%">{% include 'flashcard-header.html' %}</div>
+
 
       <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;">
         <!-- <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;"> -->
@@ -26,7 +29,8 @@
                <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='flashcard.html'">Flashcard Example</div>
             </div>
       </div>
-      <footer class="foot"></footer>
-      <script src="flashcard-script.js"></script>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+      <script src="{% static 'javascript/flashcard-script.js' %}"></script>
    </body>
 </html>

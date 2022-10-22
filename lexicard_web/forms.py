@@ -22,7 +22,7 @@ class RegistrationForm(forms.Form):
     A class used for user registration
     """
 
-    username = forms.CharField(widget=forms.CharField())
+    username = forms.CharField()
     email = forms.EmailField(widget=forms.EmailInput())
     password = forms.CharField(widget=forms.PasswordInput())
 

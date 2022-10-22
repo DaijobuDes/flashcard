@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
+from django.contrib import messages
+
 
 from .forms import *
 
@@ -87,9 +89,6 @@ class Register(FormView):
     form_class = RegistrationForm
     template_name = "register.html"
 
-    def get(self, request):
-        return render(request, self.template_name)
-
     def post(self, request):
         form = RegistrationForm(request.POST)
 
@@ -101,33 +100,20 @@ class Register(FormView):
             # Check if email exists in database
             username_check = User.objects.filter(username=username)
             email_check = User.objects.filter(email=email)
-            if username_check > 0 or email_check > 0:
-                return HttpResponseBadRequest(json.dumps(
-                    {
-                        "status": "error",
-                        "code": "400",
-                        "message": "Email/username is taken."
-                    }
-                ))
-
-            try:
-                validate_password(password=password)
-            except ValidationError as ve:
-                return HttpResponseBadRequest(json.dumps(
-                    {
-                        "status": "error",
-                        "code": "400",
-                        "message": "Email/username is taken."
-                    }
-                ))
+            if username_check.count() > 0:
+                messages.error(request, 'Username is already in use.')
+                return render(request, self.template_name)
+            if email_check.count() > 0:
+                messages.error(request, 'Email is already in use.')
+                return render(request, self.template_name)
 
             user = User(
                 username=username,
                 email=email,
                 password=make_password(password)
             )
+            user.save()
+            return redirect('/login')
 
-            login(request, user)
-
-        return redirect("/login")
+        return redirect("/register")
 

@@ -1,6 +1,5 @@
 import os
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django_resized import ResizedImageField
 
@@ -9,7 +8,7 @@ def profile_picture_dir(i, f):
     return os.path.join(f"assets/{i.user_id}", f)
 
 # Create your models here.
-class User(AbstractBaseUser):
+class User(models.Model):
     user_id = models.AutoField(primary_key=True)
 
     username = models.CharField(max_length=32, blank=True)
@@ -19,7 +18,6 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['password']
 
-    objects = BaseUserManager()
 
 class Profile(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)

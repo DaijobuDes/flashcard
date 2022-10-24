@@ -39,6 +39,7 @@ class Login(FormView):
                 if user is not None:
                     user.save()
                     login(request, user)
+                    return redirect("/home")
                 else:
                     return HttpResponseBadRequest(json.dumps(
                         {
@@ -52,7 +53,7 @@ class Login(FormView):
                     {
                         "status": "error",
                         "code": "400",
-                        "message": "Email does not exist."
+                        "message": "Username does not exist."
                     }
                 ))
         else:

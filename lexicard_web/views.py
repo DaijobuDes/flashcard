@@ -22,22 +22,20 @@ class Login(FormView):
     GET POST
     """
 
-    form_class = UserForm
-    template_name = None
-
-    def get(self, request):
-        return render(request, self.template_name)
+    form_class = LoginForm
+    template_name = 'login.html'
 
     def post(self, request):
-        form = UserForm(request.POST)
+        form = LoginForm(request.POST)
 
         if form.is_valid():
-            email = request.POST.get("email")
+            username = request.POST.get("username")
             password = request.POST.get("password")
-
+            print(password)
             # Check if email exists
-            if User.objects.filter(email=email).exists():
-                user = authenticate(email=email, password=password)
+            if User.objects.filter(username=username).exists():
+                user = authenticate(username=username, password=password)
+                print(user)
                 if user is not None:
                     user.save()
                     login(request, user)
@@ -57,6 +55,8 @@ class Login(FormView):
                         "message": "Email does not exist."
                     }
                 ))
+        else:
+            messages.error(request, form.errors)
         return render(request, self.template_name)
 
 
@@ -64,18 +64,11 @@ class Logout(View):
     """
     Class handler for logging out users.
 
-    Allowed methods:
-    GET
     """
-
-    template_name = None
 
     def get(self, request):
         logout(request)
         return redirect("/")
-
-    def post(self, request):
-        return HttpResponseNotAllowed(["GET"])
 
 
 class Register(FormView):
@@ -86,17 +79,17 @@ class Register(FormView):
     GET POST
     """
 
-    form_class = RegistrationForm
+    form_class = UserForm
     template_name = "register.html"
 
     def post(self, request):
-        form = RegistrationForm(request.POST)
+        form = UserForm(request.POST)
 
         if form.is_valid():
             username = request.POST.get("username")
             email = request.POST.get("email")
             password = request.POST.get("password")
-
+            print("a")
             # Check if email exists in database
             username_check = User.objects.filter(username=username)
             email_check = User.objects.filter(email=email)
@@ -114,6 +107,8 @@ class Register(FormView):
             )
             user.save()
             return redirect('/login')
+        else:
+            print(form.errors)
 
         return redirect("/register")
 

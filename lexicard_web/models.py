@@ -16,7 +16,6 @@ class User(models.Model):
     password = models.CharField(max_length=256, blank=True)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['password']
 
 
 class Profile(models.Model):

@@ -74,14 +74,12 @@
                            <div class="alert alert-danger" role="alert"><p>{{ message | safe }}</p></div>
                         {% endfor %}
                      </div>
-                  {% endif %}
+               {% endif %}
                <ul class="long flexY">
                <li class="bold" style="margin-bottom: auto;">Register</li>
-               <li style="margin-top: auto;"><input placeholder="email" type="email" name="email" required></li>
-               <li><input placeholder="username" name="username" required></li>
-
-               <li><input placeholder="password" type="password" name="password" style="margin-bottom:0" required></li>
-
+               <li style="margin-top: auto;"><input placeholder="email" type="email" name="email" required></input></li>
+               <li><input placeholder="username" name="username" required></input></li>
+               <li><input placeholder="password" type="password" name="password" style="margin-bottom:0" required></input></li>
                <li class="flexX" style="align-items: center;"><input type="checkbox" style="display:block; width: 1rem; margin-top: 15px;" required><div style="font-size: .5rem;">By checking this box you agree with our <a href="#">Terms and Conditions</a>.</div></li>
                <li><button class="action-button" type="submit">Register</button></li>
             </ul>

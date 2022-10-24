@@ -65,6 +65,8 @@ class Logout(View):
     """
     Class handler for logging out users.
 
+    Allowed methods:
+    GET
     """
 
     def get(self, request):

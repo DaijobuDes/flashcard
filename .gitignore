@@ -169,5 +169,6 @@ pyvenv.cfg
 
 # Django files
 migrations/
+media/
 
 # Below here, add any files that contain sensitive material

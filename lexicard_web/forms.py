@@ -33,3 +33,9 @@ class LoginForm(forms.Form):
       fields = ['username', 'password']
 
 
+class UpdateProfile(forms.Form):
+   """
+   A class used for updating the user's profile page.
+   """
+
+   pass

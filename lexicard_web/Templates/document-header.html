@@ -150,10 +150,12 @@
          <label for="search-check" id="search-highlight"></label>
          <input id="search-input"> <!--This is the search input -->
          <aside id="toggle" class="flexY" style="padding: 1rem;">
+            {% if request.user.is_authenticated %}
             <img src="{% static 'user.png' %}" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center; margin: 1rem 0;" >
-            <h2 style="align-self: center"><i class="fa">Username</i></h2>
+            <h2 style="align-self: center"><i class="fa">{{request.user }}</i></h2>
 
-            <ul style="margin-top:auto">
+            <ul style="margin-top:auto"> 
+               
                <li onclick="location.href='/home/'"><i class="fa-solid fa-window-maximize"></i>&nbsp;Dashboard</li>
                <li onclick="location.href='classes.html'"><i class="fa-solid fa-folder-open"></i>&nbsp;Classes</li>
                <li onclick="location.href='flashcards.html'"><i class="fa-solid fa-address-card"></i>&nbsp;Flashcards</li>
@@ -162,7 +164,17 @@
                <li><i class="fa-solid fa-bell"></i>&nbsp;Notifications</li>
                <li><i class="fa-solid fa-gear"></i>&nbsp;Settings</li>
                <li onclick="location.href='/logout/'"><i class="fa-solid fa-sign-out"></i>&nbsp;Sign Out</li>
+               
+               
             </ul>
+            {% else %}
+            <a href="/login/" style="width: 100%; display: flex; justify-content: center;"><img src="{% static 'user.png' %}" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center;" ></a>
+            <h2 style="align-self: center"><i class="fa">Log In</i></h2>
+            <ul style="margin-top:auto"> 
+               <div style="width: 80%; height: 2px; background: white;"></div>
+               <li onclick="location.href='/login/'"><i class="fa-solid fa-sign-in"></i>&nbsp;Sign In</li>
+            </ul>
+            {% endif %}
          </aside>
       </body>
    </form>

@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import path
@@ -25,4 +27,7 @@ urlpatterns = [
     path('register/', views.Register.as_view()),
     path('logout/', views.Logout.as_view()),
     path('home/', views.DashboardView.as_view()),
-]
+    # Place /profile here
+    path('profile/update/upload', views.UploadProfileView.as_view()),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

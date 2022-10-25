@@ -112,7 +112,7 @@ class Register(FormView):
 
         return redirect("/register")
 
-class DashboardView(View):
+class DashboardView(TemplateView):
     """
     Class handler for the main page.
 
@@ -120,11 +120,7 @@ class DashboardView(View):
     GET
 
     """
-
-    template_name = None
-
-    def get(self, request):
-        pass
+    template_name = 'dashboard.html'
 
 
 class ProfileView(View):

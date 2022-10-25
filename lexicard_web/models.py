@@ -1,12 +1,17 @@
 import os
+from hashlib import md5
 
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django_resized import ResizedImageField
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+# Reference
+# http://www.learningaboutelectronics.com/Articles/How-to-rename-an-image-or-file-in-an-upload-Django.php
+def profile_picture_dir(instance, filename):
+    base_filename, file_extension = os.path.splitext(filename)
+    hashed_filename = md5(base_filename.encode()).hexdigest()
+    return f"profile/{hashed_filename}{file_extension}"
 
-def profile_picture_dir(i, f):
-    return os.path.join(f"assets/{i.user_id}", f)
 
 # Create your models here.
 class User(AbstractBaseUser):
@@ -24,7 +29,7 @@ class User(AbstractBaseUser):
 
 class Profile(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    user_image =ResizedImageField(size=[256, 256], upload_to=profile_picture_dir, blank=True, force_format='JPEG')
+    user_image = ResizedImageField(size=[512, 512], upload_to=profile_picture_dir, blank=True, force_format='JPEG')
 
 class Document(models.Model):
     document_id = models.AutoField(primary_key=True)

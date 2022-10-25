@@ -1,0 +1,14 @@
+<html>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Submit</button>
+
+    </form>
+
+    {% if img %}
+    <img src="{{ img_obj.image.url }}" />
+    {% endif %}
+
+</html>

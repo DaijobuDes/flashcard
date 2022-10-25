@@ -8,6 +8,9 @@ from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
 from django.contrib import messages
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.contrib.auth.validators import ASCIIUsernameValidator
 
 
 from .forms import *
@@ -41,21 +44,11 @@ class Login(FormView):
                     login(request, user)
                     return redirect("/home")
                 else:
-                    return HttpResponseBadRequest(json.dumps(
-                        {
-                            "status": "error",
-                            "code": "400",
-                            "message": "Invalid password."
-                        }
-                    ))
+                    messages.error(request, 'Invalid password')
+                    return render(request, self.template_name)
             else:
-                return HttpResponseBadRequest(json.dumps(
-                    {
-                        "status": "error",
-                        "code": "400",
-                        "message": "Username does not exist."
-                    }
-                ))
+                messages.error(request, 'Username does not exist')
+                return render(request, self.template_name)
         else:
             messages.error(request, form.errors)
         return render(request, self.template_name)
@@ -92,7 +85,9 @@ class Register(FormView):
             username = request.POST.get("username")
             email = request.POST.get("email")
             password = request.POST.get("password")
-            print("a")
+
+
+
             # Check if email exists in database
             username_check = User.objects.filter(username=username)
             email_check = User.objects.filter(email=email)
@@ -103,11 +98,13 @@ class Register(FormView):
                 messages.error(request, 'Email is already in use.')
                 return render(request, self.template_name)
 
-            user = User(
-                username=username,
-                email=email,
-                password=make_password(password)
-            )
+            try:
+                validate_password(password)
+            except ValidationError as e:
+                messages.error(request, '<br>'.join(e.messages))
+                return render(request, self.template_name)
+
+            user = User(username=username, email=email, password=make_password(password))
             user.save()
             return redirect('/login')
         else:

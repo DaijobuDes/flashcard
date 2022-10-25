@@ -153,7 +153,7 @@
             <h2 style="align-self: center"><i class="fa">Username</i></h2>
 
             <ul style="margin-top:auto">
-               <li onclick="location.href='dashboard.html'"><i class="fa-solid fa-window-maximize"></i>&nbsp;Dashboard</li>
+               <li onclick="location.href='/home/'"><i class="fa-solid fa-window-maximize"></i>&nbsp;Dashboard</li>
                <li onclick="location.href='classes.html'"><i class="fa-solid fa-folder-open"></i>&nbsp;Classes</li>
                <li onclick="location.href='flashcards.html'"><i class="fa-solid fa-address-card"></i>&nbsp;Flashcards</li>
                <li><i class="fa-solid fa-calendar"></i>&nbsp;Schedule</li>
@@ -162,6 +162,8 @@
                <li><i class="fa-solid fa-gear"></i>&nbsp;Settings</li>
                {% if request.user.is_authenticated %}
                <li onclick="location.href='/logout/'"><i class="fa-solid fa-sign-out"></i>&nbsp;Sign Out</li>
+               {% else %}
+               <li onclick="location.href='/login/'"><i class="fa-solid fa-sign-in"></i>&nbsp;Sign In</li>
                {% endif %}
             </ul>
          </aside>

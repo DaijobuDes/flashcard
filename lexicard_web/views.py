@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
 from django.contrib import messages
@@ -136,6 +136,40 @@ class ProfileView(View):
 
     def get(self, request):
         pass
+
+class UploadProfileView(View):
+    """
+    Class handler for uploading/updating user profiles.
+
+    Allowed methods:
+    GET POST
+
+    """
+
+    template_name = "pfp.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        # TODO:
+        # 1. Implementation of "if image exists", basically checking
+        # 2. Implementation of image deletion if user replaces
+        #       their profile picture
+        # NOTE:
+        # 1. Saving image/pfp is working
+
+        image = request.FILES.getlist("image")
+        print(image)
+
+        data = Profile(
+            user_id=request.user,
+            user_image=image[0]
+        )
+        data.save()
+
+
+        return redirect("/profile")
 
 
 class ClassView(View):

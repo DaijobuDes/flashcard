@@ -12,24 +12,36 @@
             overflow: hidden;
          }
 
-         .login-img {
+         .login-img::before {
             height: 300px;
             width: 300px;
+            filter: brightness(60%);
+            content:' ';
             background: url('{% static "login.png" %}') no-repeat;
             background-size: cover;
             background-position: center;
+            position:absolute;
+            top: 0;
+            left:0;
+            z-index: -1;
+         }
+
+         .login-img {
+            height: 300px;
+            width: 300px;
+            position: relative;
          }
 
          .login-details {
             height: 300px;
             width: 300px;
-            background-color: var(--light-blue);
-            padding: 1rem;
+            background-color: var(--dark-blue);
+            padding: 1rem 3rem;
             text-align: center;
          }
 
          .login-details input {
-            padding: 1rem;
+            padding: .3rem;
             text-align: center;
             width: 100%;
             margin-bottom: 1rem;
@@ -58,22 +70,23 @@
       <div style="width:100%">
          {% include 'header.html' %}
       </div>
-
-
       <div class="login-container flexX bord-rad responsive">
-         <div class="login-img"></div>
+         <div class="login-img pad1 flexY" style="justify-content: flex-end;">
+            <p id="quote"></p>
+            <h3 id="author"></h3>
+         </div>
          <div class="login-details">
-            <form class="long" method="post" class="long">
-               {% csrf_token %}
-               {% if messages %}
-                     <div class="messages" style="margin: auto; text-align: center;">
-                        {% for message in messages %}
-                           <div class="alert alert-danger" role="alert"><p>{{ message | safe }}</p></div>
-                        {% endfor %}
-                     </div>
-               {% endif %}
+            <form class="long" method="post">
                <ul class="long flexY">
                   <li class="bold" style="margin-bottom: auto;"><i class="fa">Login</i></li>
+                  {% csrf_token %}
+                  {% if messages %}
+                     <div class="messages" style="margin: auto; text-align: center;">
+                        {% for message in messages %}
+                           <div class="alert alert-danger" role="alert"><p style="color:orange">{{ message | safe }}</p></div>
+                        {% endfor %}
+                     </div>
+                  {% endif %}
                   <li style="margin-top: auto;"><input placeholder="username" name="username" ></input></li>
                   <li><input placeholder="password" type="password" name="password" ></input></li>
                   <li><button class="action-button" type="submit">Sign In</button></li>
@@ -82,8 +95,8 @@
             </form>
          </div>
       </div>
-
       {% include "footer.html" %}
       <script src="{% static 'javascript/script.js' %}"></script>
+      <script src="{% static 'javascript/quote-script.js' %}"></script>
    </body>
 </html>

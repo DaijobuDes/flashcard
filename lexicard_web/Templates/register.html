@@ -13,18 +13,30 @@
             overflow: hidden;
          }
 
-         .login-img {
+         .login-img::before {
             height: 300px;
             width: 300px;
+            filter: brightness(60%);
+            content:' ';
             background: url('{% static "login.png" %}') no-repeat;
             background-size: cover;
             background-position: center;
+            position:absolute;
+            top: 0;
+            left:0;
+            z-index: -1;
+         }
+
+         .login-img {
+            height: 300px;
+            width: 300px;
+            position: relative;
          }
 
          .login-details {
             min-height: 300px;
             width: 300px;
-            background-color: var(--light-blue);
+            background-color: var(--dark-blue);
             padding: 1rem 3rem;
             text-align: center;
          }
@@ -64,31 +76,34 @@
       {% include 'header.html' %}
       </div>
       <div class="login-container flexX bord-rad responsive">
-         <div class="login-img"></div>
+         <div class="login-img pad1 flexY" style="justify-content: flex-end;">
+            <p id="quote"></p>
+            <h3 id="author"></h3>
+         </div>
          <div class="login-details">
             <form method="post" class="long">
-               {% csrf_token %}
-               {% if messages %}
+               <ul class="long flexY">
+                  <li class="bold" style="margin-bottom: auto;">Register</li>
+                  {% csrf_token %}
+                  {% if messages %}
                      <div class="messages" style="margin: auto; text-align: center;">
                         {% for message in messages %}
-                           <div class="alert alert-danger" role="alert"><p>{{ message | safe }}</p></div>
+                           <div class="alert alert-danger" role="alert"><p style="color:orange">{{ message | safe }}</p></div>
                         {% endfor %}
                      </div>
-               {% endif %}
-               <ul class="long flexY">
-               <li class="bold" style="margin-bottom: auto;">Register</li>
-               <li style="margin-top: auto;"><input placeholder="email" type="email" name="email" required></input></li>
-               <li><input placeholder="username" name="username" required></input></li>
-               <li><input placeholder="password" type="password" name="password" style="margin-bottom:0" required></input></li>
-               <li class="flexX" style="align-items: center;"><input type="checkbox" style="display:block; width: 1rem; margin-top: 15px;" required><div style="font-size: .5rem;">By checking this box you agree with our <a href="#">Terms and Conditions</a>.</div></li>
-               <li><button class="action-button" type="submit">Register</button></li>
-               <li class="flexX" style="justify-content: center;"><div style="font-size: .5rem;padding-top: 5px;">Login instead? -> <a href="/login/"><u>Login</u></a>.</div></li>
-
-            </ul>
+                  {% endif %}
+                  <li style="margin-top: auto;"><input placeholder="email" type="email" name="email" required></input></li>
+                  <li><input placeholder="username" name="username" required></input></li>
+                  <li><input placeholder="password" type="password" name="password" style="margin-bottom:0" required></input></li>
+                  <li class="flexX" style="align-items: center;"><input type="checkbox" style="display:block; width: 1rem; margin-top: 15px;" required><div style="font-size: .5rem;">By checking this box you agree with our <a href="#">Terms and Conditions</a>.</div></li>
+                  <li><button class="action-button" type="submit">Register</button></li>
+                  <li class="flexX" style="justify-content: center;"><div style="font-size: .5rem;padding-top: 5px;">Login instead? -> <a href="/login/"><u>Login</u></a>.</div></li>
+               </ul>
             </form>
          </div>
       </div>
       {% include "footer.html" %}
-      <!-- <script src="{% static 'javascript/script.js' %}"></script> -->
+      <script src="{% static 'javascript/script.js' %}"></script>
+      <script src="{% static 'javascript/quote-script.js' %}"></script>
    </body>
 </html>

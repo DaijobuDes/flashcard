@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
 
 from .forms import *
+from .generate import Generate
 
 # Create your views here.
 
@@ -121,21 +122,6 @@ class DashboardView(TemplateView):
 
     """
     template_name = 'dashboard.html'
-
-
-class ProfileView(View):
-    """
-    Class handler for user profiles.
-
-    Allowed methods:
-    GET
-
-    """
-
-    template_name = None
-
-    def get(self, request):
-        pass
 
 class UploadProfileView(View):
     """
@@ -266,9 +252,9 @@ class ProfileView(View):
         #       their profile picture
         # NOTE:
         # 1. Saving image/pfp is working
+        # 2. Image replacement works, but unoptimized code
+        # 3. Account deletion works
 
-
-        
         image = request.FILES.getlist("image")
         uname = request.POST.get("username")
         mail = request.POST.get("email")
@@ -280,6 +266,7 @@ class ProfileView(View):
             logout(request)
 
             return redirect("/register")
+
         print(image)
 
         # print(request.user.user_id)
@@ -315,3 +302,37 @@ class ProfileView(View):
         # p_data.update()
 
         return render(request, self.template_name)
+
+class GenerateFlashcard(View):
+    """
+    Class handler for generating flashcards.
+
+    Allowed methods:
+    GET POST
+
+    """
+
+    template_name = "generate.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        term = request.POST.get("term")
+        definition = request.POST.get("definition")
+
+        data = Generate()
+        data.setTerm(term)
+        data.setDefinition(definition)
+        response = HttpResponse(content_type='image/png')
+        image = data.saveImage(response)
+        return HttpResponse(response, content_type='image/png')
+
+        # return HttpResponse(json.dumps(
+        #     {
+        #         "term": term,
+        #         "definition": definition,
+        #     }
+        # ))
+
+        return render(request, self.template_name, {"image": image})

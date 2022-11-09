@@ -385,3 +385,23 @@ input:checked + .slide-container .nav label { display: block; }
 table, th, td {
    border: 1px solid;
 }
+
+.profile-photo {
+   position: relative;
+   overflow: hidden;
+}
+
+.profile-photo img {
+   border-radius:50%;
+   align-self: center; 
+   margin: 1rem 0;
+   cursor: pointer;
+}
+
+.profile-photo:hover ~ .profile-photo::before {
+   display: none;
+}
+
+.p-children {
+   padding: 1rem;
+}

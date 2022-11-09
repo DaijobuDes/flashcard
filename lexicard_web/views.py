@@ -202,3 +202,54 @@ class Document(View):
 
     def get(self, request):
         pass
+
+class FlashcardView(TemplateView):
+    """
+    Class handler for the available flashcard page.
+
+    Allowed methods:
+    GET POST
+
+    """
+    template_name = "flashcards.html"
+
+
+class ProfileView(View):
+    """
+    Class handler for the available flashcard page.
+
+    Allowed methods:
+    GET POST
+
+    """
+    def get(self, request):
+        template_name = "profile.html"
+        return render(request, template_name)
+    
+    def post(self, request):
+        # TODO:
+        # 1. Implementation of "if image exists", basically checking
+        # 2. Implementation of image deletion if user replaces
+        #       their profile picture
+        # NOTE:
+        # 1. Saving image/pfp is working
+
+        image = request.FILES.getlist("image")
+        uname = request.POST.get("username")
+        mail = request.POST.get("email")
+        
+        print(image)
+
+        data = Profile(
+            user_id=request.user,
+            user_image=image[0]
+        )
+        data.save()
+
+        p_data = User(
+            username=uname,
+            email=mail
+        )
+        p_data.update()
+
+        return redirect("/profile")

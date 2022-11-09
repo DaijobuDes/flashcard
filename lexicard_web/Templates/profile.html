@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>{{ request.user }}</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'header.html' %}</div>
+      <div class="pad1 responsive" style="display: grid; grid-template-columns: 1fr 1fr;margin: 150px 0px; width: clamp(390px, 40vw, 1200px); height: clamp(300px, 40vh, 700px); background-color: var(--dark-blue);">
+         <div class="flexY jcenter" style="width: 100%; height: 100%; align-items: center;">
+            <form method="post" enctype="multipart/form-data">
+               <label for="pp-image">
+                  <div class="profile-photo">
+                     {% if request.user.profile_set.all.first %}
+                     <img id="output" src="{{ request.user.profile_set.all.first.user_image.url }}" style="height: 180px; width: 180px">
+                     {% else %}
+                     <img id="output" src="{% static 'user.png' %}" style="height: 180px; width: 180px">
+                     {%endif%}
+                  </div>
+               </label>
+               
+            
+               {% csrf_token %}
+               {% comment %} {{ form.as_p }} {% endcomment %}
+               <input type="file" name="image" accept="image/*" id="pp-image" style="display: none" onchange="loadFile(event)">
+               <button type="submit">Submit</button>
+           </form>
+            
+         </div>
+         <div class="profile-details flexY">
+            <div class="profile-name p-children">
+               Username: {{request.user}}
+            </div>
+            <div class="profile-email p-children">
+               Email: {{request.user.email}}
+            </div>
+         </div>
+      </div>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+      <script>
+         var loadFile = function(event) {
+           var output = document.getElementById('output');
+           output.src = URL.createObjectURL(event.target.files[0]);
+           output.onload = function() {
+             URL.revokeObjectURL(output.src) // free memory
+           }
+         };
+       </script>
+   </body>
+</html>

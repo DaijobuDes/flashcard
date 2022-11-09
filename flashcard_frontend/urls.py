@@ -27,7 +27,15 @@ urlpatterns = [
     path('register/', views.Register.as_view()),
     path('logout/', views.Logout.as_view()),
     path('home/', views.DashboardView.as_view()),
+
+    # Flashcard urls
+    path('flashcard/', views.FlashcardView.as_view()),
+    #path('flashcard/create/', views.FlashcardCreate.as_view()),
+    #path('flashcard/flashcard/', views.FlashcardIndi.as_view()),
+
     # Place /profile here
     path('profile/update/upload', views.UploadProfileView.as_view()),
+    path('profile/', views.ProfileView.as_view()),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

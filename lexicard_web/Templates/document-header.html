@@ -151,7 +151,11 @@
          <input id="search-input"> <!--This is the search input -->
          <aside id="toggle" class="flexY" style="padding: 1rem;">
             {% if request.user.is_authenticated %}
+            {% if request.user.profile_set.all.first %}
+            <img src="{{ request.user.profile_set.all.first.user_image.url }}" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center; margin: 1rem 0;" >
+            {% else %}
             <img src="{% static 'user.png' %}" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center; margin: 1rem 0;" >
+            {%endif%}
             <h2 style="align-self: center"><i class="fa">{{request.user }}</i></h2>
 
             <ul style="margin-top:auto"> 

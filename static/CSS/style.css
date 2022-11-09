@@ -389,6 +389,7 @@ table, th, td {
 .profile-photo {
    position: relative;
    overflow: hidden;
+   transition: 0.3s ease;
 }
 
 .profile-photo img {
@@ -398,10 +399,26 @@ table, th, td {
    cursor: pointer;
 }
 
-.profile-photo:hover ~ .profile-photo::before {
-   display: none;
+.profile-photo:hover {
+   filter:brightness(0.3)
 }
 
 .p-children {
    padding: 1rem;
+   display: flex;
+}
+
+.p-children input{
+   flex-grow: 1;
+   text-align: right;
+   background: none;
+   border:dotted;
+   margin-left: 1rem;
+   font-size: 20px;
+   font-weight: 400;
+   
+}
+
+.p-children input:focus {
+   outline: none;
 }

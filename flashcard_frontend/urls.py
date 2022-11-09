@@ -31,11 +31,14 @@ urlpatterns = [
     # Flashcard urls
     path('flashcard/', views.FlashcardView.as_view()),
     path('flashcard/create/', views.FlashcardCreateView.as_view()),
+    path('flashcard/generate/', views.GenerateFlashcard.as_view()),
     #path('flashcard/flashcard/', views.FlashcardIndi.as_view()),
 
     # Place /profile here
     path('profile/update/upload', views.UploadProfileView.as_view()),
     path('profile/', views.ProfileView.as_view()),
+
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

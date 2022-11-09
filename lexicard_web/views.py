@@ -1,17 +1,15 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
+from django.http import (HttpResponse, HttpResponseBadRequest,
+                         HttpResponseNotAllowed, HttpResponseServerError)
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
-from django.contrib import messages
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from django.contrib.auth.validators import ASCIIUsernameValidator
-
 
 from .forms import *
 
@@ -105,7 +103,9 @@ class Register(FormView):
                 return render(request, self.template_name)
 
             user = User(username=username, email=email, password=make_password(password))
+            # image = Profile(user_image="/static/user.png", user_id=t.user_id)
             user.save()
+            # image.save()
             return redirect('/login')
         else:
             print(form.errors)
@@ -222,10 +222,13 @@ class ProfileView(View):
     GET POST
 
     """
+
+    template_name = "profile.html"
+
     def get(self, request):
-        template_name = "profile.html"
-        return render(request, template_name)
-    
+        return render(request, self.template_name)
+
+    # Future reference: https://stackoverflow.com/questions/63298721/how-to-update-imagefield-in-django
     def post(self, request):
         # TODO:
         # 1. Implementation of "if image exists", basically checking
@@ -237,19 +240,39 @@ class ProfileView(View):
         image = request.FILES.getlist("image")
         uname = request.POST.get("username")
         mail = request.POST.get("email")
-        
+
         print(image)
 
-        data = Profile(
-            user_id=request.user,
-            user_image=image[0]
-        )
-        data.save()
+        # print(request.user.user_id)
+        t = Profile.objects.filter(user_id_id=request.user.user_id)
+        print(t)
 
-        p_data = User(
-            username=uname,
-            email=mail
+        if len(t) == 0:
+            print("empty")
+            data = Profile(
+                user_id=request.user,
+                user_image=image[0]
+            )
+            data.save()
+        else:
+            print("exists")
+            t.delete()
+            data = Profile(
+                user_id=request.user,
+                user_image=image[0]
+            )
+            data.save()
+
+        User.objects.filter(
+            username=uname, email=mail
+        ).update(
+            username=uname, email=mail
         )
-        p_data.update()
+
+        # p_data = User(
+        #     username=uname,
+        #     email=mail
+        # )
+        # p_data.update()
 
         return redirect("/profile")

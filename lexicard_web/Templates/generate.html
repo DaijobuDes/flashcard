@@ -1,0 +1,9 @@
+<form method="POST">
+    {% csrf_token %}
+    Term: <input type="text" name="term"></input>
+    <br />
+    Definition: <input type="text" name="definition" style="height: 200px; width: 200px;"></input>
+    <br />
+    <input type="submit"></input>
+
+</form>

@@ -213,6 +213,36 @@ class FlashcardView(TemplateView):
     """
     template_name = "flashcards.html"
 
+class FlashcardCreateView(View):
+    template_name = "create-flashcard.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+    def post(self, request):
+        questions_array = []
+        answers_array = []
+        questions_array.append(request.POST.get("question"))
+        answers_array.append(request.POST.get("answer"))
+
+        flash = Flashcard(
+            user_id = request.user.user_id,
+            deck_id = request.user.user_id
+        )
+
+        flash.save()
+
+        while i < len(questions_array):
+            data = QA(
+                flashcard_id = flash.flashcard_id,
+                flashcard_question = questions_array[i],
+                flashcard_answer = answers_array[i]
+            )
+            data.save()
+            i = i + 1
+
+        return redirect("/flashcard/")
 
 class ProfileView(View):
     """
@@ -237,10 +267,19 @@ class ProfileView(View):
         # NOTE:
         # 1. Saving image/pfp is working
 
+
+        
         image = request.FILES.getlist("image")
         uname = request.POST.get("username")
         mail = request.POST.get("email")
 
+        if request.POST.get("delete"):
+            User.objects.filter(
+                user_id=request.user.user_id,
+            ).delete()
+            logout(request)
+
+            return redirect("/register")
         print(image)
 
         # print(request.user.user_id)
@@ -275,4 +314,4 @@ class ProfileView(View):
         # )
         # p_data.update()
 
-        return redirect("/profile")
+        return render(request, self.template_name)

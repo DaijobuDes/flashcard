@@ -406,6 +406,7 @@ table, th, td {
 .p-children {
    padding: 1rem;
    display: flex;
+   font-size: 20px;
 }
 
 .p-children input{
@@ -413,9 +414,11 @@ table, th, td {
    text-align: right;
    background: none;
    border:dotted;
+   border-color: var(--action);
    margin-left: 1rem;
    font-size: 20px;
    font-weight: 400;
+   color: var(--white);
    
 }
 

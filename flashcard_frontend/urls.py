@@ -30,7 +30,7 @@ urlpatterns = [
 
     # Flashcard urls
     path('flashcard/', views.FlashcardView.as_view()),
-    #path('flashcard/create/', views.FlashcardCreate.as_view()),
+    path('flashcard/create/', views.FlashcardCreateView.as_view()),
     #path('flashcard/flashcard/', views.FlashcardIndi.as_view()),
 
     # Place /profile here

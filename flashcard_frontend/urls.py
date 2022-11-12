@@ -38,6 +38,9 @@ urlpatterns = [
     path('profile/update/upload', views.UploadProfileView.as_view()),
     path('profile/', views.ProfileView.as_view()),
 
+    # Schedule url here
+    path('schedule/', views.ScheduleView.as_view()),
+    
 
 
 

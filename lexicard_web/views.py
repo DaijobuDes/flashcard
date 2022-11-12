@@ -254,11 +254,15 @@ class ProfileView(View):
         # 1. Saving image/pfp is working
         # 2. Image replacement works, but unoptimized code
         # 3. Account deletion works
+        # NOTE:
+        # 1. Separated image update and account detail update
+        # 2. Copied messages to check for duplicate email/username
 
         image = request.FILES.getlist("image")
-        uname = request.POST.get("username")
-        mail = request.POST.get("email")
+        uname = request.POST.get("uname")
+        mail = request.POST.get("mail")
 
+        #this is for account deletion
         if request.POST.get("delete"):
             User.objects.filter(
                 user_id=request.user.user_id,
@@ -267,39 +271,47 @@ class ProfileView(View):
 
             return redirect("/register")
 
-        print(image)
-
+        #this is for profile picture manipulation
         # print(request.user.user_id)
         t = Profile.objects.filter(user_id_id=request.user.user_id)
-        print(t)
+        if request.POST.get("pic_update"):
+            if len(t) == 0:
+                print("empty")
+                data = Profile(
+                    user_id=request.user,
+                    user_image=image[0]
+                )
+                data.save()
+            else:
+                print("exists")
+                t.delete()
+                data = Profile(
+                    user_id=request.user,
+                    user_image=image[0]
+                )
+                data.save()
 
-        if len(t) == 0:
-            print("empty")
-            data = Profile(
-                user_id=request.user,
-                user_image=image[0]
+        #this is for profile details manipulation
+
+        if request.POST.get("update"):
+            username_check = User.objects.filter(username=uname)
+
+            if username_check[0].username != uname:
+                if username_check.count() > 0:
+                    messages.error(request, 'Username is already in use.')
+                    return render(request, self.template_name)
+
+            email_check = User.objects.filter(email=mail)
+            if email_check[0].email != mail:
+                if email_check.count() > 0:
+                    messages.error(request, 'Email is already in use.')
+                    return render(request, self.template_name)
+
+            User.objects.filter(
+                user_id=request.user.user_id
+            ).update(
+                username=uname, email=mail
             )
-            data.save()
-        else:
-            print("exists")
-            t.delete()
-            data = Profile(
-                user_id=request.user,
-                user_image=image[0]
-            )
-            data.save()
-
-        User.objects.filter(
-            username=uname, email=mail
-        ).update(
-            username=uname, email=mail
-        )
-
-        # p_data = User(
-        #     username=uname,
-        #     email=mail
-        # )
-        # p_data.update()
 
         return render(request, self.template_name)
 
@@ -336,3 +348,6 @@ class GenerateFlashcard(View):
         # ))
 
         return render(request, self.template_name, {"image": image})
+
+class ScheduleView(TemplateView):
+    template_name = "schedules.html"

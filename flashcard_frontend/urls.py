@@ -18,29 +18,31 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import path
-from lexicard_web import views
+from lexicard_web import flashcard_views, other_views, user_views
 
 urlpatterns = [
     path(r'', lambda r: HttpResponseRedirect('/login')),
     path('admin/', admin.site.urls),
-    path('login/', views.Login.as_view()),
-    path('register/', views.Register.as_view()),
-    path('logout/', views.Logout.as_view()),
-    path('home/', views.DashboardView.as_view()),
-
-    # Flashcard urls
-    path('flashcard/', views.FlashcardView.as_view()),
-    path('flashcard/create/', views.FlashcardCreateView.as_view()),
-    path('flashcard/generate/', views.GenerateFlashcard.as_view()),
-    #path('flashcard/flashcard/', views.FlashcardIndi.as_view()),
+    path('login/', user_views.Login.as_view()),
+    path('register/', user_views.Register.as_view()),
+    path('logout/', user_views.Logout.as_view()),
 
     # Place /profile here
-    path('profile/update/upload', views.UploadProfileView.as_view()),
-    path('profile/', views.ProfileView.as_view()),
+    path('profile/update/upload', user_views.UploadProfileView.as_view()),
+    path('profile/', user_views.ProfileView.as_view()),
+
+    # Flashcard urls
+    path('flashcard/', flashcard_views.FlashcardView.as_view()),
+    path('flashcard/create/', flashcard_views.FlashcardCreateView.as_view()),
+    path('flashcard/generate/', flashcard_views.GenerateFlashcard.as_view()),
+    #path('flashcard/flashcard/', views.FlashcardIndi.as_view()),
 
     # Schedule url here
-    path('schedule/', views.ScheduleView.as_view()),
-    
+    path('schedule/', other_views.ScheduleView.as_view()),\
+
+    path('home/', other_views.DashboardView.as_view()),
+
+
 
 
 

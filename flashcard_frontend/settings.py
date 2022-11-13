@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lexicard_web',
-    'api'
+    'api',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [

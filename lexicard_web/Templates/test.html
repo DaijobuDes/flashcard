@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Test Page</title>
+   </head>
+   
+      <body>
+         
+         <div style="width:100%">{% include 'header.html' %}</div>
+         <form method="post" enctype="multipart/form-data" style="width: 100%; display: flex; flex-direction: column; align-items: center; position:relative;">
+            <div class="deck_name">
+               <input name="deckName" id="deckName" style="margin-top: 5rem" placeholder="Deck Name" required>
+            </div>
+
+            <section class="pad1 marg1 scrollY" style="width: clamp(300px, 60vw, 1200px);height: clamp(300px, 40vh, 1400px); background: var(--dark-blue);">
+               <p id="inputText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, soluta!</p>
+            </section>
+
+            <div class="control-buttons">
+               <button type="button" class="pad1 unselect" style="color:black" onclick="getQuestion()">Question</button>
+               <button type="button" class="pad1 unselect" style="color:black" onclick="getAnswer()">Answer</button>
+            </div>
+         
+
+         
+            <section id="form1" style="display:none">
+               <!-- <input name="question" value="question3">
+               <input name="answer" value="answer3"> -->
+            </section>
+            <button type="submit" class="pad1 marg1" style="color:black; width: 200px">submit</button>
+            {% csrf_token %}
+         </form>
+
+         
+         
+
+         {% include "footer.html" %}
+         <script src="{% static 'javascript/script.js' %}"></script>
+         <script src="{% static 'javascript/flashcard-script.js' %}"></script>
+      </body>
+</html>

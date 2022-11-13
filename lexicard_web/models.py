@@ -12,6 +12,10 @@ def profile_picture_dir(instance, filename):
     hashed_filename = md5(base_filename.encode()).hexdigest()
     return f"profile/{hashed_filename}{file_extension}"
 
+def document_dir(instance, filename):
+    base_filename, file_extension = os.path.split(filename)
+    hashed_filename = md5(base_filename.encode()).hexdigest()
+    return f"documents/{hashed_filename}{file_extension}"
 
 # Create your models here.
 class User(AbstractBaseUser):
@@ -43,6 +47,7 @@ class Document(models.Model):
         ("DOCX", "Microsoft Word File"),
         ("RTF", "Rich Text Format"),
     ]
+    document_file = models.FileField(upload_to=document_dir, max_length=100)
 
     document_format = models.CharField(max_length=16, choices=FILE_FORMAT, default=None)
 
@@ -58,6 +63,7 @@ class Flashcard(models.Model):
     deck_id = models.ForeignKey(Deck, on_delete=models.CASCADE, null=False)
 
 class QA(models.Model):
+    QA_id = models.AutoField(primary_key=True)
     flashcard_id = models.ForeignKey(Flashcard, on_delete=models.CASCADE, null=False)
     flashcard_question = models.CharField(max_length=512, blank=True)
     flashcard_answer = models.CharField(max_length=512, blank=True)

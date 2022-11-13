@@ -24,9 +24,9 @@
          <!-- <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;"> -->
             <h1><i class="fa-solid fa-address-card">&nbsp;All Flashcards</i></h1>
             <div class="flexX wide scrollX">
-               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='flashcard.html'">Flashcard Example</div>
-               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='flashcard.html'">Flashcard Example</div>
-               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='flashcard.html'">Flashcard Example</div>
+               {% for i in flashcard %}
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='view/{{i.deck_id.deck_id}}'">{{ i.deck_id.deck_name }}</div>
+               {% endfor %}
             </div>
       </div>
       {% include "footer.html" %}

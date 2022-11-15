@@ -14,7 +14,7 @@ from .generate import Generate
 
 # Create your views here.
 
-class DashboardView(TemplateView):
+class DashboardView(View):
     """
     Class handler for the main page.
 
@@ -23,6 +23,17 @@ class DashboardView(TemplateView):
 
     """
     template_name = 'dashboard.html'
+
+    def get(self, request):
+        flashcard = Flashcard.objects.filter(
+            user_id = request.user.user_id
+        )
+
+        context = {
+            "flashcard": flashcard,
+        }
+
+        return render(request, self.template_name, context)
 
 class ClassView(View):
     """

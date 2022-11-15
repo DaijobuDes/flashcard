@@ -49,13 +49,13 @@
       <div style="width:100%">{% include 'flashcard-header.html' %}</div>
       <div style="margin-top: 4rem"></div>
       {% for items in qa %}
-         <div class="flashcard limit marg1">
+         <div class="flashcard limit marg1 unselect">
             <label class="show-answer unselect flexX jcenter pad1" for="{{ items.flashcard_answer }}">
                <div>Toggle Answer</div>
             </label>
             <input type="checkbox" id="{{ items.flashcard_answer }}">
-            <div class="question">Question: {{ items.flashcard_question }}</div>
-            <div class="answer">Answer: {{ items.flashcard_answer }}</div>
+            <div class="question">Term: {{ items.flashcard_question }}</div>
+            <div class="answer">Definition: {{ items.flashcard_answer }}</div>
          </div>
       {% endfor %}
 

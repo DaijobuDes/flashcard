@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>New Page</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'header.html' %}</div>
+      <div style="margin-top: 5rem"></div>
+      
+      <input id="myFile" type="file" name="myFile" class="drop-zone__input" onchange="gettext(event)">
+
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.2/docxtemplater.js"></script>
+      <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip.js"></script>
+      <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip-utils.js"></script>
+      <script>
+         function loadFile(url, callback) {
+            PizZipUtils.getBinaryContent(url, callback);
+         }
+
+         function gettext() {
+
+            const selectedFile = document.getElementById('myFile').files[0];
+            loadFile(
+                  URL.createObjectURL(selectedFile),
+                  function (error, content) {
+                     if (error) {
+                        throw error;
+                     }
+                     var zip = new PizZip(content);
+                     var doc = new window.docxtemplater(zip);
+                     var text = doc.getFullText();
+                     console.log(text);
+                  }
+            );
+         }
+      </script>
+   </body>
+</html>

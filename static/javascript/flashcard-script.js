@@ -34,43 +34,6 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
   });
 });
 
-// /**
-//  * Updates the thumbnail on a drop zone element.
-//  *
-//  * @param {HTMLElement} dropZoneElement
-//  * @param {File} file
-//  */
-// function updateThumbnail(dropZoneElement, file) {
-//   let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
-
-//   // First time - remove the prompt
-//   if (dropZoneElement.querySelector(".drop-zone__prompt")) {
-//     dropZoneElement.querySelector(".drop-zone__prompt").remove();
-//   }
-
-//   // First time - there is no thumbnail element, so lets create it
-//   if (!thumbnailElement) {
-//     thumbnailElement = document.createElement("div");
-//     thumbnailElement.classList.add("drop-zone__thumb");
-//     dropZoneElement.appendChild(thumbnailElement);
-//   }
-
-//   thumbnailElement.dataset.label = file.name;
-
-//   // Show thumbnail for image files
-//   if (file.type.startsWith("image/")) {
-//     const reader = new FileReader();
-
-//     reader.readAsDataURL(file);
-//     reader.onload = () => {
-//       thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-//     };
-//   } else {
-//     thumbnailElement.style.backgroundImage = null;
-//   }
-// }
-
-
 // THIS ONE IS FOR CREATING Inputs
 
 function getQuestion(){
@@ -117,4 +80,37 @@ function highlightAnswer(text) {
    innerHTML = innerHTML.substring(0,index) + "<span style=\"background-color: red\">" + text + "</span>" + innerHTML.substring(index + text.length);
    inputText.innerHTML = innerHTML;
   }
+}
+
+var loadItem = function(event) {
+  document.querySelector(".drop-zone__prompt").remove();
+  document.getElementById("thumb").style.display = "inline";
+  var output = document.getElementById('output');
+
+  output.src = "docx.png";
+
+  output.onload = function() {
+     URL.revokeObjectURL(output.src) // free memory
+  }
+}
+
+function loadFile(url, callback) {
+  PizZipUtils.getBinaryContent(url, callback);
+}
+function gettext() {
+
+  const selectedFile = document.getElementById('myFile').files[0];
+  loadFile(
+        URL.createObjectURL(selectedFile),
+        function (error, content) {
+           if (error) {
+              throw error;
+           }
+           var content = document.getElementById("inputText");
+           var zip = new PizZip(content);
+           var doc = new window.docxtemplater(zip);
+           var text = doc.getFullText();
+           console.log(text);
+        }
+  );
 }

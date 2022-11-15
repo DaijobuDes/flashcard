@@ -55,6 +55,42 @@ class DeckView(View):
 
         return render(request, self.template_name, context)
 
+class EditDeckItem(View):
+
+    template_name = "edit-question.html"
+
+    def get(self, request, deck_id, qa_id):
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.filter(
+            flashcard_id_id=flashcard.flashcard_id,
+            QA_id=qa_id
+        ).first()
+
+        context = {
+            "qa": qa
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, deck_id, qa_id):
+        question = request.POST.get("question")
+        answer = request.POST.get("answer")
+
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.filter(
+            flashcard_id_id=flashcard.flashcard_id,
+            QA_id=qa_id
+        ).update(
+            flashcard_question=question,
+            flashcard_answer=answer
+        )
+
+        return redirect(f"/flashcard/view/{deck_id}")
+
+
+
 class FlashcardCreateView(View):
     template_name = "test.html"
 

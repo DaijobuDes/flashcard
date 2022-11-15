@@ -1,0 +1,6 @@
+<form method="POST">
+    {% csrf_token %}
+    Question: <input type="text" name="question" value="{{ qa.flashcard_question }}">
+    Answer: <input type="text" name="answer" value="{{ qa.flashcard_answer }}">
+    <input type="submit">
+</form>

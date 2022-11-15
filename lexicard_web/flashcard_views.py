@@ -59,7 +59,7 @@ class FlashcardCreateView(View):
     template_name = "test.html"
 
     def get(self, request):
-        return render(request, self.template_name)
+        return render(request, self.template_name, {"classes": Classes.objects.filter(user_id=request.user)})
 
 
     def post(self, request):
@@ -90,6 +90,7 @@ class FlashcardCreateView(View):
             user_id = request.user,
             document_id = document,
             deck_name = deck_name,
+            classes_id = classes_id,
         )
         deck.save()
 

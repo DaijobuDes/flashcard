@@ -51,11 +51,19 @@ class Document(models.Model):
 
     document_format = models.CharField(max_length=16, choices=FILE_FORMAT, default=None)
 
+class Classes(models.Model):
+    classes_id = models.AutoField(primary_key=True)
+    classes_name = models.CharField(max_length=50)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    def __int__ (self):
+      return self.classes_id
+
 class Deck(models.Model):
     deck_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     document_id = models.ForeignKey(Document, on_delete=models.CASCADE, null=False)
     deck_name = models.CharField(max_length=128, blank=True)
+    classes_id = models.ForeignKey(Classes, on_delete=models.CASCADE, null=False)
 
 class Flashcard(models.Model):
     flashcard_id = models.AutoField(primary_key=True)
@@ -75,5 +83,6 @@ class Reminders(models.Model):
     reminder_label = models.CharField(max_length=64, blank=True)
     reminder_start_timestamp = models.DateTimeField(auto_now_add=True)
     remidner_end_timestamp = models.DateTimeField(blank=True)
+
 
 

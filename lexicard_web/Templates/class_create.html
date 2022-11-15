@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{%load static%}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flashcard-styles.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Create Class</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'header.html' %}</div>
+
+
+      <form style="margin:100px"method="post">
+        {% csrf_token %}
+        <h5>Enter class name: </h3><input placeholder="e.g. CS441" name="class_name" required></input></li>
+        <button type="submit">Submit</button>
+      </form>
+
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+      <script src="{% static 'javascript/flashcard-script.js' %}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.2/docxtemplater.js"></script>
+      <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip.js"></script>
+      <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip-utils.js"></script>
+   </body>
+</html>

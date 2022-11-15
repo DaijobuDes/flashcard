@@ -1,5 +1,6 @@
+wheel
 django
 django-resized
+django-mathfilters
 pillow
 mysqlclient
-wheel

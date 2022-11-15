@@ -36,6 +36,7 @@ urlpatterns = [
     path('flashcard/create/', flashcard_views.FlashcardCreateView.as_view()),
     path('flashcard/generate/', flashcard_views.GenerateFlashcard.as_view()),
     path('flashcard/view/<int:deck_id>', flashcard_views.DeckView.as_view(), name='deck_view'),
+    path('flashcard/view/<int:deck_id>/edit/<int:qa_id>', flashcard_views.EditDeckItem.as_view()),
 
     # Classes
     path('classes/', other_views.ClassesView.as_view()),

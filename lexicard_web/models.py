@@ -46,6 +46,7 @@ class Document(models.Model):
         ("DOC", "Microsoft Word File"),
         ("DOCX", "Microsoft Word File"),
         ("RTF", "Rich Text Format"),
+        ("TXT", "Text File Format"),
     ]
     document_file = models.FileField(upload_to=document_dir, max_length=100)
 

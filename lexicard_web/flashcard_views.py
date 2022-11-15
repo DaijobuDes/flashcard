@@ -1,5 +1,7 @@
+import random
+import time
 from django.http import (HttpResponse, HttpResponseBadRequest,
-                         HttpResponseNotAllowed, HttpResponseServerError)
+                         HttpResponseNotAllowed, HttpResponseServerError, JsonResponse)
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
 from django.db import transaction
@@ -122,11 +124,13 @@ class FlashcardCreateView(View):
         )
         document.save()
 
+        class_ = Classes.objects.get(user_id_id=request.user)
+
         deck = Deck(
             user_id = request.user,
             document_id = document,
             deck_name = deck_name,
-            classes_id = classes_id,
+            classes_id = class_,
         )
         deck.save()
 
@@ -182,3 +186,56 @@ class GenerateFlashcard(View):
         # ))
 
         return render(request, self.template_name, {"image": image})
+
+class QuestionAndAnswer(View):
+    # NOTE: Code optimization is needed
+    # NOTE: What works here
+    #       1. Question randomization works
+    #       2. Answers also works
+    #       3. Probably a bit of moodle style? Answers are word sensitive
+    template_name = "question-and-answer.html"
+
+    def get(self, request, deck_id):
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.filter(
+            flashcard_id_id=flashcard.flashcard_id
+        )
+
+        random.seed(time.time())
+
+        random_question = random.choice(list(qa))
+
+        print(random_question)
+
+        context = {
+            "qa": random_question
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, deck_id):
+        question_id = request.POST.get("id")
+        answer = request.POST.get("answer")
+
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.get(
+            QA_id=question_id,
+            flashcard_id_id=flashcard.flashcard_id
+        )
+
+        if qa.flashcard_answer.lower() == answer.lower():
+            return JsonResponse(
+                {
+                    "status": "200",
+                    "message": "Correct answer"
+                }
+            )
+
+        return JsonResponse(
+            {
+                "status": "200",
+                "message": "Wrong answer"
+            }
+        )

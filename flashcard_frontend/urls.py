@@ -37,7 +37,11 @@ urlpatterns = [
     path('flashcard/generate/', flashcard_views.GenerateFlashcard.as_view()),
     path('flashcard/view/<int:deck_id>', flashcard_views.DeckView.as_view(), name='deck_view'),
 
-    #path('flashcard/flashcard/', views.FlashcardIndi.as_view()),
+    # Classes
+    path('classes/', other_views.ClassesView.as_view()),
+    path('classes/view/<int:classes_id>', other_views.ClassView.as_view()),
+    path('classes/create/', other_views.ClassCreateView.as_view()),
+
 
     # Schedule url here
     path('schedule/', other_views.ScheduleView.as_view()),

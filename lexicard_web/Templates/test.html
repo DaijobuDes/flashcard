@@ -17,7 +17,7 @@
                <input name="deckName" id="deckName" style="margin-top: 5rem" placeholder="Deck Name" required>
             </div>
             <section id="content" class="pad1 marg1 scrollY" style="width: clamp(300px, 60vw, 1200px);height: clamp(300px, 40vh, 1400px); background: var(--dark-blue);">
-               <p id="inputText">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, soluta!</p>
+               <p id="inputText">Currently, this isnt a text box.</p>
             </section>
 
             <div class="control-buttons">
@@ -29,10 +29,15 @@
                <!-- <input name="question" value="question3">
                <input name="answer" value="answer3"> -->
             </section>
-            <select name="classes">
-               {% for c in classes %}
-               <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
-               {% endfor %}
+            <select name="classes" style="color:black">
+               {% if c|length|length > 0 %}
+                  {% for c in classes %}
+                  <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
+                  {% endfor %}
+               {% else %}
+                  <option value="{{ c.classes_id }}"> Please create a class first </option>
+               {% endif %}
+
                </select>
             <button type="submit" class="pad1 marg1" style="color:black; width: 200px">submit</button>
             {% csrf_token %}

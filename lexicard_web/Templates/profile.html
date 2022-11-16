@@ -24,7 +24,7 @@
                   {% csrf_token %}
                   {% comment %} {{ form.as_p }} {% endcomment %}
                   <input type="file" name="image" accept="image/*" id="pp-image" style="display: none" onchange="loadFile(event)">
-                  <button type="submit" name="pic_update" value="pic_update" style="color: black" class="pad1">Submit</button>
+                  <button type="submit" name="pic_update" value="pic_update" style="color: black" class="pad1">Save Image</button>
             </div>
             <div class="profile-details flexY jcenter">
                {% if messages %}
@@ -43,7 +43,7 @@
                   <input name="mail" value="{{request.user.email}}" type="email">
                </div>
                <div class="p-children">
-                  <button type="submit" name="update" value="update" style="width: 100%; color: black">Submit</button>
+                  <button type="submit" name="update" value="update" style="width: 100%; color: black">Save</button>
                </div>
                <div class="p-children">
                   <button type="submit" name="delete" value="delete" style="width: 100%; color: red">Delete Account</button>

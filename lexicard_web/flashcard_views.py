@@ -5,6 +5,7 @@ from django.http import (HttpResponse, HttpResponseBadRequest,
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
 from django.db import transaction
+from django.db.models import Avg, Min, Max
 from .forms import *
 from .generate import Generate
 
@@ -56,6 +57,12 @@ class DeckView(View):
         }
 
         return render(request, self.template_name, context)
+
+    def post(self, request, deck_id):
+        """
+        TODO: Do deletion stuff here
+        """
+        pass
 
 class EditDeckItem(View):
 
@@ -187,7 +194,7 @@ class GenerateFlashcard(View):
 
         return render(request, self.template_name, {"image": image})
 
-class QuestionAndAnswer(View):
+class FlashcardRandomQuestionAndAnswer(View):
     # NOTE: Code optimization is needed
     # NOTE: What works here
     #       1. Question randomization works
@@ -210,6 +217,81 @@ class QuestionAndAnswer(View):
 
         context = {
             "qa": random_question
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, deck_id):
+        question_id = request.POST.get("id")
+        answer = request.POST.get("answer")
+
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.get(
+            QA_id=question_id,
+            flashcard_id_id=flashcard.flashcard_id
+        )
+
+        if qa.flashcard_answer.lower() == answer.lower():
+            return JsonResponse(
+                {
+                    "status": "200",
+                    "message": "Correct answer"
+                }
+            )
+
+        return JsonResponse(
+            {
+                "status": "200",
+                "message": "Wrong answer"
+            }
+        )
+
+class FlashcardQuestionAndAnswer(View):
+    # NOTE: Code optimization is needed
+    # NOTE: What works here
+    #       1. Question randomization works
+    #       2. Answers also works
+    #       3. Probably a bit of moodle style? Answers are word sensitive
+    template_name = "question-and-answer.html"
+
+    def get(self, request, deck_id, question_id, action):
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        check = True
+        qa = None
+        max_id = 1
+        # Get max ID number
+        # max_id = QA.objects.filter(
+        #     flashcard_id_id=flashcard.flashcard_id,
+        # ).aggregate(Max("QA_id"))
+
+        # TODO: Fix infinite loop
+        # NOTE: Probably fixed, 11/22/22 02:53
+        while check is True:
+            qa = QA.objects.filter(
+                flashcard_id_id=flashcard.flashcard_id,
+                QA_id=question_id
+            )
+
+            if qa.exists():
+                check = False
+                break
+
+            if action == "next":
+                if question_id <= max_id:
+                    question_id += 1
+                else:
+                    question_id = max_id
+            elif action == "prev":
+                if question_id >= 1:
+                    question_id = 1
+                else:
+                    question_id -= 1
+
+
+        context = {
+            "qa": qa
         }
 
         return render(request, self.template_name, context)

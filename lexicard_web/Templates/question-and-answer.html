@@ -1,5 +1,7 @@
 <form method="POST">
     {% csrf_token %}
+    Question number: {{ qa.QA_id }}
+    <br/>
     <input type="hidden" value="{{ qa.QA_id }}" name="id">
     Question: {{ qa.flashcard_question }}
     <br/>
@@ -7,3 +9,6 @@
     <br/>
     <input type="submit">
 </form>
+<a href="/flashcard/view/1/quiz/{{ question_id }}/next">Next</a>
+<br/>
+<a href="/flashcard/view/1/quiz/{{ question_id }}/prev">Prev</a>

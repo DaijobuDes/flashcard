@@ -321,3 +321,32 @@ class FlashcardQuestionAndAnswer(View):
                 "message": "Wrong answer"
             }
         )
+
+class FlashcardRemoveQuestion(View):
+
+    template_name = "delete-question.html"
+
+    def get(self, request, deck_id):
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.filter(
+            flashcard_id_id=flashcard.flashcard_id,
+        )
+
+        context = {
+            "qa": qa
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, deck_id):
+        question_id = request.POST.get("id")
+
+        flashcard = Flashcard.objects.get(deck_id=deck_id)
+
+        qa = QA.objects.filter(
+            flashcard_id_id=flashcard.flashcard_id,
+            QA_id=question_id
+        ).delete()
+
+        return redirect(f"/flashcard/view/{deck_id}/delete")

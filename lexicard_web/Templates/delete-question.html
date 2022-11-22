@@ -1,0 +1,14 @@
+{% for items in qa %}
+<form method="POST">
+    {% csrf_token %}
+    Question number {{ items.QA_id }}
+    <br/>
+    Question: {{ items.flashcard_question }}
+    <input type="hidden" value="{{ items.QA_id }}" name="id">
+    <br/>
+    Answer: {{ items.flashcard_answer }}
+    <br/>
+    <input type="submit" value="Delete">
+</form>
+
+{% endfor %}

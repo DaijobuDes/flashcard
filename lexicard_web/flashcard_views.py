@@ -200,7 +200,7 @@ class FlashcardRandomQuestionAndAnswer(View):
     #       1. Question randomization works
     #       2. Answers also works
     #       3. Probably a bit of moodle style? Answers are word sensitive
-    template_name = "question-and-answer.html"
+    template_name = "random-question-and-answer.html"
 
     def get(self, request, deck_id):
         flashcard = Flashcard.objects.get(deck_id=deck_id)
@@ -262,12 +262,13 @@ class FlashcardQuestionAndAnswer(View):
         qa = None
         max_id = 1
         # Get max ID number
-        # max_id = QA.objects.filter(
-        #     flashcard_id_id=flashcard.flashcard_id,
-        # ).aggregate(Max("QA_id"))
+        max_id = QA.objects.filter(
+            flashcard_id_id=flashcard.flashcard_id,
+        ).aggregate(Max("QA_id")).get("QA_id__max", 1)
 
         # TODO: Fix infinite loop
         # NOTE: Probably fixed, 11/22/22 02:53
+        print(action)
         while check is True:
             qa = QA.objects.filter(
                 flashcard_id_id=flashcard.flashcard_id,
@@ -276,27 +277,26 @@ class FlashcardQuestionAndAnswer(View):
 
             if qa.exists():
                 check = False
-                break
 
             if action == "next":
                 if question_id <= max_id:
                     question_id += 1
                 else:
                     question_id = max_id
-            elif action == "prev":
-                if question_id >= 1:
+            if action == "prev":
+                if question_id <= 1:
                     question_id = 1
                 else:
                     question_id -= 1
 
-
         context = {
-            "qa": qa
+            "qa": qa.first(),
+            "question_id": question_id
         }
 
         return render(request, self.template_name, context)
 
-    def post(self, request, deck_id):
+    def post(self, request, deck_id, question_id, action):
         question_id = request.POST.get("id")
         answer = request.POST.get("answer")
 

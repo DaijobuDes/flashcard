@@ -39,7 +39,7 @@ urlpatterns = [
     path('flashcard/view/<int:deck_id>/edit/<int:qa_id>', flashcard_views.EditDeckItem.as_view()),
     path('flashcard/view/<int:deck_id>/quiz', flashcard_views.FlashcardRandomQuestionAndAnswer.as_view()),
     path('flashcard/view/<int:deck_id>/quiz/<int:question_id>/<str:action>', flashcard_views.FlashcardQuestionAndAnswer.as_view()),
-
+    path('flashcard/view/<int:deck_id>/delete', flashcard_views.FlashcardRemoveQuestion.as_view()),
 
     # Classes
     path('classes/', other_views.ClassesView.as_view()),

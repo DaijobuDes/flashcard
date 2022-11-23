@@ -165,6 +165,7 @@ bin/
 include/
 lib/
 lib64/
+lib64
 share/
 pyvenv.cfg
 
@@ -173,3 +174,4 @@ migrations/
 media/
 
 # Below here, add any files that contain sensitive material
+

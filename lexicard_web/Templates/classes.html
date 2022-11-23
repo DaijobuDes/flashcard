@@ -31,6 +31,7 @@
                {% for c in class %}
                   <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='view/{{c.classes_id}}'">{{ c.classes_name }}</div>
                {% endfor %}
+               <a href="/classes/create"><u>Make one?</u></a>
             {% endif %}
          </div>
       </div>

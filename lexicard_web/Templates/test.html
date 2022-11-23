@@ -30,7 +30,7 @@
                <input name="answer" value="answer3"> -->
             </section>
             <select name="classes" style="color:black">
-               {% if c|length|length > 0 %}
+               {% if classes|length > 0 %}
                   {% for c in classes %}
                   <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
                   {% endfor %}

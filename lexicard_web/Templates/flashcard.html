@@ -48,14 +48,16 @@
    <body>
       <div style="width:100%">{% include 'flashcard-header.html' %}</div>
       <div style="margin-top: 4rem"></div>
+      <div class="quiz-btn pad1 marg1" onclick="location.href='{{ deck.deck_id }}/quiz'">Quiz It!</div>
       {% for items in qa %}
-         <div class="flashcard limit marg1 unselect">
+         <div class="flashcard limit marg1 unselect" style="padding-right:250px">
             <label class="show-answer unselect flexX jcenter pad1" for="{{ items.flashcard_answer }}">
                <div>Toggle Answer</div>
             </label>
+            <div class="edit-qn unselect flexX jcenter pad1" onclick="location.href='{{deck.deck_id}}/edit/{{items.QA_id}}'">Edit Question</div>
             <input type="checkbox" id="{{ items.flashcard_answer }}">
-            <div class="question">Term: {{ items.flashcard_question }}</div>
-            <div class="answer">Definition: {{ items.flashcard_answer }}</div>
+            <div class="question">Definition: {{ items.flashcard_answer }}</div>
+            <div class="answer">Term: {{ items.flashcard_question }}</div>
          </div>
       {% endfor %}
 

@@ -33,9 +33,13 @@ urlpatterns = [
 
     # Flashcard urls
     path('flashcard/', flashcard_views.FlashcardView.as_view()),
-    path('flashcard/create/', flashcard_views.FlashcardCreateView.as_view()),
-    path('flashcard/generate/', flashcard_views.GenerateFlashcard.as_view()),
+    path('flashcard/create/', flashcard_views.FlashcardCreateView.as_view(), name='deck_view'),
+    path('flashcard/generate/<int:deck_id>', flashcard_views.GenerateFlashcard.as_view()),
     path('flashcard/view/<int:deck_id>', flashcard_views.DeckView.as_view(), name='deck_view'),
+    path('flashcard/edit/', flashcard_views.FlashcardRenameView.as_view()),
+    path('flashcard/edit/<int:deck_id>', flashcard_views.EditDeckView.as_view(), name='deck_view'),
+    path('flashcard/delete/', flashcard_views.FlashcardDeleteView.as_view()),
+    path('flashcard/delete/<int:deck_id>', flashcard_views.FlashcardDelete.as_view(), name='deck_view'),
     path('flashcard/view/<int:deck_id>/edit/<int:qa_id>', flashcard_views.EditDeckItem.as_view()),
     path('flashcard/view/<int:deck_id>/quiz', flashcard_views.FlashcardRandomQuestionAndAnswer.as_view()),
     path('flashcard/view/<int:deck_id>/quiz/<int:question_id>/<str:action>', flashcard_views.FlashcardQuestionAndAnswer.as_view()),

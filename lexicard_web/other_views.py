@@ -28,9 +28,13 @@ class DashboardView(View):
         flashcard = Flashcard.objects.filter(
             user_id = request.user.user_id
         )
+        classes = Classes.objects.filter(
+            user_id = request.user.user_id
+        )
 
         context = {
             "flashcard": flashcard,
+            "classes" : classes,
         }
 
         return render(request, self.template_name, context)
@@ -66,6 +70,7 @@ class ClassView(View):
         decks = class_.deck_set.all()
         context = {
             "decks": decks,
+            "class": class_,
         }
         return render(request, self.template_name, context)
 

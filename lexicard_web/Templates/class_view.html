@@ -11,10 +11,16 @@
    <body>
       <div style="width:100%">{% include 'header.html' %}</div>
 
+      <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;">
+         <!-- <div class="classes-container wide limit" style="padding: 5rem 1rem 0rem 5rem;"> -->
+            <h1><i class="fa-solid fa-map-pin">&nbsp;Decks in {{ class.classes_name }}</i></h1>
+            <div class="flexX item-container wide scrollX">
+               {% for d in decks %}
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/view/{{d.deck_id.deck_id}}'">{{ d.deck_name }}</div>
+               {% endfor %}
+            </div>
+         </div>
 
-      {% for d in decks %}
-      <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/view/{{d.deck_id.deck_id}}'">{{ d.deck_id.deck_name }}</div>
-      {% endfor %}
       {% include "footer.html" %}
       <script src="{% static 'javascript/script.js' %}"></script>
       <script src="{% static 'javascript/flashcard-script.js' %}"></script>

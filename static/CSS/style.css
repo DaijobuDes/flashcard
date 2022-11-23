@@ -202,9 +202,8 @@ input {
 .flashcard {
    width: auto;
    width: 100%;
-   min-height: 100px;
+   min-height: 200px;
    background-color: var(--dark-blue);
-   display: flex;
    align-items: center;
    border-radius: 20px;
    padding: 1rem;
@@ -283,4 +282,25 @@ table, th, td {
 
 .user_answer {
    background-color: red;
+}
+
+.quiz-btn {
+   cursor: pointer;
+   color: white; 
+   background-color: var(--dark-blue); 
+}
+
+.quiz-btn:hover {
+   color: black;
+   background-color: var(--light-blue);
+}
+
+.edit-qn {
+   width: 150px;
+   background-color: var(--light-blue);
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   border-radius: 0 0 20px 0;
+   cursor: pointer;
 }

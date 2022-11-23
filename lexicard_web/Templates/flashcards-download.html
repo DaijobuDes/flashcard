@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flashcard-styles.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Download Flashcard</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'flashcard-header.html' %}</div>
+
+      <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;">
+         <!-- <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;"> -->
+            <h1><i class="fa-solid fa-address-card">&nbsp;Choose Flashcard to download</i></h1>
+            <div class="flexX wide scrollX">
+               {% for i in flashcard %}
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/generate/{{i.deck_id.deck_id}}'">{{ i.deck_id.deck_name }}</div>
+               {% endfor %}
+            </div>
+      </div>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+      <script src="{% static 'javascript/flashcard-script.js' %}"></script>
+   </body>
+</html>

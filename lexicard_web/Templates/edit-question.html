@@ -1,6 +1,30 @@
-<form method="POST">
-    {% csrf_token %}
-    Question: <input type="text" name="question" value="{{ qa.flashcard_question }}">
-    Answer: <input type="text" name="answer" value="{{ qa.flashcard_answer }}">
-    <input type="submit">
-</form>
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Edit Question</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'flashcard-header.html' %}</div>
+
+      <div class="flashcard limit marg1 unselect flexY jcenter jaround" style="margin-top: 5rem; text-align: center;">
+         <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" value="{{ qa.QA_id }}" name="id">
+            Question: <hr><textarea type="text" name="answer" class="marg1" style="min-width: 800px; min-height: 100px; color: black; padding: .5rem">{{ qa.flashcard_answer }}</textarea>
+            
+            <!-- <input type="text" name="answer" class="marg1" value="{{ qa.flashcard_answer }}" style="min-width: 300px; min-height: 100px;"> -->
+            <br/>
+            Answer: <input type="text" name="question" class="marg1" value="{{ qa.flashcard_question }}">
+            <br/>
+            <button type="submit" class="pad1" style="color:black">Save Edit</button>
+            <!-- <input type="submit"> -->
+        </form>
+      </div>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+   </body>
+</html>

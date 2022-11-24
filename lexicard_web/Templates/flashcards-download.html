@@ -15,8 +15,8 @@
          <!-- <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;"> -->
             <h1><i class="fa-solid fa-address-card">&nbsp;Choose Flashcard to download</i></h1>
             <div class="flexX wide scrollX">
-               {% for i in flashcard %}
-               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/generate/{{i.deck_id.deck_id}}'">{{ i.deck_id.deck_name }}</div>
+               {% for f in deck %}
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/generate/{{f.deck_id}}'">{{ f.deck_name }}</div>
                {% endfor %}
             </div>
       </div>

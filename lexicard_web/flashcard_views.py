@@ -9,6 +9,10 @@ from django.db.models import Avg, Min, Max
 from .forms import *
 from .generate import Generate
 from django.contrib import messages
+from PIL import Image
+import io
+import zipfile
+
 
 class FlashcardView(View):
     """
@@ -249,6 +253,17 @@ class FlashcardCreateView(View):
 
         return redirect("/flashcard/view/" + str(deck.deck_id))
 
+class FlashcardDownload(View):
+    template_name = "flashcards-download.html"
+
+    def get(self, request):
+        
+        deck = Deck.objects.filter(user_id=request.user.user_id)
+        context = {
+            "deck" : deck,
+        }
+        return render(request, self.template_name, context)
+
 class GenerateFlashcard(View):
     """
     Comments here
@@ -257,25 +272,21 @@ class GenerateFlashcard(View):
     template_name = "generate.html"
 
     def get(self, request, deck_id):
-        # term = request.POST.get("term")
-        # definition = request.POST.get("definition")
+        zip_subdir = Deck.objects.get(deck_id=deck_id).deck_name
+        zip_filename = "%s.zip" % zip_subdir
+        s = StringIO.StringIO()
 
-        flashcard = Flashcard.objects.get(deck_id=deck_id)
-        qa = QA.objects.get(flashcard_id = flashcard.flashcard_id)
+        zf = zipfile.ZipFile(s, "w")
 
-        datalist = []
-        response = HttpResponse(content_type='file/zip')
+        flash = Flashcard.objects.get(deck_id=deck_id)
+        qa = QA.objects.filter(flashcard_id=flash.flashcard_id)
 
-        for f in qa, data in datalist:
-            data = Generate()
-            data.setTerm(f.flashcard_question)
-            data.setDefinition(f.flashcard_answer)
-            image = data.saveImage(response)
+        for q in qa:
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(zip_subdir, fname)
+            
 
-        
-
-        return HttpResponse(response, content_type='zip/force-download')
-        # return render(request, self.template_name)
+        return render(request, self.template_name)
 
     def post(self, request):
         term = request.POST.get("term")

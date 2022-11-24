@@ -34,6 +34,7 @@ urlpatterns = [
     # Flashcard urls
     path('flashcard/', flashcard_views.FlashcardView.as_view()),
     path('flashcard/create/', flashcard_views.FlashcardCreateView.as_view(), name='deck_view'),
+    path('flashcard/generate/', flashcard_views.FlashcardDownload.as_view()),
     path('flashcard/generate/<int:deck_id>', flashcard_views.GenerateFlashcard.as_view()),
     path('flashcard/view/<int:deck_id>', flashcard_views.DeckView.as_view(), name='deck_view'),
     path('flashcard/edit/', flashcard_views.FlashcardRenameView.as_view()),

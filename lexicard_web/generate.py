@@ -1,6 +1,8 @@
 from PIL import Image, ImageFont, ImageDraw
-from io import BytesIO
+import io
 import textwrap
+import zipfile
+import tarfile
 
 class Generate():
 
@@ -26,7 +28,7 @@ class Generate():
 
 
     # Set term
-    def setTerm(self, term: str):
+    def set_term(self, term: str):
         self.I1.text(
             (self.width * 0.0694, self.height * 0.108),
             term,
@@ -36,7 +38,7 @@ class Generate():
         )
 
     # Add definition and text wrapping
-    def setDefinition(self, definition: str, width: int = 60):
+    def set_definition(self, definition: str, width: int = 60):
         offset_w = self.width * 0.0694
         offset_h = self.height * 0.3
 
@@ -51,5 +53,24 @@ class Generate():
 
             offset_h += self.font2.getsize(line)[1]
 
-    def saveImage(self, response):
+    def save_image(self, response):
         return self.background.save(response, "PNG")
+
+    def save_zip(self, user_id, deck_id, response, question_list, answer_list):
+        # Overwrite file to an empty zip file
+        with zipfile.ZipFile(f"flashcard_{user_id}_{deck_id}.zip", "w") as zf:
+            pass
+
+        counter = 1
+        zip_in_memory = io.BytesIO()
+        with zipfile.ZipFile(zip_in_memory, "a") as zf:
+            for i, j in zip(question_list, answer_list):
+                flashcard = Generate()
+                flashcard.set_term(i)
+                flashcard.set_definition(answer_list)
+                zf.writestr(f"{counter}.png", self.background.tobytes())
+
+        # Return zip type data
+        return zf
+
+

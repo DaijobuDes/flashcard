@@ -54,23 +54,58 @@ class Generate():
             offset_h += self.font2.getsize(line)[1]
 
     def save_image(self, response):
-        return self.background.save(response, "PNG")
+        return self.question.save(response, "PNG")
 
-    def save_zip(self, user_id, deck_id, response, question_list, answer_list):
+    def save_zip(self, user_id, deck_id, question_list, answer_list):
         # Overwrite file to an empty zip file
-        with zipfile.ZipFile(f"flashcard_{user_id}_{deck_id}.zip", "w") as zf:
-            pass
+        # with zipfile.ZipFile(f"flashcard_{user_id}_{deck_id}.zip", "w") as zf:
+        #     pass
 
-        counter = 1
-        zip_in_memory = io.BytesIO()
-        with zipfile.ZipFile(zip_in_memory, "a") as zf:
+        counter = 0
+        flashcard = []
+
+        # Stop if question_list and answer_list does not match its size
+        assert len(question_list) == len(answer_list)
+
+        for i in range(0, len(question_list)):
+            flashcard.append(Generate())
+
+        # Result assert to false if index 0 and 1 has both the same memory address
+        assert flashcard[0] != flashcard[1]
+
+        zip_data = io.BytesIO()
+
+        # with zipfile.ZipFile(f"flashcard_{user_id}_{deck_id}.zip", "a") as zf:
+        with zipfile.ZipFile(zip_data, "a") as zf:
             for i, j in zip(question_list, answer_list):
-                flashcard = Generate()
-                flashcard.set_term(i)
-                flashcard.set_definition(answer_list)
-                zf.writestr(f"{counter}.png", self.background.tobytes())
+                # print(i, j)
+
+                flashcard[counter].set_term(i)
+                flashcard[counter].set_definition(j)
+                image_data = io.BytesIO()
+                # flashcard[counter].background.save(f"{user_id}_{deck_id}_{counter+1}.png", format="PNG")
+                flashcard[counter].background.save(image_data, format="PNG")
+
+                # self.background.save(image_data, format="PNG")
+                # self.save_image(image_data)
+
+                zf.writestr(f"{user_id}_{deck_id}_{counter}.png", image_data.getbuffer())
+
+                # with open(f"{user_id}_{deck_id}_{counter}.png", "wb") as f:
+                #     f.write(image_data.getvalue())
+
+                # Close file handlers
+                image_data.close()
+                counter += 1
+
+        # Stop if variable is not a valid zip file to be served to django
+        assert zipfile.is_zipfile(zip_data)
+
+        # Delete not longer used variable to save memory, especially this
+        # object contains PIL images
+        del flashcard
 
         # Return zip type data
-        return zf
+        return zip_data
 
 

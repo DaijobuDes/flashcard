@@ -1,60 +1,76 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html>
    <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+      <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+      
+
+      <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+ 
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      
       <title>Documents</title>
    </head>
    <body>
       <div style="width:100%">{% include 'document-header.html' %}</div>
-
-
       <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;">
          <h1><i class="fa-solid fa-address-card">&nbsp;My classes > {This Class}</i></h1>
-         <table style="width: 100%" class="marg1 pad1">
-            <tr>
-               <th>Name</th>
-               <th>Date Modified</th>
-               <th>File Type</th>
-               <th>File Size</th>
-            </tr>
-            <tr>
-               <td>Software developement</td>
-               <td>serser</td>
-               <td>asdasd</td>
-               <td>123 kb</td>
-            </tr>
-            <tr>
-               <td>Software developement</td>
-               <td>serser</td>
-               <td>asdasd</td>
-               <td>123 kb</td>
-            </tr>
-            <tr>
-               <td>Software developement</td>
-               <td>serser</td>
-               <td>asdasd</td>
-               <td>123 kb</td>
-            </tr>
-            <tr>
-               <td>Software developement</td>
-               <td>serser</td>
-               <td>asdasd</td>
-               <td>123 kb</td>
-            </tr>
-            <tr>
-               <td>Software developement</td>
-               <td>serser</td>
-               <td>asdasd</td>
-               <td>123 kb</td>
-            </tr>
-         </table>
+         <div class="row">
+            <div class="col-md-12">
+               <h4>Ha</h4>
+               <div class="table-responsive">
+               <table id="bootstrapdatatable" class="table table-dark" style="width: 100%">
+                  <thead>
+                     <th><input type="checkbox" id="checkall" /></th>
+                     <th>Name</th>
+                     <th>Date Modified</th>
+                     <th>File Type</th>
+                     <th>File Size</th>
+                     <th>Edit</th>
+                     <th>Delete</th>
+                  </thead>
+                  <tbody>
+                     <form action="{% url 'viewAllDocs' %}" method="post" enctype="multipart/form-data">
+                     {% for document in documents %}
+                     {% csrf_token %}
+                     <tr>
+                        <td><input type="checkbox" id="checkthis" /></td>
+                        <td contenteditable="true" id="doc_name">{{ document.document_name }}</td>
+                        <td>{{ document.date_modified }}</td>
+                        <td>{{ document.document_format }}</td>
+                        <td>{{ document.filesize }}</td>
+                        <td><p data-placement="top" data-toggle="tooltip" title="Edit"><a type="submit" href="rename/{{ document.document_id }}" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></a></p></td>
+                        <td><p data-placement="top" data-toggle="tooltip" title="Delete"><a href="delete/{{ document.document_id }}" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></a></p></td>  
+                     </tr>
+                     {% endfor %}
+                     </form>
+                  </tbody>
+               </table>
+               </div>
+            </div>         
+         </div>
       </div>
 
+      <script>
+         $(document).ready(function() {
+               $('#bootstrapdatatable').DataTable({     
+               "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+                  "iDisplayLength": 10
+                  } 
+               );
+         } );
+      </script>
+      
       {% include "footer.html" %}
       <script src="{% static 'javascript/script.js' %}"></script>
-      <script src="{% static 'javascript/document-script.js' %}"></script>
+     <!--  <script src="{% static 'javascript/document-script.js' %}"></script>--> 
    </body>
 </html>

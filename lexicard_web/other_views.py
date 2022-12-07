@@ -89,19 +89,5 @@ class ClassCreateView(View):
         class_.save()
         return redirect("/classes/")
 
-class Document(View):
-    """
-    Class handler for the main page.
-
-    Allowed methods:
-    GET
-
-    """
-
-    template_name = None
-
-    def get(self, request):
-        pass
-
 class ScheduleView(TemplateView):
     template_name = "schedules.html"

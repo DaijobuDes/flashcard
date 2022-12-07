@@ -49,8 +49,24 @@ class Document(models.Model):
         ("TXT", "Text File Format"),
     ]
     document_file = models.FileField(upload_to=document_dir, max_length=100)
-
     document_format = models.CharField(max_length=16, choices=FILE_FORMAT, default=None)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    @property
+    def filesize(self):
+        x = self.document_file.size
+
+        if x < 512000:
+            value = round(x/1024, 2)
+            ext = ' kb'
+        elif x < 4194304000:
+            value = round(x/1048576.0, 2)
+            ext = ' Mb'
+        else:
+            value = round(x/1073741824, 2)
+            ext = ' Gb'
+        return str(value)+ext
+    
 
 class Classes(models.Model):
     classes_id = models.AutoField(primary_key=True)

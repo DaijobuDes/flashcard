@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Schedule</title>
+      <style>
+        input {
+            width: 70%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            }
+      </style>
+   </head>
+   <body>
+      <div style="width:100%">
+         {% include 'header.html' %}
+      </div>
+      <div class="classes-container wide limit" style="margin-top: 5rem; padding: 0 5rem;" >
+         <h1><i class="fa-solid fa-calendar-alt">&nbsp;Create Schedule</i></h1>
+         <div class="flexY wide pad1" >
+            <div class="sched-container pad1" style="height: 40vh;">
+                <div class="modal-box" style="margin: 5rem; padding: 5rem; background-color: #007acc;">
+                    <div class="modal fade" {% block modal-id %} id="uploadModal" {% endblock modal-id %} tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+                       <div class="modal-dialog">
+                          <div class="modal-content">
+                             <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="uploadModalLabel">{% block modal-title %}<i class="fas fa-calendar"></i>&nbsp; Create {% endblock modal-title %}</h1>
+                                <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>-->
+                             </div>
+                             
+                             <form class="long" method="post">
+                                <ul class="long flexY">
+                                   <!-- <li class="bold" style="margin-bottom: auto;"><i class="fa">Create</i></li> -->
+                                   {% csrf_token %}
+                                   {% if messages %}
+                                      <div class="messages" style="margin: auto; text-align: center;">
+                                         {% for message in messages %}
+                                            <div class="alert alert-danger" role="alert"><p style="color:orange">{{ message | safe }}</p></div>
+                                         {% endfor %}
+                                      </div>
+                                   {% endif %}
+                                   <li style="margin-top: auto;">&nbsp; &nbsp; &nbsp; &nbsp;Name: &nbsp; &nbsp;<input  name="name" ></input></li>
+                                   <li>&nbsp; &nbsp; &nbsp; Label: &nbsp; <input  type="text" name="label" ></input></li>
+                                   <li>&nbsp; &nbsp; &nbsp; Date: &nbsp; &nbsp;  &nbsp; <input  type="date" name="password" ></input></li>
+                                   <li>&nbsp; &nbsp; &nbsp; Time:  &nbsp; &nbsp; &nbsp; <input  type="time" name="password" ></input></li>
+                                </ul>
+                             </form>
+                             
+                             <div class="modal-footer">
+                              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                 <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/schedule/'">Cancel</button>
+                                <button type="button" class="action-button" style="width:fit-content" onclick="location.href='/schedule/'">Create Schedule</button>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+            </div>
+         </div>
+         
+      </div>
+
+      <!-- {% include "footer.html" %} -->
+      <script src="{% static 'javascript/script.js' %}"></script>
+   </body>
+</html>

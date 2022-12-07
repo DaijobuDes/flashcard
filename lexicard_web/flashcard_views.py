@@ -271,23 +271,6 @@ class GenerateFlashcard(View):
 
     template_name = "generate.html"
 
-    # def get(self, request, deck_id):
-    #     zip_subdir = Deck.objects.get(deck_id=deck_id).deck_name
-    #     zip_filename = "%s.zip" % zip_subdir
-    #     s = StringIO.StringIO()
-
-    #     zf = zipfile.ZipFile(s, "w")
-
-    #     flash = Flashcard.objects.get(deck_id=deck_id)
-    #     qa = QA.objects.filter(flashcard_id=flash.flashcard_id)
-
-    #     for q in qa:
-    #         fdir, fname = os.path.split(fpath)
-    #         zip_path = os.path.join(zip_subdir, fname)
-
-
-    #     return render(request, self.template_name)
-
     def get(self, request, deck_id):
         # Pass the list of terms and answers
         # Reference: https://stackoverflow.com/questions/6977544/rar-zip-files-mime-type
@@ -321,15 +304,6 @@ class GenerateFlashcard(View):
         assert zipfile.is_zipfile(generation)
 
         return HttpResponse(generation.getbuffer(), content_type="application/zip")
-
-        # return HttpResponse(json.dumps(
-        #     {
-        #         "term": term,
-        #         "definition": definition,
-        #     }
-        # ))
-
-        # return render(request, self.template_name, {"image": image})
 
 class FlashcardRandomQuestionAndAnswer(View):
     # NOTE: Code optimization is needed

@@ -22,7 +22,7 @@
          <h1><i class="fa">Class</i></h1>
          <div class="flexX wide scrollX">
             {% for i in classes %}
-            <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='classes.html'">{{ i.classes_name }}</div>
+            <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/classes/view/{{i.classes_id}}'">{{ i.classes_name }}</div>
             {% endfor %}
          </div>
       </div>

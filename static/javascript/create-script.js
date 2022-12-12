@@ -6,6 +6,9 @@ const definitions = [];
 const def_pos = [];
 const term_btn = document.getElementById("term");
 const def_btn = document.getElementById("definition");
+const submit = document.getElementById('submit');
+
+submit.disabled = true;
 def_btn.disabled = true;
 
  function str2xml(str) {
@@ -166,6 +169,8 @@ var alreadySelected = [];
    }
    term_btn.disabled = true;
    def_btn.disabled = false;
+   submit.disabled = true;
+
    var len = selected.length - 1;
    if(selected.length > 1)
    for(i = 0; i < selected.length; i++){
@@ -193,6 +198,7 @@ function getAnswer(){
       return;
    term_btn.disabled = false;
    def_btn.disabled = true;
+   submit.disabled = false;
    var len = selected.length - 1;
    if(selected.length > 1)
    for(i = 0; i < selected.length; i++){
@@ -225,10 +231,17 @@ function eraseQuestion(){
       return;
    }
 
+   if(temp === ""){
+      alert("empty string");
+      return;
+   }
+
    const log = (element) => element === temp;
    const ind = terms.findIndex(log);
-   if(ind === -1)
+   if(ind === -1){
+      alert("this is not yet a term");
       return;
+   }
    for(i = 0; i < alreadySelected.length; i++)
       alreadySelected[i].className = "";
    if(ind > -1){
@@ -252,8 +265,8 @@ function questionSubmit(){
       input2.setAttribute("value", definitions[i]);
       form1.append(input);
       form1.append(input2);
-      return;
    }
+   return;
 }
 
 customSelect(element, onSelect);

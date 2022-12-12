@@ -206,22 +206,24 @@ class FlashcardCreateView(View):
         questions_array = request.POST.getlist("question")
         answers_array = request.POST.getlist("answer")
 
+        print(questions_array)
+        print(answers_array)
+
+        file = request.FILES['file']
+
         # questions_array.append(request.POST.getlist("question"))
         # answers_array.append(request.POST.getlist("answer"))
 
         deck_name = request.POST.get("deckName")
         class_id = request.POST['classes']
-        # print(questions_array)
 
-        print(questions_array[0])
-
-
-        # This portion STILL NEEDS WORK!
         document = Document(
             user_id = request.user,
-            document_name = questions_array[0],
-            document_format = "DOC",
+            document_name = file.name,
+            document_file = file,
+            document_format = "DOCX",
         )
+        
         document.save()
 
         cl = Classes.objects.get(classes_id=class_id)
@@ -232,6 +234,7 @@ class FlashcardCreateView(View):
             deck_name = deck_name,
             classes_id = cl,
         )
+
         deck.save()
 
         flash = Flashcard(
@@ -248,7 +251,6 @@ class FlashcardCreateView(View):
                     flashcard_answer = y,
                     flashcard_id = flash,
                 )
-                print(x)
                 data.save()
 
         return redirect("/flashcard/view/" + str(deck.deck_id))

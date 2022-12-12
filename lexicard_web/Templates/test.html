@@ -7,8 +7,22 @@
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>Create Page</title>
       <style>
-         span {
-            /* padding: 0 .5rem; */
+         button{
+            /* background-color: blue; */
+            border-radius: 5px;
+            color: white;
+            background-color: var(--dark-blue);
+         }
+
+         button:hover {
+            background-color: #2a98e1;;
+         }
+
+         button:disabled {
+            background-color: #0f6198;;
+         }
+         button:disabled:hover {
+            background-color: #0f6198;;
          }
       </style>
    </head>
@@ -17,7 +31,7 @@
 
          <div style="width:100%">{% include 'header.html' %}</div>
          <form method="post" enctype="multipart/form-data" style="width: 100%; display: flex; flex-direction: column; align-items: center; position:relative;">
-            <input id="myFile" type="file" style="margin-top:5rem" onchange="gettext(event)">
+            <input id="myFile" name="file" type="file" style="margin-top:5rem" onchange="gettext(event)">
             <div class="deck_name">
                <input name="deckName" id="deckName" style="margin-top: 5rem" placeholder="Deck Name" required>
             </div>
@@ -35,7 +49,7 @@
                <!-- <input name="question" value="question3">
                <input name="answer" value="answer3"> -->
             </section>
-            <select name="classes" style="color:black">
+            <select name="classes" style="color:black" class="marg1">
                {% if classes|length > 0 %}
                   {% for c in classes %}
                   <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
@@ -45,7 +59,7 @@
                {% endif %}
 
                </select>
-            <button onmousedown="questionSubmit()" type="submit" class="pad1 marg1" style="color:black; width: 200px">submit</button>
+            <button onmousedown="questionSubmit()" type="submit" class="pad1 marg1" style="color:black; width: 200px" id="submit">submit</button>
             {% csrf_token %}
          </form>
          {% include "footer.html" %}

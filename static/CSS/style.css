@@ -304,3 +304,91 @@ table, th, td {
    border-radius: 0 0 20px 0;
    cursor: pointer;
 }
+
+.paragraph {
+   margin: 0 0 1rem;
+   flex-wrap: wrap;
+}
+
+.word {
+   text-align: center;
+   padding: .5rem;
+   background-color: green;
+   border-radius: 20px;
+   margin: 0 .25rem;
+}
+
+#inputText {
+   user-select: none;
+   line-height: 20px;
+ }
+ 
+
+ br {display:block}
+
+.text-selected {
+   background-color: var(--action);
+   color: black;
+}
+
+.qn {
+   background-color: red;
+}
+
+.selected-end{
+   padding-right: .5rem;
+   border-top-right-radius: 5px;
+   border-bottom-right-radius: 5px;
+}
+
+.selected-st {
+   padding-left: .5rem;
+   border-top-left-radius: 5px;
+   border-bottom-left-radius: 5px;
+}
+
+.def {
+   background-color: blue;
+}
+
+.qn-selected {
+   background-color: red;
+   transition: .3s ease;
+}
+
+.qn-selected-st{
+   background-color: red;
+   padding-left: .5rem;
+   border-radius: 5px 0 0 5px;
+   transition: .3s ease;
+}  
+
+.qn-selected-end{
+   background-color: red;
+   padding-right: .5rem;
+   border-radius: 0 5px 5px 0;
+   transition: .3s ease;
+}
+
+.def-selected {
+   background-color: blue;
+   transition: .3s ease;
+}
+
+.def-selected-st{
+   background-color: blue;
+   padding-left: .5rem;
+   border-radius: 5px 0 0 5px;
+   transition: .3s ease;
+}  
+
+.def-selected-end{
+   background-color: blue;
+   padding-right: .5rem;
+   border-radius: 0 5px 5px 0;
+   transition: .3s ease;
+}
+
+#inputText span{
+   cursor: pointer;
+}

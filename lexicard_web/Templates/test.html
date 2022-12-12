@@ -6,6 +6,11 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>Create Page</title>
+      <style>
+         span {
+            /* padding: 0 .5rem; */
+         }
+      </style>
    </head>
 
       <body>
@@ -16,13 +21,14 @@
             <div class="deck_name">
                <input name="deckName" id="deckName" style="margin-top: 5rem" placeholder="Deck Name" required>
             </div>
-            <section id="content" class="pad1 marg1 scrollY" style="width: clamp(300px, 60vw, 1200px);height: clamp(300px, 40vh, 1400px); background: var(--dark-blue);">
-               <p id="inputText">Currently, this isnt a text box.</p>
+            <section id="content" class="pad1 marg1 scrollY content" style="width: clamp(300px, 60vw, 1200px);height: clamp(300px, 40vh, 1400px); background: var(--dark-blue);">
+               <p id="inputText">Currently, <br>this isnt a te'xt box.</p>
             </section>
-
             <div class="control-buttons">
-               <button type="button" class="pad1 unselect" style="color:black" onclick="getQuestion()">Term</button>
-               <button type="button" class="pad1 unselect" style="color:black" onclick="getAnswer()">Definition</button>
+               <button type="button" id="term" class="pad1 unselect" style="color:black" onclick="getQuestion()">Term</button>
+               <button type="button" class="pad1 unselect" style="color:black" onclick="eraseQuestion()">Remove Term</button>
+
+               <button type="button" id="definition" class="pad1 unselect" style="color:black" onclick="getAnswer()">Definition</button>
             </div>
 
             <section id="form1" style="display:none">
@@ -39,38 +45,16 @@
                {% endif %}
 
                </select>
-            <button type="submit" class="pad1 marg1" style="color:black; width: 200px">submit</button>
+            <button onmousedown="questionSubmit()" type="submit" class="pad1 marg1" style="color:black; width: 200px">submit</button>
             {% csrf_token %}
          </form>
-
          {% include "footer.html" %}
          <script src="{% static 'javascript/script.js' %}"></script>
          <script src="{% static 'javascript/flashcard-script.js' %}"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.26.2/docxtemplater.js"></script>
          <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip.js"></script>
          <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip-utils.js"></script>
-         <script>
-            function loadFile(url, callback) {
-               PizZipUtils.getBinaryContent(url, callback);
-            }
-
-            function gettext() {
-
-               const selectedFile = document.getElementById('myFile').files[0];
-               loadFile(
-                     URL.createObjectURL(selectedFile),
-                     function (error, content) {
-                        if (error) {
-                           throw error;
-                        }
-                        const cont = document.getElementById("inputText");
-                        var zip = new PizZip(content);
-                        var doc = new window.docxtemplater(zip);
-                        var text = doc.getFullText();
-                        cont.innerHTML = text;
-                     }
-               );
-            }
-         </script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+         <script src="{% static 'javascript/create-script.js' %}"></script>
       </body>
 </html>

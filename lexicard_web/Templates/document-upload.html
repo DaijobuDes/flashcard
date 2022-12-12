@@ -40,41 +40,35 @@
 
          <!-- Modal -->
         <div class="modal-box" style="margin-left: 30%; margin-right: 15rem; margin-top: 3rem; margin-bottom: 3rem; padding: 2rem; background-color: #007acc;">
-         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+         <!--<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> -->
             <div class="modal fade"  id="uploadModal"  tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
                <div class="modal-dialog">
                   <div class="modal-content">
-                     <div class="modal-header">
-                        
-                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class="fas fa-upload"></i>&nbsp; Upload </h1>
-                        <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>-->                       
+                     <div class="modal-header">                       
+                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class="fas fa-upload"></i>&nbsp; Upload </h1>                     
                      </div>
                      
-                     <form action="{% url 'uploadDoc' %}" method="post" enctype="multipart/form-data">
+                     <form action="{% url 'uploadDoc' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="modal-body">
-                           <hr><br><br>
-                           <input type="file" multiple name="doc_file"  required>
                            <br><br>
-                           <!-- {{ form.doc_file }} -->                
+                           <input type="file" multiple name="doc_file"  required>
+                           <br><br>             
                         </div>
                         <div class="modal-footer"> <!-- class= btn-block -->
                            <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/document/'">Close</button>
-                           <button type="submit" class="action-button" style="width:fit-content">Upload file</button>
+                           <button type="submit" class="action-button" style="width:fit-content"  id="btn-upload">Upload file</button>
                         </div>
                      </form>
-                     <div align="center">
-                        {% if url %}
-                        <p>Uploaded file: <a href="{{ url }}">{{ url }}</a></p>
-                        {% endif %}
-                     </div>
                   </div>
                </div>
             </div>
          </div>
       </div>
-
+      
+      </div>
       {% include 'footer.html' %}
+      
     <script src="{% static 'javascript/script.js' %}"></script>
       <!-- <script src="{% static 'javascript/document-script.js' %}"></script> -->
    </body>

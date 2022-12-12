@@ -77,5 +77,5 @@ class ScheduleForm(forms.Form):
       Class metadata for ScheduleForm 
       """
       model = Reminders
-      fields = ['user_id', 'reminder_name', 'remindert_label', 'reminder_start_timestamp', 'reminder_end_timestamp']
+      fields = ['user_id', 'reminder_name', 'reminder_label', 'reminder_created_timestamp', 'reminder_timestamp']
 

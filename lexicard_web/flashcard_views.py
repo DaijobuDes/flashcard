@@ -89,7 +89,7 @@ class FlashcardDelete(View):
     def get(self, request, deck_id):
         if not Deck.objects.filter(deck_id = deck_id).exists():
             return redirect('/flashcard/')
-        
+
         Deck.objects.filter(deck_id = deck_id).delete()
         return redirect("/flashcard/")
 
@@ -257,7 +257,7 @@ class FlashcardDownload(View):
     template_name = "flashcards-download.html"
 
     def get(self, request):
-        
+
         deck = Deck.objects.filter(user_id=request.user.user_id)
         context = {
             "deck" : deck,
@@ -272,43 +272,38 @@ class GenerateFlashcard(View):
     template_name = "generate.html"
 
     def get(self, request, deck_id):
-        zip_subdir = Deck.objects.get(deck_id=deck_id).deck_name
-        zip_filename = "%s.zip" % zip_subdir
-        s = StringIO.StringIO()
-
-        zf = zipfile.ZipFile(s, "w")
-
-        flash = Flashcard.objects.get(deck_id=deck_id)
-        qa = QA.objects.filter(flashcard_id=flash.flashcard_id)
-
-        for q in qa:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            
-
-        return render(request, self.template_name)
-
-    def post(self, request):
-        term = request.POST.get("term")
-        definition = request.POST.get("definition")
-
+        # Pass the list of terms and answers
+        # Reference: https://stackoverflow.com/questions/6977544/rar-zip-files-mime-type
+        #
+        # Possible file MIME types
+        # application/zip, application/octet-stream, application/x-zip-compressed, multipart/x-zip
         data = Generate()
-        data.setTerm(term)
-        data.setDefinition(definition)
-        response = HttpResponse(content_type='image/png')
-        image = data.saveImage(response)
-        # return FileResponse(model.image.open(), as_attachment=True, filename="Export.png")
 
-        return HttpResponse(response, content_type='image/png/force-download')
+        flash = Flashcard.objects.get(
+            deck_id = deck_id,
+            user_id = request.user.user_id
+        )
 
-        # return HttpResponse(json.dumps(
+        qa = QA.objects.filter(
+            flashcard_id = flash.flashcard_id
+        )
+
+        questions = [x.flashcard_question for x in qa]
+        answers = [x.flashcard_answer for x in qa]
+
+        # return JsonResponse(
         #     {
-        #         "term": term,
-        #         "definition": definition,
+        #         "questions": questions,
+        #         "answers": answers
         #     }
-        # ))
+        # )
 
-        # return render(request, self.template_name, {"image": image})
+        generation = data.save_zip(request.user.user_id, deck_id, questions, answers)
+
+        # Terminate if variable is not a valid zipfile
+        assert zipfile.is_zipfile(generation)
+
+        return HttpResponse(generation.getbuffer(), content_type="application/zip")
 
 class FlashcardRandomQuestionAndAnswer(View):
     # NOTE: Code optimization is needed
@@ -357,7 +352,7 @@ class FlashcardRandomQuestionAndAnswer(View):
         random.seed(time.time())
 
         random_question = random.choice(list(qas))
-        
+
         context = {
             "qa": random_question
         }

@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import path
-from lexicard_web import flashcard_views, other_views, user_views
+from lexicard_web import flashcard_views, other_views, user_views, document_views, schedule_views
 
 urlpatterns = [
     path(r'', lambda r: HttpResponseRedirect('/login')),
@@ -51,9 +51,20 @@ urlpatterns = [
     path('classes/view/<int:classes_id>', other_views.ClassView.as_view()),
     path('classes/create/', other_views.ClassCreateView.as_view()),
 
+    # Document urls
+    path('document/', document_views.DocumentView.as_view(), name='viewAllDocs'),
+    path('document/upload/',document_views.UploadDocumentView.as_view(), name='uploadDoc'),
+    path('document/rename/',document_views.RenameDocumentView.as_view(), name='renameDoc'),
+
 
     # Schedule url here
-    path('schedule/', other_views.ScheduleView.as_view()),
+    path('schedule/', schedule_views.ScheduleView.as_view(), name='viewAllSched'),
+    path('schedule/create/', schedule_views.CreateSchedView.as_view(), name='createSched'),
+    #path('schedule/delete/',schedule_views.DeleteSchedView.as_view(), name='deleteSched'),
+    #path('schedule/update/',schedule_views.UpdateSchedView.as_view(), name='updateSched'),
+    path('schedule/update/',schedule_views.UpdateSchedView.as_view(), name='updateSched'),
+
+
 
     path('home/', other_views.DashboardView.as_view()),
 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Create Schedule</title>
+      <style>
+        .sched-input {
+            width: 100%;
+            padding: 5px 5px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            }
+         .table-create-sched{
+            border: none;
+            margin: 3%;
+         }
+         td{
+            font-size: large;
+            font-weight: bold;
+            border: none;
+            padding: 5px;
+         }
+         .modal-footer{
+            margin-left: 4%;
+         }
+         button{
+            font-weight: bold;
+            font-size: medium;
+         }
+      </style>
+   </head>
+   <body>
+      <div style="width:100%">
+         {% include 'schedule-header.html' %}
+      </div>
+      <div class="classes-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;" >
+         <h1><i class="fa-solid fa-calendar-alt">&nbsp;Create Schedule</i></h1>
+         <div class="flexY wide pad1" >
+            <div class="sched-container pad1" style="height: 40vh;">
+                <div class="modal-box" style="margin: auto; width: 60%; padding: 2rem; background-color: #007acc;">
+                    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+                       <div class="modal-dialog">
+                          <div class="modal-content">
+                             <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="uploadModalLabel"><i class="fas fa-calendar"></i>&nbsp; Create </h1>
+                                <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>-->
+                             </div>
+                             <form action="{% url 'createSched' %}" method="post">
+                              {% csrf_token %}
+                             <table class="table-create-sched" >
+                             
+                                   <col width="65%">
+                                   <col width="35%">
+                                   <tr>
+                                       <td>Name: <input type="text" name="name" class="sched-input" ></input></td>
+                                       <td>Date: <input type="date" name="date" class="sched-input" ></input></td>
+                                   </tr>
+                                   <tr>
+                                       <td>Label: <input type="text" name="label" class="sched-input" ></input></td>
+                                       <td>Time: <input  type="time" name="time" class="sched-input"></input></td>
+                                   </tr> 
+                            
+                           </table>
+                             <div class="modal-footer">
+                                 <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/schedule/'">Cancel</button>
+                                 <button type="submit" class="action-button" style="width:fit-content">Create Schedule</button>
+                             </div>   
+                           </form>                       
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+            </div>
+         </div>
+      </div>
+
+       {% include "footer.html" %} 
+      <script src="{% static 'javascript/script.js' %}"></script>
+   </body>
+</html>

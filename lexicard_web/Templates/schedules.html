@@ -2,16 +2,30 @@
 {% load static %}
 <html>
    <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+      <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+      <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script><!-- delete with checkbox -->
+      
+
+      <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
-      <title>Classes</title>
+      <title>Schedule</title>
       <style>
-         table {
+         #bootstrapdatatable {
             border-spacing: 1;
             border-collapse: collapse;
             background-color: #333;
             border-radius: 10px;
+            padding: 30px;
             overflow: hidden;
             width: 100%;
             margin: 0 auto;
@@ -24,45 +38,26 @@
             background: #36304a;
             border: none;
          }
-         .table100 th {
+         th {
             font-family: OpenSans-Regular;
             font-size: 18px;
             color: #fff;
             line-height: 1.2;
             font-weight: unset;
             border: none;
+            padding-left: 1rem;
          }
          td{
             padding: 1rem 0;
+            padding-left: 1.5rem;
             border:none;
          }
 
-         .column1 {
-            width: 260px;
-            padding-left: 40px;
+         .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+            background-color: #301934;
+            /*background-color: #353935;*/
          }
-         .column2 {
-            width: 160px;
-         }
-         .column3 {
-            width: 245px;
-         }
-         .column4 {
-            width: 110px;
-            text-align: right;
-         }
-         table td, table th {
-            text-align: left;
-         }
-         .column5 {
-            width: 170px;
-            text-align: right;
-         }
-         .column6 {
-            width: 222px;
-            text-align: right;
-            padding-right: 62px;
-         }
+
          tbody tr {
             font-family: OpenSans-Regular;
             font-size: 15px;
@@ -74,7 +69,7 @@
    </head>
    <body>
       <div style="width:100%">
-         {% include 'header.html' %}
+         {% include 'schedule-header.html' %}
       </div>
       <div class="classes-container wide limit" style="margin-top: 5rem; padding: 0 5rem;" >
          <h1><i class="fa-solid fa-calendar-alt">&nbsp;Schedule</i></h1>
@@ -82,136 +77,154 @@
             <div class="scrollY"><i class="fa">Today:</i></div>
             
             </div>
-            <div class="table100">
-               <table>
+            <div class="table-responsive">
+               <table id="bootstrapdatatable" class="table table-hover" style="width: 100%">
+                  <col width="5%">
+                  <col width="17%">
+                  <col width="17%">
+                  <col width="26%">
+                  <col width="35%">
                   <thead>
                      <tr class="table100-head">
-                        <th class="column1">Date</th>
-                        <th class="column2">Reminder ID</th>
-                        <th class="column3">Details</th>
-                        <th class="column4">Price</th>
-                        <th class="column5">Quantity</th>
-                        <th class="column6">Total</th>
+                        <th class="no-sort"></th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reminder Name</th>
+                        <th>Details</th>
                      </tr>
                   </thead>
                   <tbody>
-                     <tr>
-                        <td class="column1">2017-09-29 01:22</td>
-                        <td class="column2">200398</td>
-                        <td class="column3">iPhone X 64Gb Grey</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
+                     <form  method="post">
+                        {% csrf_token %}
+                     {% for reminder in reminders %}
+   
+                     <tr id="{{ reminder.reminder_id }}">
+                        <td class="td_checkbox"><input type="checkbox" id="rem_delete" name="reminder_id[]" value="{{ reminder.reminder_id }}"/></td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="date">{{ reminder.reminder_timestamp }}</td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="time">{{ reminder.reminder_timestamp }}</td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="name">{{ reminder.reminder_name }}</td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="details">{{ reminder.reminder_label }}</td>
                      </tr>
-                     <tr>
-                        <td class="column1">2017-09-28 05:57</td>
-                        <td class="column2">200397</td>
-                        <td class="column3">Samsung S8 Black</td>
-                        <td class="column4">$756.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$756.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-26 05:57</td>
-                        <td class="column2">200396</td>
-                        <td class="column3">Game Console Controller</td>
-                        <td class="column4">$22.00</td>
-                        <td class="column5">2</td>
-                        <td class="column6">$44.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-25 23:06</td>
-                        <td class="column2">200392</td>
-                        <td class="column3">USB 3.0 Cable</td>
-                        <td class="column4">$10.00</td>
-                        <td class="column5">3</td>
-                        <td class="column6">$30.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-24 05:57</td>
-                        <td class="column2">200391</td>
-                        <td class="column3">Smartwatch 4.0 LTE Wifi</td>
-                        <td class="column4">$199.00</td>
-                        <td class="column5">6</td>
-                        <td class="column6">$1494.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-23 05:57</td>
-                        <td class="column2">200390</td>
-                        <td class="column3">Camera C430W 4k</td>
-                        <td class="column4">$699.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$699.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-22 05:57</td>
-                        <td class="column2">200389</td>
-                        <td class="column3">Macbook Pro Retina 2017</td>
-                        <td class="column4">$2199.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$2199.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-21 05:57</td>
-                        <td class="column2">200388</td>
-                        <td class="column3">Game Console Controller</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-19 05:57</td>
-                        <td class="column2">200387</td>
-                        <td class="column3">iPhone X 64Gb Grey</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-18 05:57</td>
-                        <td class="column2">200386</td>
-                        <td class="column3">iPhone X 64Gb Grey</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-22 05:57</td>
-                        <td class="column2">200389</td>
-                        <td class="column3">Macbook Pro Retina 2017</td>
-                        <td class="column4">$2199.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$2199.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-21 05:57</td>
-                        <td class="column2">200388</td>
-                        <td class="column3">Game Console Controller</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-19 05:57</td>
-                        <td class="column2">200387</td>
-                        <td class="column3">iPhone X 64Gb Grey</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
-                     </tr>
-                     <tr>
-                        <td class="column1">2017-09-18 05:57</td>
-                        <td class="column2">200386</td>
-                        <td class="column3">iPhone X 64Gb Grey</td>
-                        <td class="column4">$999.00</td>
-                        <td class="column5">1</td>
-                        <td class="column6">$999.00</td>
-                     </tr>
+                     {% endfor %}
+                     </form>
                   </tbody>
                </table>
             </div>
          </div>
       </div>
+      <script>
+         $(document).ready(function() {
+               $('#bootstrapdatatable').DataTable({     
+               "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+                  "iDisplayLength": 10,
+                  "columnDefs": [ {
+                     'targets': 0, /* column index */
+                     'orderable': false, /* true or false */
+                     }],
+                  "order": [[ 1, 'asc' ], [ 2, 'asc' ]]
+                  } 
+               );
+         } );
+      </script>
+      <!-- Update -->
+      <script>
+         $(document).ready(function(){
+            $(document).on("dblclick",".editableSched",function(){
+                var value=$(this).text();
+                var data_type=$(this).data("type");
+                var input_type="text";
+                if(data_type=="date")
+                {
+                    input_type="date";
+                }
+                if(data_type=="time")
+                {
+                    input_type="time";
+                }
+                var input="<input type='"+input_type+"' class='input-data' value='"+value+"' class='form-control'>";
+
+                $(this).html(input);
+                $(this).removeClass("editableSched")
+            });
+ 
+            $(document).on("blur",".input-data",function(){
+                var value=$(this).val();
+                var td=$(this).parent("td");
+                $(this).remove();
+                td.html(value);
+                td.addClass("editable");
+                var type=td.data("type");
+                sendToServer(td.data("id"),value,type);
+            });
+            $(document).on("keypress",".input-data",function(e){
+                var key=e.which;
+                if(key==13){
+                    var value=$(this).val();
+                    var td=$(this).parent("td");
+                    $(this).remove();
+                    td.html(value);
+                    td.addClass("editable");
+                    var type=td.data("type");
+                    var csrf = $('input[name=csrfmiddlewaretoken]').val
+                    sendToServer(td.data("id"),value,type, csrf);
+                }
+            });
+            
+ 
+            function sendToServer(id,value,type, csrf){
+                console.log(id);
+                console.log(value);
+                console.log(type);
+                  $.ajax({
+                    url:"http://127.0.0.1:8000/schedule/update/",
+                    method:"POST",
+                    data:{id:id,type:type,value:value, csrfmiddlewaretoken:'{{csrf_token}}'},
+                })
+                .done(function(response){
+                    console.log(response);
+                    location.reload();
+                })
+                .fail(function(){
+                   console.log("Error Occured");
+                   location.reload();
+                });
+
+            }
+        });
+      </script>
+
+      <script>
+         $(document).ready(function() {
+               $('#btn_delete').click(function(){ 
+                  var id = [];
+                  var csrf = $('input[name=csrfmiddlewaretoken]').val
+
+                  $(':checkbox:checked').each(function(i){
+                        id[i] = $(this).val()
+                     })
+
+                  if(id.length === 0){
+                     alert("No item selected") 
+                  }
+                  else{   
+                     if(confirm("Are you sure you want to delete? ")){
+                        console.log(id)
+                        $.ajax({
+                           url:".",
+                           method:"POST",
+                           data: {
+                              id,
+                              csrfmiddlewaretoken:'{{csrf_token}}'
+                           },
+                           success:function(response){
+                              location.reload();
+                           },
+                        })
+                     }
+                  }                   
+               });
+         } );
+      </script>
 
       {% include "footer.html" %}
       <script src="{% static 'javascript/script.js' %}"></script>

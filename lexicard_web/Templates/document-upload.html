@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+      <style>
+         .alert {
+           padding: 20px;
+           background-color: #f44336;
+           color: white;
+         }
+         
+         .closebtn {
+           margin-left: 15px;
+           color: white;
+           font-weight: bold;
+           float: right;
+           font-size: 22px;
+           line-height: 20px;
+           cursor: pointer;
+           transition: 0.3s;
+         }
+         
+         .closebtn:hover {
+           color: black;
+         }
+         </style>
+
+      <title>Upload Documents</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'document-header.html' %}</div>
+
+
+      <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;">
+         <h1><i class="fa-solid fa-address-card">&nbsp;My classes > {This Class}</i></h1>
+
+         <!-- Modal -->
+        <div class="modal-box" style="margin-left: 30%; margin-right: 15rem; margin-top: 3rem; margin-bottom: 3rem; padding: 2rem; background-color: #007acc;">
+         <!--<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> -->
+            <div class="modal fade"  id="uploadModal"  tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+                  <div class="modal-content">
+                     <div class="modal-header">                       
+                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class="fas fa-upload"></i>&nbsp; Upload </h1>                     
+                     </div>
+                     
+                     <form action="{% url 'uploadDoc' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                           <br><br>
+                           <input type="file" multiple name="doc_file"  required>
+                           <br><br>             
+                        </div>
+                        <div class="modal-footer"> <!-- class= btn-block -->
+                           <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/document/'">Close</button>
+                           <button type="submit" class="action-button" style="width:fit-content"  id="btn-upload">Upload file</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      </div>
+      {% include 'footer.html' %}
+      
+    <script src="{% static 'javascript/script.js' %}"></script>
+      <!-- <script src="{% static 'javascript/document-script.js' %}"></script> -->
+   </body>
+</html>
+
+ 

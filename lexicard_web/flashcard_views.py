@@ -36,7 +36,9 @@ class FlashcardView(View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        return render(request, self.template_name)
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+        return redirect('/flashcard/')
 
 
 class FlashcardRenameView(View):
@@ -223,7 +225,7 @@ class FlashcardCreateView(View):
             document_file = file,
             document_format = "DOCX",
         )
-        
+
         document.save()
 
         cl = Classes.objects.get(classes_id=class_id)

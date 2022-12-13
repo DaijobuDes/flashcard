@@ -26,18 +26,20 @@ class DocumentView(View):
     def get(self, request):
         documents = Document.objects.filter(user_id = request.user)
         return render(request, self.template_name, {'documents':documents})
-    
+
     """ Delete Document """
-    def post(self, request, *args, **kwargs):        
+    def post(self, request, *args, **kwargs):
         doc_ids = request.POST.getlist('id[]')
         for doc_id in doc_ids:
             print(doc_id)
             try:
-                document = Document.objects.get(document_id=doc_id)  
+                document = Document.objects.get(document_id=doc_id)
                 document.delete()
             except Document.DoesNotExist:
                 document = None
-        return redirect("viewAllDocs")  
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+        return redirect("viewAllDocs")
 
 class UploadDocumentView(View):
     """
@@ -60,16 +62,16 @@ class UploadDocumentView(View):
             doc_format = pathlib.Path(doc_file.name).suffix.upper() #Get the file format from the file name and change it to uppercase. Example output: .PDF
             doc_format = doc_format.replace('.', "") #Remove the dot(.) in the front. Example Output: PDF
             date_mod = str(datetime.now(tz=get_current_timezone())+timedelta(hours=8))
-           
+
             """ TODO: Check if valid file format """
             """ TODO: Check if unique name in regards with the user_id"""
 
-            document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_file.name, document_format = doc_format, date_modified = date_mod)     
+            document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_file.name, document_format = doc_format, date_modified = date_mod)
             document.save()
             doc_list.append(document.document_name)
         return redirect("viewAllDocs")
-    
-    def get(self, request): 
+
+    def get(self, request):
         form = UploadDocForm()
         return render(request, self.template_name, {'form': form})
 
@@ -79,14 +81,14 @@ class RenameDocumentView(View):
         id=request.POST.get('id','')
         type=request.POST.get('type','')
         value=request.POST.get('value','')
-        #document = Document.objects.get(document_id=id) 
+        #document = Document.objects.get(document_id=id)
         print(value)
 
         if type=="name":
             name = value
 
         Document.objects.filter(document_id=id).update(document_name= name)
-        
+
         return redirect("viewAllDocs")
-    
+
 

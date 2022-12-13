@@ -8,6 +8,8 @@ from django.http import (HttpResponse, HttpResponseBadRequest,
                          HttpResponseNotAllowed, HttpResponseServerError)
 from django.shortcuts import redirect, render
 from django.views.generic import FormView, TemplateView, View
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .forms import *
 from .generate import Generate
@@ -36,8 +38,14 @@ class DashboardView(View):
             "flashcard": flashcard,
             "classes" : classes,
         }
-
         return render(request, self.template_name, context)
+
+    def post(self, request):
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+        return redirect('/home/')
+
+
 
 class ClassesView(View):
     template_name = 'classes.html'
@@ -52,6 +60,10 @@ class ClassesView(View):
         }
 
         return render(request, self.template_name, context)
+    def post(self, request):
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+        return redirect('/classes/')
 
 
 class ClassView(View):
@@ -89,5 +101,14 @@ class ClassCreateView(View):
         class_.save()
         return redirect("/classes/")
 
-class ScheduleView(TemplateView):
-    template_name = "schedules.html"
+
+class NotificationView(View):
+    template_name = "header.html"
+    def get(self, request):
+        # subject = 'FRICK'
+        # message = f'Hi {request.user.username}, frick you'
+        # email_from = settings.EMAIL_HOST_USER
+        # recipient_list = ['graecuskppa@gmail.com', ]
+        # send_mail( subject, message, email_from, recipient_list )
+        return render(request, self.template_name)
+

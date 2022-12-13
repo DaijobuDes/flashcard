@@ -25,6 +25,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=32, blank=True, unique=True)
     email = models.CharField(max_length=128, blank=True, unique=True)
     password = models.CharField(max_length=256, blank=True)
+    notifs = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['password']
@@ -67,7 +68,7 @@ class Document(models.Model):
             value = round(x/1073741824, 2)
             ext = ' Gb'
         return str(value)+ext
-    
+
 
 class Classes(models.Model):
     classes_id = models.AutoField(primary_key=True)

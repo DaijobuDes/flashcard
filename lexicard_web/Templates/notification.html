@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<script>
+    $(document).ready(function() {
+        var notifs = true;
+          $('#btn_notif').click(function(){
+             var csrf = $('input[name=csrfmiddlewaretoken]').val
+             if(confirm("Do you want to turn on email notifications?")){
+                console.log(id)
+                $.ajax({
+                   url:".",
+                   method:"POST",
+                   data: {
+                      notifs,
+                      csrfmiddlewaretoken:'{{csrf_token}}'
+                   },
+                   success:function(response){
+                      location.reload();
+                   },
+                })
+             }
+
+          });
+    } );
+ </script>
+ <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>

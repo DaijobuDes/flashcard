@@ -45,6 +45,8 @@ urlpatterns = [
     path('flashcard/view/<int:deck_id>/quiz', flashcard_views.FlashcardRandomQuestionAndAnswer.as_view()),
     path('flashcard/view/<int:deck_id>/quiz/<int:question_id>/<str:action>', flashcard_views.FlashcardQuestionAndAnswer.as_view()),
     path('flashcard/view/<int:deck_id>/delete', flashcard_views.FlashcardRemoveQuestion.as_view()),
+    path('flashcard/prefs/',flashcard_views.EditPrefView.as_view(), name="flashcard_prefs"),
+
 
     # Classes
     path('classes/', other_views.ClassesView.as_view()),
@@ -55,6 +57,7 @@ urlpatterns = [
     path('document/', document_views.DocumentView.as_view(), name='viewAllDocs'),
     path('document/upload/',document_views.UploadDocumentView.as_view(), name='uploadDoc'),
     path('document/rename/',document_views.RenameDocumentView.as_view(), name='renameDoc'),
+
 
 
     # Schedule url here

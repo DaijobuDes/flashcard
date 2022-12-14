@@ -26,6 +26,11 @@ class User(AbstractBaseUser):
     email = models.CharField(max_length=128, blank=True, unique=True)
     password = models.CharField(max_length=256, blank=True)
 
+    term_bg_color = models.CharField(max_length=7, blank=True, default="#FF0000")
+    term_txt_color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
+    question_bg_color = models.CharField(max_length=7, blank=True, default="#0000FF")
+    question_txt_color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['password']
 

@@ -40,22 +40,27 @@
 
          <!-- Modal -->
         <div class="modal-box" style="margin-left: 30%; margin-right: 15rem; margin-top: 3rem; margin-bottom: 3rem; padding: 2rem; background-color: #007acc;">
-         <!--<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> -->
+        
             <div class="modal fade"  id="uploadModal"  tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
                <div class="modal-dialog">
                   <div class="modal-content">
                      <div class="modal-header">                       
-                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class="fas fa-upload"></i>&nbsp; Upload </h1>                     
+                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class="fas fa-upload"></i>&nbsp; Upload </h1>    
+                                    
                      </div>
-                     
+                        {% if invalidfileformat %}
+                        <p style="text-align: center; padding-top: 10px; color: #ca170a; font-weight: bold; font-size: 25px;"> {{ invalidfileformat }}</p>  
+                        {% endif %}   
                      <form action="{% url 'uploadDoc' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="modal-body">
                            <br><br>
                            <input type="file" multiple name="doc_file"  required>
-                           <br><br>             
+                           <br>
+                           <p style="font-size: 12px; padding: 5px;">Accepted files: DOCX, DOC, PPT, PPTX, RTF, TXT, PDF</p>
+                           <br>                          
                         </div>
-                        <div class="modal-footer"> <!-- class= btn-block -->
+                        <div class="modal-footer"> 
                            <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/document/'">Close</button>
                            <button type="submit" class="action-button" style="width:fit-content"  id="btn-upload">Upload file</button>
                         </div>

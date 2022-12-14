@@ -233,4 +233,7 @@ class ProfileView(View):
             except:
                 pass
 
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+
         return render(request, self.template_name)

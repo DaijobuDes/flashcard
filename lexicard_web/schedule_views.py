@@ -13,54 +13,56 @@ from .forms import *
 from .generate import Generate
 
 class ScheduleView(View):
-    
+
     template_name = "schedules.html"
 
     def get(self, request):
-        reminders = Reminders.objects.filter(user_id = request.user)
-        
-        #date = Reminders.reminder_timestamp.strftime("%Y-%m-%d")
-        #time = Reminders.reminder_timestamp.strftime("%H:%M:%S")
+        reminders = Reminders.objects.filter(user_id = request.user.user_id).order_by('reminder_timestamp')
+        print(reminders[2].reminder_timestamp)
         context = {
-            #'reminder_date': date,
-           # 'reminder_time': time,
             'reminders': reminders
         }
         return render(request, self.template_name, context)
+        
     """ Delete Sched """
-    def post(self, request, *args, **kwargs):        
+    def post(self, request, *args, **kwargs):
         reminder_ids = request.POST.getlist('id[]')
         for reminder_id in reminder_ids:
             print(reminder_id)
             try:
-                reminder = Reminders.objects.get(reminder_id=reminder_id)  
+                reminder = Reminders.objects.get(reminder_id=reminder_id)
                 reminder.delete()
             except Reminders.DoesNotExist:
                 reminder = None
-        return redirect("viewAllDocs") 
+
+
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+        return redirect("viewAllSched")
+
+
 
 """ Create Sched """
 class CreateSchedView(View):
 
     template_name = "schedule-create.html"
     def get(self, request):
-        print("piste")
         return render(request, self.template_name)
 
     def post(self, request):
-        print("hahaha")
         form = ScheduleForm(request.POST)
         name = request.POST.get("name")
         label = request.POST.get("label")
         date = request.POST.get("date")
         time = request.POST.get("time")
-        
+
         dt_string = date +" "+ time +":00"
         timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
-        
+
         reminder = Reminders.objects.create(user_id = request.user, reminder_name = name, reminder_label = label, reminder_timestamp = timedate)
         reminder.save()
-        return render(request, self.template_name)
+        #return render(request, self.template_name)
+        return redirect("viewAllSched")
 
 """ Update """
 class UpdateSchedView(View):
@@ -68,19 +70,19 @@ class UpdateSchedView(View):
         id=request.POST.get('id','')
         type=request.POST.get('type','')
         value=request.POST.get('value','')
-    
-        rem = Reminders.objects.get(reminder_id=id) 
+
+        rem = Reminders.objects.get(reminder_id=id)
 
         if type=="date":
-            date = value   
-            time =  rem.reminder_timestamp.strftime("%H:%M:%S")  
+            date = value
+            time =  rem.reminder_timestamp.strftime("%H:%M:%S")
             dt_string = date +" "+ time
             timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
             Reminders.objects.filter(reminder_id=id).update(reminder_timestamp = timedate)
             print(date)
         if type=="time":
             time = value
-            date =  rem.reminder_timestamp.strftime("%Y-%m-%d")  
+            date =  rem.reminder_timestamp.strftime("%Y-%m-%d")
             dt_string = date +" "+ time+":00"
             timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
             Reminders.objects.filter(reminder_id=id).update(reminder_timestamp = timedate)
@@ -91,12 +93,12 @@ class UpdateSchedView(View):
             details = value
             Reminders.objects.filter(reminder_id=id).update(reminder_label = details)
 
-        
+
         return redirect("viewAllSched")
-        #form = DocumentForm(request.POST, instance=document) 
+        #form = DocumentForm(request.POST, instance=document)
         #if form.is_valid():
-            # document.save()  
+            # document.save()
             #return redirect("viewAllDocs")
          # else:
             #return render(request, 'document.html', {'document':document})
-        
+

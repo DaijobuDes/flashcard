@@ -161,24 +161,27 @@
                <li onclick="location.href='/profile/'"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit Profile</li>
             </ul>
 
-            <ul style="margin-top:auto"> 
-               
+            <ul style="margin-top:auto">
+
                <li onclick="location.href='/home/'"><i class="fa-solid fa-window-maximize"></i>&nbsp;Dashboard</li>
                <li onclick="location.href='/classes/'"><i class="fa-solid fa-folder-open"></i>&nbsp;Classes</li>
                <li onclick="location.href='/flashcard/'"><i class="fa-solid fa-address-card"></i>&nbsp;Flashcards</li>
                <li onclick="location.href='/document/'"><i class="fa-solid fa-file-alt"></i>&nbsp;Document</li>
                <li onclick="location.href='/schedule/'"><i class="fa-solid fa-calendar"></i>&nbsp;Schedule</li>
                <div style="width: 80%; height: 2px; background: white;"></div>
-               <li onclick="location.href='/notification/'"><i class="fa-solid fa-bell"></i>&nbsp;Notifications</li>
-               <li onclick="location.href='/settings/'"><i class="fa-solid fa-gear"></i>&nbsp;Settings</li>
+               {% if request.user.notifs %}
+               <li type="submit" id="btn-xnotif" ><i class="fa-solid fa-bell-slash"></i>&nbsp;Notifications</li>
+               {% else %}
+               <li type="submit" id="btn-notif" ><i class="fa-solid fa-bell"></i>&nbsp;Notifications</li>
+               {%endif%}               <li onclick="location.href='/settings/'"><i class="fa-solid fa-gear"></i>&nbsp;Settings</li>
                <li onclick="location.href='/logout/'"><i class="fa-solid fa-sign-out"></i>&nbsp;Sign Out</li>
-               
-               
+
+
             </ul>
             {% else %}
             <a href="/login/" style="width: 100%; display: flex; justify-content: center;"><img src="{% static 'user.png' %}" style="border-radius:50%; height: 20vh; width: 20vh; align-self: center;" ></a>
             <h2 style="align-self: center"><i class="fa">Log In</i></h2>
-            <ul style="margin-top:auto"> 
+            <ul style="margin-top:auto">
                <div style="width: 80%; height: 2px; background: white;"></div>
                <li onclick="location.href='/login/'"><i class="fa-solid fa-sign-in"></i>&nbsp;Sign In</li>
             </ul>

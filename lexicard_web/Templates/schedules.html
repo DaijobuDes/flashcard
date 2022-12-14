@@ -95,17 +95,16 @@
                   </thead>
                   <tbody>
                      <form  method="post" onsubmit="return checkforblank()">
-                        {% csrf_token %}
-                     {% for reminder in reminders %}
-   
+                        {% csrf_token %}      
+                        {% for reminder in reminders %}                 
                      <tr id="{{ reminder.reminder_id }}">
-                        <td class="td_checkbox"><input type="checkbox" id="rem_delete" name="reminder_id[]" value="{{ reminder.reminder_id }}"/></td>
-                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="date" id="date">{{ reminder.reminder_timestamp }}</td>
-                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="time" id="time">{{ reminder.reminder_timestamp }}</td>
+                        <td class="td_checkbox"><input type="checkbox" id="rem_delete" name="reminder_id[]" value="{{ reminder.reminder_id }}"/></td>                       
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="date" id="date">{{ reminder.reminder_timestamp |date:'M. d, Y'}}</td>                       
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="time" id="time">{{reminder.reminder_timestamp |date:'h:m a'}}</td>
                         <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="name" id="name">{{ reminder.reminder_name }}</td>
                         <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="details">{{ reminder.reminder_label }}</td>
-                     </tr>
-                     {% endfor %}
+                     </tr>                   
+                        {% endfor %}                  
                      </form>
                   </tbody>
                </table>

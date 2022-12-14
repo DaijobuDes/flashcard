@@ -17,13 +17,9 @@ class ScheduleView(View):
     template_name = "schedules.html"
 
     def get(self, request):
-        reminders = Reminders.objects.filter(user_id = request.user.user_id)
-        print(request.user.user_id)
-        #date = Reminders.reminder_timestamp.strftime("%Y-%m-%d")
-        #time = Reminders.reminder_timestamp.strftime("%H:%M:%S")
+        reminders = Reminders.objects.filter(user_id = request.user.user_id).order_by('reminder_timestamp')
+        
         context = {
-            #'reminder_date': date,
-           # 'reminder_time': time,
             'reminders': reminders
         }
         return render(request, self.template_name, context)

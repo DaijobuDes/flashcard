@@ -47,18 +47,21 @@
             <label for="myFile" style="margin-top: 2rem">
                <div class="marg1 pad1 docu-upload"><i class="fa-solid fa-upload"></i></div>
             </label>
-            <div class="deck_name">
-               <input name="deckName" id="deckName" style="margin-top: 1rem" placeholder="Deck Name" required>
+            <div class="deck_name limit">
+               <label style="text-align: center; line-height: 40px;">Deck Name: </label>
+               <input name="deckName" id="deckName" required>
+               <label style="text-align: center; line-height: 40px;">Class Name: </label>
+               <select name="classes" style="color:black">
+                  {% if classes|length > 0 %}
+                     {% for c in classes %}
+                     <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
+                     {% endfor %}
+                  {% else %}
+                     <option value="{{ c.classes_id }}"> Please create a class first </option>
+                  {% endif %}
+               </select>
             </div>
-            <select name="classes" style="color:black">
-               {% if classes|length > 0 %}
-                  {% for c in classes %}
-                  <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
-                  {% endfor %}
-               {% else %}
-                  <option value="{{ c.classes_id }}"> Please create a class first </option>
-               {% endif %}
-            </select>
+            
             <div class="side-bar flexY" style="text-align: right;">
                   <div class="control-buttons" style="align-items: right;">
                      <div>

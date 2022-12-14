@@ -6,12 +6,28 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>Answer Question</title>
+      <style>
+         #form input {
+            background-color: transparent;
+            color: white;
+            min-height: 40px; 
+            padding: .5rem;
+            border-style: dotted;
+            border-radius: 5px;
+         }
+
+         button {
+            background-color: var(--dark-blue);
+            border-radius: 5px;
+            color: white;
+         }
+      </style>
    </head>
    <body>
       <div style="width:100%">{% include 'flashcard-header.html' %}</div>
 
       <div class="flashcard limit marg1 unselect flexY jcenter jaround" style="margin-top: 5rem; text-align: center;">
-         <form method="POST">
+         <form method="POST" id="form">
             {% csrf_token %}
             {% if messages %}
                <div class="messages" style="margin: auto; text-align: center;">
@@ -25,7 +41,8 @@
             <br/>
             Answer: <input type="text" value="" name="answer" class="marg1">
             <br/>
-            <input type="submit">
+            <button type="submit" class="pad1">Answer</button>
+            <!-- <input type="submit"> -->
             
         </form>
          <!-- <a href="/flashcard/view/1/quiz/{{ question_id }}/next">Next</a>

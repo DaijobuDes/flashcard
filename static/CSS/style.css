@@ -200,8 +200,10 @@ input {
 }
 
 .flashcard {
-   width: auto;
-   width: 100%;
+   /* width: auto;
+   width: 100%; */
+   min-width: 400px;
+   width: 60%;
    min-height: 200px;
    background-color: var(--dark-blue);
    align-items: center;
@@ -338,7 +340,7 @@ table, th, td {
    position: fixed;
    left: 10%;
    top: clamp(200px, 25%, 30%);
-   z-index: 2;
+   z-index: 1;
 }
 
 .side-bar div {
@@ -353,4 +355,33 @@ table, th, td {
 
 .docu-upload:hover {
    background-color: #21597e;
+}
+
+.placeholder {
+   width: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.placeholder img{
+   float: right;
+   max-width: 200px;
+}
+
+#content{
+   border-radius: 5px;
+   border: 2px solid var(--light-blue);
+}
+
+.deck_name {
+   display: flex;
+   margin-top: 1rem;
+   align-items: center;
+   text-align: center;
+}
+
+.deck_name * {
+   height: 40px;
+   font-size: 20px;
+   margin: 0 1rem;
 }

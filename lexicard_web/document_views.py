@@ -52,7 +52,6 @@ class UploadDocumentView(View):
     template_name = "document-upload.html"
 
     def post(self, request):
-        print("hahahha")
         form = UploadDocForm(request.POST, request.FILES)
 
         doc_files = request.FILES.getlist('doc_file')
@@ -64,11 +63,24 @@ class UploadDocumentView(View):
             date_mod = str(datetime.now(tz=get_current_timezone())+timedelta(hours=8))
 
             """ TODO: Check if valid file format """
-            """ TODO: Check if unique name in regards with the user_id"""
+            flag = 1
+            for k, f in Document.FILE_FORMAT:
+                print(k)
+                if(doc_format == k):  
+                    flag = 1
+                    break
+                else:
+                    flag = 0;    
 
-            document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_file.name, document_format = doc_format, date_modified = date_mod)
-            document.save()
-            doc_list.append(document.document_name)
+            if(flag == 0):
+                return render(request, self.template_name, {'invalidfileformat': 'Invalid file format!'})
+            else:
+                document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_file.name, document_format = doc_format, date_modified = date_mod)
+                document.save()
+
+            """ TODO: Check if unique name in regards with the user_id"""
+                          
+            
         return redirect("viewAllDocs")
 
     def get(self, request):
@@ -81,13 +93,23 @@ class RenameDocumentView(View):
         id=request.POST.get('id','')
         type=request.POST.get('type','')
         value=request.POST.get('value','')
-        #document = Document.objects.get(document_id=id)
+        document = Document.objects.get(document_id=id)
         print(value)
 
         if type=="name":
-            name = value
+            doc_name = value
+        
+        if(doc_name.__contains__('.')):
+            x = doc_name.split('.')
+            if(document.document_format == x[1]):
+                doc_name = doc_name
+            else:
+                doc_name = x[0]+"."+document.document_format.lower()
+        else:
+            doc_name = doc_name +"."+document.document_format.lower()
 
-        Document.objects.filter(document_id=id).update(document_name= name)
+        print(doc_name)
+        Document.objects.filter(document_id=id).update(document_name= doc_name)
 
         return redirect("viewAllDocs")
 

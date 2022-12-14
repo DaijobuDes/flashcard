@@ -94,15 +94,15 @@
                      </tr>
                   </thead>
                   <tbody>
-                     <form  method="post">
+                     <form  method="post" onsubmit="return checkforblank()">
                         {% csrf_token %}
                      {% for reminder in reminders %}
    
                      <tr id="{{ reminder.reminder_id }}">
                         <td class="td_checkbox"><input type="checkbox" id="rem_delete" name="reminder_id[]" value="{{ reminder.reminder_id }}"/></td>
-                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="date">{{ reminder.reminder_timestamp }}</td>
-                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="time">{{ reminder.reminder_timestamp }}</td>
-                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="name">{{ reminder.reminder_name }}</td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="date" id="date">{{ reminder.reminder_timestamp }}</td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="time" id="time">{{ reminder.reminder_timestamp }}</td>
+                        <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="name" id="name">{{ reminder.reminder_name }}</td>
                         <td class="editableSched" data-id="{{ reminder.reminder_id }}" data-type="details">{{ reminder.reminder_label }}</td>
                      </tr>
                      {% endfor %}
@@ -141,8 +141,10 @@
                 {
                     input_type="time";
                 }
-                var input="<input type='"+input_type+"' class='input-data' value='"+value+"' class='form-control'>";
-
+                var input="<input type='"+input_type+"' class='input-data' value='"+value+"' class='form-control' >";
+                //var req_date = document.getElementById('date');
+                //req_date.setAttribute('required', '');
+                
                 $(this).html(input);
                 $(this).removeClass("editableSched")
             });
@@ -170,6 +172,12 @@
                 }
             });
             
+            function checkforblank(){
+               if (document.getElementById('name').value == ""){
+                  alert('Name field is empty');
+                  return false;
+               }
+            }
  
             function sendToServer(id,value,type, csrf){
                 console.log(id);

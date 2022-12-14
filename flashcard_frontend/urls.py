@@ -61,7 +61,6 @@ urlpatterns = [
     path('schedule/', schedule_views.ScheduleView.as_view(), name='viewAllSched'),
     path('schedule/create/', schedule_views.CreateSchedView.as_view(), name='createSched'),
     #path('schedule/delete/',schedule_views.DeleteSchedView.as_view(), name='deleteSched'),
-    #path('schedule/update/',schedule_views.UpdateSchedView.as_view(), name='updateSched'),
     path('schedule/update/',schedule_views.UpdateSchedView.as_view(), name='updateSched'),
 
 

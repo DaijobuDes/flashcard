@@ -18,7 +18,7 @@ class ScheduleView(View):
 
     def get(self, request):
         reminders = Reminders.objects.filter(user_id = request.user.user_id).order_by('reminder_timestamp')
-        
+        print(reminders[2].reminder_timestamp)
         context = {
             'reminders': reminders
         }
@@ -61,7 +61,8 @@ class CreateSchedView(View):
 
         reminder = Reminders.objects.create(user_id = request.user, reminder_name = name, reminder_label = label, reminder_timestamp = timedate)
         reminder.save()
-        return render(request, self.template_name)
+        #return render(request, self.template_name)
+        return redirect("viewAllSched")
 
 """ Update """
 class UpdateSchedView(View):

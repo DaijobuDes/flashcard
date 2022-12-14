@@ -24,7 +24,7 @@ class DocumentView(View):
     template_name = "documents.html"
 
     def get(self, request):
-        documents = Document.objects.filter(user_id = request.user)
+        documents = Document.objects.filter(user_id = request.user).order_by('document_id')
         return render(request, self.template_name, {'documents':documents})
 
     """ Delete Document """
@@ -58,6 +58,8 @@ class UploadDocumentView(View):
         doc_list = [] #list of file url
         for doc_file in doc_files:
             doc_file = doc_file
+            doc_name = pathlib.Path(doc_file.name).stem
+            print(doc_name)
             doc_format = pathlib.Path(doc_file.name).suffix.upper() #Get the file format from the file name and change it to uppercase. Example output: .PDF
             doc_format = doc_format.replace('.', "") #Remove the dot(.) in the front. Example Output: PDF
             date_mod = str(datetime.now(tz=get_current_timezone())+timedelta(hours=8))
@@ -75,7 +77,7 @@ class UploadDocumentView(View):
             if(flag == 0):
                 return render(request, self.template_name, {'invalidfileformat': 'Invalid file format!'})
             else:
-                document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_file.name, document_format = doc_format, date_modified = date_mod)
+                document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_name, document_format = doc_format, date_modified = date_mod)
                 document.save()
 
             """ TODO: Check if unique name in regards with the user_id"""
@@ -93,22 +95,11 @@ class RenameDocumentView(View):
         id=request.POST.get('id','')
         type=request.POST.get('type','')
         value=request.POST.get('value','')
-        document = Document.objects.get(document_id=id)
         print(value)
 
         if type=="name":
             doc_name = value
-        
-        if(doc_name.__contains__('.')):
-            x = doc_name.split('.')
-            if(document.document_format == x[1]):
-                doc_name = doc_name
-            else:
-                doc_name = x[0]+"."+document.document_format.lower()
-        else:
-            doc_name = doc_name +"."+document.document_format.lower()
-
-        print(doc_name)
+    
         Document.objects.filter(document_id=id).update(document_name= doc_name)
 
         return redirect("viewAllDocs")

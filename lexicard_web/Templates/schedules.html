@@ -183,7 +183,7 @@
                 console.log(value);
                 console.log(type);
                   $.ajax({
-                    url:"http://127.0.0.1:8000/schedule/update/",
+                    url:"{% url 'updateSched'%}",
                     method:"POST",
                     data:{id:id,type:type,value:value, csrfmiddlewaretoken:'{{csrf_token}}'},
                 })

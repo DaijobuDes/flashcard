@@ -18,7 +18,7 @@ class ScheduleView(View):
 
     def get(self, request):
         reminders = Reminders.objects.filter(user_id = request.user.user_id).order_by('reminder_timestamp')
-        print(reminders[2].reminder_timestamp)
+        # print(reminders[2].reminder_timestamp)
         context = {
             'reminders': reminders
         }

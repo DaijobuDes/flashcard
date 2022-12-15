@@ -74,7 +74,12 @@
                         <td class="editable" data-id="{{ document.document_id }}" data-type="name">{{ document.document_name }}</td>
                         <td>{{ document.date_modified }}</td>
                         <td>{{ document.document_format }}</td>
-                        <td>{{ document.filesize }}</td>
+                        <td>{{ document.filesize }} 
+                           <button id="{{ document.document_id }}" type="submit" name="download" value="{{ document.document_id }}" style="display:none"></button>
+                           <label for="{{ document.document_id }}" style="float:right;">
+                              <i class="fa-solid fa-download" ></i>
+                           </label>
+                        </td>
                      </tr>
                      
                      {% endfor %}
@@ -142,7 +147,7 @@
                 console.log(value);
                 console.log(type);
                   $.ajax({
-                    url:"http://127.0.0.1:8000/document/rename/",
+                    url:"{% url 'renameDoc' %}",
                     method:"POST",
                     data:{id:id,type:type,value:value, csrfmiddlewaretoken:'{{csrf_token}}'},
                 })

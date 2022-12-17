@@ -198,7 +198,13 @@ class FlashcardCreateView(View):
     template_name = "test.html"
 
     def get(self, request):
-        return render(request, self.template_name, {"classes": Classes.objects.filter(user_id=request.user)})
+        prefs = User.objects.get(user_id=request.user.user_id)
+        classes = Classes.objects.filter(user_id=request.user)
+        context = {
+            "prof" : prefs,
+            "classes" : classes,
+        }
+        return render(request, self.template_name, context)
 
 
     def post(self, request):
@@ -485,3 +491,20 @@ class FlashcardRemoveQuestion(View):
         ).delete()
 
         return redirect(f"/flashcard/view/{deck_id}/delete")
+
+class EditPrefView(View):
+    def post(self, request):
+        profile = User.objects.filter(user_id=request.user.user_id);
+
+        term_bg = request.POST.get("term_bg")
+        term_txt = request.POST.get("term_txt")
+        question_bg = request.POST.get("question_bg")
+        question_txt = request.POST.get("question_txt")
+
+        profile.update(
+            term_bg_color = term_bg,
+            term_txt_color = term_txt,
+            question_bg_color = question_bg,
+            question_txt_color = question_txt,
+        )
+        return redirect("viewAllDocs")

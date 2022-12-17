@@ -6,6 +6,14 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>{{ request.user }}</title>
+      <style>
+         button {
+            background-color: var(--dark-blue);
+            border-radius: 5px;
+            color: white;
+            padding: 1rem;
+         }
+      </style>
    </head>
    <body>
       <div style="width:100%">{% include 'header.html' %}</div>
@@ -24,7 +32,7 @@
                   {% csrf_token %}
                   {% comment %} {{ form.as_p }} {% endcomment %}
                   <input type="file" name="image" accept="image/*" id="pp-image" style="display: none" onchange="loadFile(event)">
-                  <button type="submit" name="pic_update" value="pic_update" style="color: black" class="pad1">Save Image</button>
+                  <button type="submit" name="pic_update" value="pic_update">Save Image</button>
             </div>
             <div class="profile-details flexY jcenter">
                {% if messages %}
@@ -43,10 +51,10 @@
                   <input name="mail" value="{{request.user.email}}" type="email">
                </div>
                <div class="p-children">
-                  <button type="submit" name="update" value="update" style="width: 100%; color: black">Save</button>
+                  <button type="submit" name="update" value="update" style="width: 100%;">Save</button>
                </div>
                <div class="p-children">
-                  <button type="submit" name="delete" value="delete" style="width: 100%; color: red">Delete Account</button>
+                  <button type="submit" name="delete" value="delete" style="width: 100%; color: red; background-color: white">Delete Account</button>
                </div>
             </div>
       </div>

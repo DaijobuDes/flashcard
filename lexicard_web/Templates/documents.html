@@ -74,7 +74,12 @@
                         <td class="editable" data-id="{{ document.document_id }}" data-type="name">{{ document.document_name }}</td>
                         <td>{{ document.date_modified }}</td>
                         <td>{{ document.document_format }}</td>
-                        <td>{{ document.filesize }}</td>
+                        <td>{{ document.filesize }} 
+                           <button id="{{ document.document_id }}" type="submit" name="download" value="{{ document.document_id }}" style="display:none"></button>
+                           <label for="{{ document.document_id }}" style="float:right;">
+                              <i class="fa-solid fa-download" ></i>
+                           </label>
+                        </td>
                      </tr>
                      
                      {% endfor %}
@@ -100,6 +105,7 @@
                );
          } );
       </script>
+
       <!-- Rename -->
       <script>
          $(document).ready(function(){
@@ -111,7 +117,7 @@
                 $(this).html(input);
                 $(this).removeClass("editable")
             });
- /*  
+   
             $(document).on("blur",".input-data",function(){
                 var value=$(this).val();
                 var td=$(this).parent("td");
@@ -120,7 +126,8 @@
                 td.addClass("editable");
                 var type=td.data("type");
                 sendToServer(td.data("id"),value,type);
-            });*/
+            });
+
             $(document).on("keypress",".input-data",function(e){
                 var key=e.which;
                 if(key==13){
@@ -140,12 +147,13 @@
                 console.log(value);
                 console.log(type);
                   $.ajax({
-                    url:"http://127.0.0.1:8000/document/rename/",
+                    url:"{% url 'renameDoc' %}",
                     method:"POST",
                     data:{id:id,type:type,value:value, csrfmiddlewaretoken:'{{csrf_token}}'},
                 })
                 .done(function(response){
                     console.log(response);
+                    location.reload();
                 })
                 .fail(function(){
                    console.log("Error Occured");
@@ -154,7 +162,7 @@
             }
         });
       </script>
-
+      <!-- DELETE DOCUMENT -->
       <script>
          $(document).ready(function() {
                $('#btn_delete').click(function(){ 
@@ -166,10 +174,15 @@
                      })
 
                   if(id.length === 0){
-                     alert("No item selected") 
+                     alert("No document selected") 
                   }
                   else{   
-                     if(confirm("Are you sure you want to delete this document? ")){
+                     if(id.length === 1)
+                        confirmstring = "Are you sure you want to delete the selected document? "
+                     else
+                        confirmstring = "Are you sure you want to delete the selected documents? "
+                     
+                     if(confirm(confirmstring)){
                         console.log(id)
                         $.ajax({
                            url:".",

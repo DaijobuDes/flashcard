@@ -17,16 +17,13 @@ class ScheduleView(View):
     template_name = "schedules.html"
 
     def get(self, request):
-        reminders = Reminders.objects.filter(user_id = request.user)
-
-        #date = Reminders.reminder_timestamp.strftime("%Y-%m-%d")
-        #time = Reminders.reminder_timestamp.strftime("%H:%M:%S")
+        reminders = Reminders.objects.filter(user_id = request.user.user_id).order_by('reminder_timestamp')
+        # print(reminders[2].reminder_timestamp)
         context = {
-            #'reminder_date': date,
-           # 'reminder_time': time,
             'reminders': reminders
         }
         return render(request, self.template_name, context)
+        
     """ Delete Sched """
     def post(self, request, *args, **kwargs):
         reminder_ids = request.POST.getlist('id[]')
@@ -50,11 +47,9 @@ class CreateSchedView(View):
 
     template_name = "schedule-create.html"
     def get(self, request):
-        print("piste")
         return render(request, self.template_name)
 
     def post(self, request):
-        print("hahaha")
         form = ScheduleForm(request.POST)
         name = request.POST.get("name")
         label = request.POST.get("label")
@@ -66,7 +61,8 @@ class CreateSchedView(View):
 
         reminder = Reminders.objects.create(user_id = request.user, reminder_name = name, reminder_label = label, reminder_timestamp = timedate)
         reminder.save()
-        return render(request, self.template_name)
+        #return render(request, self.template_name)
+        return redirect("viewAllSched")
 
 """ Update """
 class UpdateSchedView(View):

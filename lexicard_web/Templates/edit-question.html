@@ -6,21 +6,47 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>Edit Question</title>
+      <style>
+         textarea{
+            background-color: transparent;
+            color: white;
+            min-width: 800px; 
+            min-height: 100px; 
+            padding: .5rem;
+            border-style: dotted;
+            border-radius: 5px;
+         }
+
+         #form input {
+            background-color: transparent;
+            color: white;
+            min-height: 40px; 
+            padding: .5rem;
+            border-style: dotted;
+            border-radius: 5px;
+         }
+
+         button {
+            background-color: var(--dark-blue);
+            border-radius: 5px;
+            color: white;
+         }
+      </style>
    </head>
    <body>
       <div style="width:100%">{% include 'flashcard-header.html' %}</div>
 
       <div class="flashcard limit marg1 unselect flexY jcenter jaround" style="margin-top: 5rem; text-align: center;">
-         <form method="POST">
+         <form method="POST" id="form">
             {% csrf_token %}
             <input type="hidden" value="{{ qa.QA_id }}" name="id">
-            Question: <hr><textarea type="text" name="answer" class="marg1" style="min-width: 800px; min-height: 100px; color: black; padding: .5rem">{{ qa.flashcard_answer }}</textarea>
+            Definition:<br style="visibility:hidden"><textarea type="text" name="answer" class="marg1">{{ qa.flashcard_answer }}</textarea>
             
             <!-- <input type="text" name="answer" class="marg1" value="{{ qa.flashcard_answer }}" style="min-width: 300px; min-height: 100px;"> -->
             <br/>
-            Answer: <input type="text" name="question" class="marg1" value="{{ qa.flashcard_question }}">
+            Term: <input type="text" name="question" class="marg1" value="{{ qa.flashcard_question }}">
             <br/>
-            <button type="submit" class="pad1" style="color:black">Save Edit</button>
+            <button type="submit" class="pad1">Save Edit</button>
             <!-- <input type="submit"> -->
         </form>
       </div>

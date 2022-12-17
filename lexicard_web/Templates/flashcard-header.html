@@ -13,7 +13,7 @@
 
          #toggle{
             position:fixed;
-            z-index:2;
+            z-index:3;
             background-color: #007acc00;
             /* background-color: var(--dark-blue); */
             min-height: 100vh;
@@ -135,7 +135,7 @@
                   <li style="margin-left:auto" class="bold" onclick="location.href='/flashcard/create/'"><i class="fa bold">Create</i></li>
                   <li class="bold" onclick="location.href='/flashcard/edit/'"><i class="fa bold">Rename</i></li>
                   <li class="bold" onclick="location.href='/flashcard/generate/'"><i class="fa bold">Download</i></li>
-                  <li class="bold" onclick="location.href='/home/'"><i class="fa bold">Share</i></li>
+                  <li class="bold" onclick="shareLink()"><i class="fa bold">Share</i></li>
                   <li class="bold" onclick="location.href='/flashcard/delete/'"><i class="fa bold">Delete</i></li>
                   <!-- <li>About Us</li> -->
                   <label for="search-check">
@@ -191,4 +191,5 @@
          </aside>
       </body>
    </form>
+   <script src="flashcard-script.js"></script>
 </html>

@@ -55,17 +55,17 @@
                                    <col width="65%">
                                    <col width="35%">
                                    <tr>
-                                       <td>Name: <input type="text" name="name" class="sched-input" ></input></td>
-                                       <td>Date: <input type="date" name="date" class="sched-input" ></input></td>
+                                       <td>Name: <input type="text" name="name" class="sched-input" required></input></td>
+                                       <td>Date: <input type="date" name="date" class="sched-input" required></input></td>
                                    </tr>
                                    <tr>
-                                       <td>Label: <input type="text" name="label" class="sched-input" ></input></td>
-                                       <td>Time: <input  type="time" name="time" class="sched-input"></input></td>
+                                       <td>Details: <input type="text" name="label" class="sched-input" ></input></td>
+                                       <td>Time: <input  type="time" name="time" class="sched-input" required></input></td>
                                    </tr> 
                             
                            </table>
                              <div class="modal-footer">
-                                 <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/schedule/'">Cancel</button>
+                                 <button type="button" class="action-button" style="width:fit-content" data-bs-dismiss="modal" onclick="location.href='/schedule/'">Close</button>
                                  <button type="submit" class="action-button" style="width:fit-content">Create Schedule</button>
                              </div>   
                            </form>                       
@@ -78,6 +78,27 @@
       </div>
 
        {% include "footer.html" %} 
+       min date
+       <script>
+         function isBeforeToday(date) {
+            const today = new Date();
+
+            today.setHours(0, 0, 0, 0);
+
+            return date < today;
+            }
+
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            console.log(isBeforeToday(yesterday)); // 👉️ true
+            console.log(isBeforeToday(tomorrow)); // 👉️ false
+            console.log(isBeforeToday(new Date())); // 👉️ false
+
+       </script>
       <script src="{% static 'javascript/script.js' %}"></script>
    </body>
 </html>

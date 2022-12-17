@@ -12,12 +12,19 @@
       <div style="width:100%">{% include 'header.html' %}</div>
 
 
-      <form style="margin:100px"method="post">
-        {% csrf_token %}
-        <h5>Enter class name: </h3><input placeholder="e.g. CS441" name="class_name" required></input></li>
-        <button type="submit">Submit</button>
+      <form style="margin:100px" method="post">
+         {% csrf_token %}
+         <!-- <h5>Enter class name: </h5> -->
+         <div class="placeholder">
+            <i style="font-size: 24px; margin-right: 3rem;">Let's get going!</i>
+            <img src="{% static 'notebook.png' %}">
+         </div>
+         <div class="flexX marg1 pad1">
+            <input placeholder="e.g. CS441" name="class_name" style="height:50px; font-size: 36px; width: 200px" required></input></li>
+            <button type="submit" class="pad1" style="background-color: var(--dark-blue); border-radius: 5px; height: 50px;">Submit</button>
+         </div>
       </form>
-
+      
       {% include "footer.html" %}
       <script src="{% static 'javascript/script.js' %}"></script>
       <script src="{% static 'javascript/flashcard-script.js' %}"></script>

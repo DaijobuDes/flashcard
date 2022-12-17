@@ -200,8 +200,10 @@ input {
 }
 
 .flashcard {
-   width: auto;
-   width: 100%;
+   /* width: auto;
+   width: 100%; */
+   min-width: 400px;
+   width: 60%;
    min-height: 200px;
    background-color: var(--dark-blue);
    align-items: center;
@@ -326,69 +328,60 @@ table, th, td {
 
  br {display:block}
 
-.text-selected {
-   background-color: var(--action);
+#inputText span{
+   cursor: pointer;
+}
+
+.docx-wrapper * {
    color: black;
 }
 
-.qn {
-   background-color: red;
+.side-bar {
+   position: fixed;
+   left: 10%;
+   top: clamp(200px, 25%, 30%);
+   z-index: 1;
 }
 
-.selected-end{
-   padding-right: .5rem;
-   border-top-right-radius: 5px;
-   border-bottom-right-radius: 5px;
+.side-bar div {
+   margin: 1rem 0;
 }
 
-.selected-st {
-   padding-left: .5rem;
-   border-top-left-radius: 5px;
-   border-bottom-left-radius: 5px;
-}
-
-.def {
-   background-color: blue;
-}
-
-.qn-selected {
-   background-color: red;
-   transition: .3s ease;
-}
-
-.qn-selected-st{
-   background-color: red;
-   padding-left: .5rem;
-   border-radius: 5px 0 0 5px;
-   transition: .3s ease;
-}  
-
-.qn-selected-end{
-   background-color: red;
-   padding-right: .5rem;
-   border-radius: 0 5px 5px 0;
-   transition: .3s ease;
-}
-
-.def-selected {
-   background-color: blue;
-   transition: .3s ease;
-}
-
-.def-selected-st{
-   background-color: blue;
-   padding-left: .5rem;
-   border-radius: 5px 0 0 5px;
-   transition: .3s ease;
-}  
-
-.def-selected-end{
-   background-color: blue;
-   padding-right: .5rem;
-   border-radius: 0 5px 5px 0;
-   transition: .3s ease;
-}
-
-#inputText span{
+.docu-upload {
+   background-color: var(--dark-blue);
    cursor: pointer;
+   transition: 0.3s ease;
+}
+
+.docu-upload:hover {
+   background-color: #21597e;
+}
+
+.placeholder {
+   width: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.placeholder img{
+   float: right;
+   max-width: 200px;
+}
+
+#content{
+   border-radius: 5px;
+   border: 2px solid var(--light-blue);
+}
+
+.deck_name {
+   display: flex;
+   margin-top: 1rem;
+   align-items: center;
+   text-align: center;
+}
+
+.deck_name * {
+   height: 40px;
+   font-size: 20px;
+   margin: 0 1rem;
 }

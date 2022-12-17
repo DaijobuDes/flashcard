@@ -2,7 +2,7 @@
 {% load static %}
 <html>
    <head>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?version=1">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
       <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
       <title>Create Page</title>
@@ -24,6 +24,18 @@
          button:disabled:hover {
             background-color: #0f6198;;
          }
+
+         input[type=color] {
+            height: 20px;
+            width: 20px;
+         }
+         .text-selected {
+            background-color: var(--action);
+            color: black !important;
+         } 
+      </style>
+      <style id="pageStyle">
+
       </style>
    </head>
 
@@ -31,35 +43,51 @@
 
          <div style="width:100%">{% include 'header.html' %}</div>
          <form method="post" enctype="multipart/form-data" style="width: 100%; display: flex; flex-direction: column; align-items: center; position:relative;">
-            <input id="myFile" name="file" type="file" style="margin-top:5rem" onchange="gettext(event)">
-            <div class="deck_name">
-               <input name="deckName" id="deckName" style="margin-top: 5rem" placeholder="Deck Name" required>
-            </div>
-            <section id="content" class="pad1 marg1 scrollY content" style="width: clamp(300px, 60vw, 1200px);height: clamp(300px, 40vh, 1400px); background: var(--dark-blue);">
-               <p id="inputText">Currently, <br>this isnt a te'xt box.</p>
-            </section>
-            <div class="control-buttons">
-               <button type="button" id="term" class="pad1 unselect" style="color:black" onclick="getQuestion()">Term</button>
-               <button type="button" class="pad1 unselect" style="color:black" onclick="eraseQuestion()">Remove Term</button>
-
-               <button type="button" id="definition" class="pad1 unselect" style="color:black" onclick="getAnswer()">Definition</button>
-            </div>
-
-            <section id="form1" style="display:none">
-               <!-- <input name="question" value="question3">
-               <input name="answer" value="answer3"> -->
-            </section>
-            <select name="classes" style="color:black" class="marg1">
-               {% if classes|length > 0 %}
-                  {% for c in classes %}
-                  <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
-                  {% endfor %}
-               {% else %}
-                  <option value="{{ c.classes_id }}"> Please create a class first </option>
-               {% endif %}
-
+            <input id="myFile" name="file" type="file" style="display:hidden" onchange="gettext(event)">
+            <label for="myFile" style="margin-top: 2rem">
+               <div class="marg1 pad1 docu-upload"><i class="fa-solid fa-upload"></i></div>
+            </label>
+            <div class="deck_name limit">
+               <label style="text-align: center; line-height: 40px;">Deck Name: </label>
+               <input name="deckName" id="deckName" required>
+               <label style="text-align: center; line-height: 40px;">Class Name: </label>
+               <select name="classes" style="color:black">
+                  {% if classes|length > 0 %}
+                     {% for c in classes %}
+                     <option value="{{ c.classes_id }}"> {{ c.classes_name }} </option>
+                     {% endfor %}
+                  {% else %}
+                     <option value="{{ c.classes_id }}"> Please create a class first </option>
+                  {% endif %}
                </select>
+            </div>
+            
+            <div class="side-bar flexY" style="text-align: right;">
+                  <div class="control-buttons" style="align-items: right;">
+                     <div>
+                        <input class="input" id="question_bg" type="color" value="{{ prof.question_bg_color }}"/>
+                        <input class="input" id="question_txt" type="color" value="{{ prof.question_txt_color }}"/>
+                        <button type="button" id="term" class="pad1 unselect" style="color:black" onclick="getQuestion()">Term</button>
+                     </div>
+                     <div>
+                        <input class="input" id="term_bg" type="color" value="{{ prof.term_bg_color }}"/>
+                        <input class="input" id="term_txt" type="color" value="{{ prof.term_txt_color }}"/>
+                        <button type="button" id="definition" class="pad1 unselect" style="color:black" onclick="getAnswer()">Definition</button>
+                     </div>
+                     <div>
+                        <button type="button" class="pad1 unselect" style="color:black" onclick="eraseQuestion()">Remove Term</button>
+                     </div>
+                     <button type="button" id="save_pref" class="pad1" style="color:black">Reset Colors</button>
+
+                  </div>
+            </div>
+            <section id="content" class="pad1 marg1 scrollY content" style="width: clamp(300px, 60vw, 1200px);min-height: 600px; height: fit-content; background: var(--dark-blue);">
+               <p id="inputText">Try and create flashcards!</p>
+            </section>
+            <section id="form1" style="display:none">
+            </section>       
             <button onmousedown="questionSubmit()" type="submit" class="pad1 marg1" style="color:black; width: 200px" id="submit">submit</button>
+
             {% csrf_token %}
          </form>
          {% include "footer.html" %}
@@ -70,5 +98,55 @@
          <script src="https://unpkg.com/pizzip@3.1.1/dist/pizzip-utils.js"></script>
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
          <script src="{% static 'javascript/create-script.js' %}"></script>
+         <script>
+            const style = document.getElementById('pageStyle');
+            style.innerHTML = ".text-selected {background-color: var(--action);color: black;} .qn {background-color: {{ prof.question_bg_color }}; color: {{ prof.question_txt_color }}; } .selected-end{ padding-right: .5rem; border-top-right-radius: 5px; border-bottom-right-radius: 5px; } .selected-st { padding-left: .5rem; border-top-left-radius: 5px; border-bottom-left-radius: 5px; } .def { background-color: {{ prof.term_bg_color }}; color: {{ prof.term_txt_color }}; }";
+            $(document).ready(function(){
+               $(".input").change(function(){
+                  const term_txt = document.getElementById('term_txt').value;
+                  const term_bg = document.getElementById('term_bg').value;
+                  const question_txt = document.getElementById('question_txt').value;
+                  const question_bg = document.getElementById('question_bg').value;
+                  $.ajax({
+                     method:"POST",
+                     url: "{% url 'flashcard_prefs' %}",
+                     data: {  term_txt:term_txt, 
+                              term_bg:term_bg, 
+                              question_txt:question_txt, 
+                              question_bg:question_bg, 
+                              csrfmiddlewaretoken:'{{csrf_token}}'
+                     },
+                     success: function(){
+                        console.log("Successfully updated preferences");
+                     }
+                  });
+                  style.innerHTML = ".qn {background-color: " + question_bg + "; color: " + question_txt +"; } .selected-end{ padding-right: .5rem; border-top-right-radius: 5px; border-bottom-right-radius: 5px; } .selected-st { padding-left: .5rem; border-top-left-radius: 5px; border-bottom-left-radius: 5px; } .def { background-color: " + term_bg +"; color: " + term_txt +"; }";
+               });
+               $("#save_pref").click(function(){
+                  const term_txt = document.getElementById('term_txt');
+                  const term_bg = document.getElementById('term_bg');
+                  const question_txt = document.getElementById('question_txt');
+                  const question_bg = document.getElementById('question_bg');
+                  term_txt = '#FFFFFF';
+                  term_bg = '#0000FF';
+                  question_bg = '#FF0000'
+                  question_txt = '#FFFFFF';
+                  $.ajax({
+                     method:"POST",
+                     url: "{% url 'flashcard_prefs' %}",
+                     data: {  term_txt:'#FFFFFF', 
+                              term_bg:'#0000FF', 
+                              question_txt:'#FFFFFF', 
+                              question_bg:'#FF0000', 
+                              csrfmiddlewaretoken:'{{csrf_token}}'
+                     },
+                     success: function(){
+                        console.log("Successfully reinitialized preferences");
+                     }
+                  });
+                  style.innerHTML = ".qn {background-color: " + question_bg + "; color: " + question_txt +"; } .selected-end{ padding-right: .5rem; border-top-right-radius: 5px; border-bottom-right-radius: 5px; } .selected-st { padding-left: .5rem; border-top-left-radius: 5px; border-bottom-left-radius: 5px; } .def { background-color: " + term_bg +"; color: " + term_txt +"; }";
+               });
+            });
+         </script>
       </body>
 </html>

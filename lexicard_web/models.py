@@ -27,6 +27,11 @@ class User(AbstractBaseUser):
     password = models.CharField(max_length=256, blank=True)
     notifs = models.BooleanField(default=False)
 
+    term_bg_color = models.CharField(max_length=7, blank=True, default="#FF0000")
+    term_txt_color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
+    question_bg_color = models.CharField(max_length=7, blank=True, default="#0000FF")
+    question_txt_color = models.CharField(max_length=7, blank=True, default="#FFFFFF")
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['password']
 
@@ -49,6 +54,7 @@ class Document(models.Model):
         ("DOCX", "Microsoft Word File"),
         ("RTF", "Rich Text Format"),
         ("TXT", "Text File Format"),
+        ("PDF", "Portable Document Format"),
     ]
     document_file = models.FileField(upload_to=document_dir, max_length=100)
     document_format = models.CharField(max_length=16, choices=FILE_FORMAT, default=None)

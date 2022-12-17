@@ -1,6 +1,18 @@
 # Lexicard
 A website that generates flashcards by providing documents.
 
+## Contributors
+
+Agosto, Fredierick [@Poemeu](https://github.com/Poemeu)
+
+Apas, John Clyde [@Glitch-1010](https://github.com/Glitch-1010)
+
+Caracena, Geralyn [@alyn13](https://github.com/alyn13)
+
+Cellan, Kate Aubrey [@DaijobuDes](https://github.com/DaijobuDes)
+
+Genegabuas, Seejee [@densentsu124](https://github.com/densentsu124)
+
 ## Setup
 1. Install python. Stable version [3.8.9](https://www.python.org/downloads/release/python-389/) and [Git](https://git-scm.com/downloads).
 

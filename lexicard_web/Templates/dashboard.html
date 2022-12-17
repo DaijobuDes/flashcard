@@ -13,17 +13,28 @@
       <!-- <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;"> -->
          <h1><i class="fa-solid fa-window-maximize">&nbsp;Dashboard</i></h1>
          <div class="flexX wide scrollX">
+            {% if flashcard|length > 0 %}
                {% for i in flashcard %}
                <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/view/{{i.deck_id.deck_id}}'">{{ i.deck_id.deck_name }}</div>
                {% endfor %}
-            </div>
+            {% else %}
+               <div class="placeholder">
+                  <i style="font-size: 24px">Hey there! Seeing as you're new, let us first create a <a href="/classes/create"><u>class</u></a> to begin making flashcards!</i>
+                  <img src="{% static 'studying.png' %}">
+               </div>
+            {% endif %}
+         </div>
       </div>
       <div class="dashboard-container wide limit" style="padding: 0 5rem; margin-bottom: 1rem;">
          <h1><i class="fa">Class</i></h1>
          <div class="flexX wide scrollX">
-            {% for i in classes %}
-            <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/classes/view/{{i.classes_id}}'">{{ i.classes_name }}</div>
-            {% endfor %}
+            {% if class|length > 0 %}
+               {% for i in classes %}
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/classes/view/{{i.classes_id}}'">{{ i.classes_name }}</div>
+               {% endfor %}
+            {% else %}
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;">This is how it<br>looks like!</div>
+            {% endif %}
          </div>
       </div>
 

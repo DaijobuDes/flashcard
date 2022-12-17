@@ -187,14 +187,16 @@ class ProfileView(View):
         t = Profile.objects.filter(user_id_id=request.user.user_id)
         if request.POST.get("pic_update"):
             if len(t) == 0:
-                print("empty")
-                data = Profile(
-                    user_id=request.user,
-                    user_image=image[0]
-                )
-                data.save()
+                if not image:
+                    messages.error(request, 'Image input is empty.')
+                    return render(request, self.template_name)
+                else:
+                    data = Profile(
+                        user_id=request.user,
+                        user_image=image[0]
+                    )
+                    data.save()
             else:
-                print("exists")
                 t.delete()
                 data = Profile(
                     user_id=request.user,

@@ -313,7 +313,10 @@ class GenerateFlashcard(View):
         # Terminate if variable is not a valid zipfile
         assert zipfile.is_zipfile(generation)
 
-        return HttpResponse(generation.getbuffer(), content_type="application/zip")
+        data = HttpResponse(generation.getbuffer(), content_type="application/zip")
+        data['Content-Disposition'] = f'attachment; filename="flashcard_deck{deck_id}.zip"'
+
+        return data
 
 class FlashcardRandomQuestionAndAnswer(View):
     # NOTE: Code optimization is needed

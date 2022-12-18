@@ -207,22 +207,14 @@ class ProfileView(View):
         #this is for profile details manipulation
 
         if request.POST.get("update"):
-            username_check = User.objects.filter(username=uname)
-
+            print('as')
             try:
-                if username_check[0].username != uname:
-                    if username_check.count() > 0:
+                if User.objects.filter(username=uname).exists():
+                    if uname != request.user.username:
                         messages.error(request, 'Username is already in use.')
-                        return render(request, self.template_name)
-            except:
-                pass
-
-            email_check = User.objects.filter(email=mail)
-            try:
-                if email_check[0].email != mail:
-                    if email_check.count() > 0:
+                if User.objects.filter(email=mail).exists():
+                    if mail != request.user.email:
                         messages.error(request, 'Email is already in use.')
-                        return render(request, self.template_name)
             except:
                 pass
 

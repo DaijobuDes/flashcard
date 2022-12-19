@@ -8,10 +8,7 @@
       <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
       <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
       <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-
       <script src="http://code.jquery.com/jquery-2.2.4.min.js"></script><!-- delete with checkbox -->
-      
-
       <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
 
@@ -65,25 +62,21 @@
                      <th>File Size</th>
                   </thead>
                   <tbody>
-                     <form  method="post">
+                     <form method="post" enctype="multipart/form-data">
                      {% csrf_token %}
                      {% for document in documents %}
-                     
                      <tr id="{{ document.document_id }}">
                         <td class="td_checkbox"><input type="checkbox" id="doc_delete" name="doc_id[]" value="{{ document.document_id }}"/></td>
                         <td class="editable" data-id="{{ document.document_id }}" data-type="name">{{ document.document_name }}</td>
                         <td>{{ document.date_modified }}</td>
                         <td>{{ document.document_format }}</td>
-                        <td>{{ document.filesize }} 
-                           <button id="{{ document.document_id }}" type="submit" name="download" value="{{ document.document_id }}" style="display:none"></button>
-                           <label for="{{ document.document_id }}" style="float:right;">
-                              <i class="fa-solid fa-download" ></i>
-                           </label>
+                        <td>{{ document.filesize }}
+                           <button id="{{ document.document_id }}" name="download" style="float:right; border-style:none" />
+                           <i class="fa-solid fa-download" ></i>
                         </td>
                      </tr>
-                     
                      {% endfor %}
-                  </form>
+                     </form>
                   </tbody>
                </table>
                </div>
@@ -167,6 +160,7 @@
          $(document).ready(function() {
                $('#btn_delete').click(function(){ 
                   var id = [];
+                  var type = "delete";
                   var csrf = $('input[name=csrfmiddlewaretoken]').val
 
                   $(':checkbox:checked').each(function(i){
@@ -188,6 +182,7 @@
                            url:".",
                            method:"POST",
                            data: {
+                              type,
                               id,
                               csrfmiddlewaretoken:'{{csrf_token}}'
                            },
@@ -197,6 +192,24 @@
                         })
                      }
                   }                   
+               });
+
+               $("button[name='download']").click(function(){
+                  const id = $(this).attr('id');
+                  var type = "download";
+                  var csrf = $('input[name=csrfmiddlewaretoken]').val
+                  $.ajax({
+                     url:"{% url 'viewAllDocs' %}",
+                     method:"POST",
+                     data: {
+                        type,
+                        id,
+                        csrfmiddlewaretoken:'{{csrf_token}}'
+                     },
+                     success:function(response){
+                              console.log("test");
+                           },
+                  })
                });
          } );
       </script>

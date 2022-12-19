@@ -29,17 +29,25 @@ class DocumentView(View):
 
     """ Delete Document """
     def post(self, request, *args, **kwargs):
-        doc_ids = request.POST.getlist('id[]')
-        for doc_id in doc_ids:
-            print(doc_id)
-            try:
-                document = Document.objects.get(document_id=doc_id)
-                document.delete()
-            except Document.DoesNotExist:
-                document = None
-        notif = request.POST.get('notifs')
-        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
-        return redirect("viewAllDocs")
+        type = request.POST.get('type')
+        if type == "download":
+
+            # TODO: Download code here plox
+            docu = Document.objects.get(id=id)
+
+            return redirect("viewAllDocs")
+        else:
+            doc_ids = request.POST.getlist('id[]')
+            for doc_id in doc_ids:
+                print(doc_id)
+                try:
+                    document = Document.objects.get(document_id=doc_id)
+                    document.delete()
+                except Document.DoesNotExist:
+                    document = None
+            notif = request.POST.get('notifs')
+            User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+            return redirect("viewAllDocs")
 
 class UploadDocumentView(View):
     """

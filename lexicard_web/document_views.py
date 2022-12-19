@@ -29,25 +29,47 @@ class DocumentView(View):
 
     """ Delete Document """
     def post(self, request, *args, **kwargs):
-        type = request.POST.get('type')
-        if type == "download":
+        doc_ids = request.POST.getlist('id[]')
+        for doc_id in doc_ids:
+            print(doc_id)
+            try:
+                document = Document.objects.get(document_id=doc_id)
+                document.delete()
+            except Document.DoesNotExist:
+                document = None
+        notif = request.POST.get('notifs')
+        User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
+        return redirect("viewAllDocs")
 
-            # TODO: Download code here plox
-            docu = Document.objects.get(id=id)
+class DownloadDocumentView(View):
+    def get(self, request, document_id):
+        docu = Document.objects.get(document_id=document_id)
+        filename = docu.document_name
+        directory = docu.document_file
+        format = docu.document_format.upper()
 
-            return redirect("viewAllDocs")
-        else:
-            doc_ids = request.POST.getlist('id[]')
-            for doc_id in doc_ids:
-                print(doc_id)
-                try:
-                    document = Document.objects.get(document_id=doc_id)
-                    document.delete()
-                except Document.DoesNotExist:
-                    document = None
-            notif = request.POST.get('notifs')
-            User.objects.filter(user_id=request.user.user_id).update(notifs = True if notif == "True" else False)
-            return redirect("viewAllDocs")
+        mime_type_file_formats = {
+            "PPT": "application/vnd.ms-powerpoint",
+            "PPTX": "application/vnd.ms-powerpoint",
+            "DOC": "application/msword",
+            "DOCX": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "RTF": "application/rtf",
+            "TXT": "text/plain",
+            "PDF": "application/pdf"
+        }
+
+        mime_type = None
+
+        if format in mime_type_file_formats:
+            mime_type = mime_type_file_formats.get(format, 0)
+
+        if mime_type == 0:
+            mime_type = "text/plain"
+
+        data = HttpResponse(directory, content_type=mime_type)
+        data['Content-Disposition'] = f'attachment; filename="{filename}"'
+        print("test")
+        return data
 
 class UploadDocumentView(View):
     """

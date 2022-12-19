@@ -41,6 +41,10 @@
             align-items: center;
             justify-items: center;
          }
+
+         button[name=download] {
+            background: none;
+         }
       </style>
       
       <title>Documents</title>
@@ -71,7 +75,7 @@
                         <td>{{ document.date_modified }}</td>
                         <td>{{ document.document_format }}</td>
                         <td>{{ document.filesize }}
-                           <button id="{{ document.document_id }}" name="download" style="float:right; border-style:none" />
+                           <button style="float:right; border-style:none" name="download" onclick="location.href='download/{{ document.document_id }}'" />
                            <i class="fa-solid fa-download" ></i>
                         </td>
                      </tr>
@@ -160,7 +164,6 @@
          $(document).ready(function() {
                $('#btn_delete').click(function(){ 
                   var id = [];
-                  var type = "delete";
                   var csrf = $('input[name=csrfmiddlewaretoken]').val
 
                   $(':checkbox:checked').each(function(i){
@@ -182,7 +185,6 @@
                            url:".",
                            method:"POST",
                            data: {
-                              type,
                               id,
                               csrfmiddlewaretoken:'{{csrf_token}}'
                            },
@@ -192,24 +194,6 @@
                         })
                      }
                   }                   
-               });
-
-               $("button[name='download']").click(function(){
-                  const id = $(this).attr('id');
-                  var type = "download";
-                  var csrf = $('input[name=csrfmiddlewaretoken]').val
-                  $.ajax({
-                     url:"{% url 'viewAllDocs' %}",
-                     method:"POST",
-                     data: {
-                        type,
-                        id,
-                        csrfmiddlewaretoken:'{{csrf_token}}'
-                     },
-                     success:function(response){
-                              console.log("test");
-                           },
-                  })
                });
          } );
       </script>

@@ -57,7 +57,7 @@ urlpatterns = [
     path('document/', document_views.DocumentView.as_view(), name='viewAllDocs'),
     path('document/upload/',document_views.UploadDocumentView.as_view(), name='uploadDoc'),
     path('document/rename/',document_views.RenameDocumentView.as_view(), name='renameDoc'),
-
+    path('document/download/<int:document_id>',document_views.DownloadDocumentView.as_view(), name='downloadDoc'),
 
 
     # Schedule url here

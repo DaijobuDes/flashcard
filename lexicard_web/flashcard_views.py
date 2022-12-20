@@ -208,6 +208,25 @@ class FlashcardCreateView(View):
 
 
     def post(self, request):
+
+        file = request.FILES['file']
+        file_extension = file.name.split(".")[-1].upper()
+
+        valid_file_types = [
+            "PPT", "PPTX", "DOC", "DOCX", "RTF", "TXT", "PDF"
+        ]
+
+        if file_extension not in valid_file_types:
+            # return redirect("/")
+            return JsonResponse({
+                "message": "Invalid file type.",
+                "hint": "Upload a valid file type.",
+                "upload": file_extension,
+                "formats": [
+                    "PPT", "PPTX", "DOC", "DOCX", "RTF", "TXT", "PDF"
+                ]
+            })
+
         questions_array = []
         answers_array = []
 
@@ -216,8 +235,6 @@ class FlashcardCreateView(View):
 
         print(questions_array)
         print(answers_array)
-
-        file = request.FILES['file']
 
         # questions_array.append(request.POST.getlist("question"))
         # answers_array.append(request.POST.getlist("answer"))
@@ -229,7 +246,7 @@ class FlashcardCreateView(View):
             user_id = request.user,
             document_name = file.name,
             document_file = file,
-            document_format = "DOCX",
+            document_format = file_extension,
         )
 
         document.save()

@@ -66,6 +66,7 @@ class DownloadDocumentView(View):
         if mime_type == 0:
             mime_type = "text/plain"
 
+        filename = filename+"."+format.lower()
         data = HttpResponse(directory, content_type=mime_type)
         data['Content-Disposition'] = f'attachment; filename="{filename}"'
         print("test")

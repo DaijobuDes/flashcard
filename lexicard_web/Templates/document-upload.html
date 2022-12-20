@@ -45,8 +45,7 @@
                <div class="modal-dialog">
                   <div class="modal-content">
                      <div class="modal-header">                       
-                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class=""></i>&nbsp; Upload </h1>    
-                                    
+                        <h1 class="modal-title fs-5" id="uploadModalLabel"> <i class="fa-solid fa-upload"></i>&nbsp; Upload </h1>                                      
                      </div>
                         {% if invalidfileformat %}
                         <p style="text-align: center; padding-top: 10px; color: #ca170a; font-weight: bold; font-size: 25px;"> {{ invalidfileformat }}</p>  
@@ -55,10 +54,10 @@
                         {% csrf_token %}
                         <div class="modal-body">
                            <br><br>
-                           <input id="myFile" type="file" multiple name="doc_file" style="display:none" required>
-                           <label for="myFile" style="margin-top: 2rem" style="display: flex;">
+                           <input id="myFile" type="file" multiple name="doc_file"  required>
+                           <!--<label for="myFile" style="margin-top: 2rem" style="display: flex;">
                               <div class="marg1 pad1 docu-upload"><i class="fa-solid fa-upload">&nbsp;Click here to upload!</i></div>
-                           </label>
+                           </label>-->
                            <br>
                            <p style="font-size: 12px; padding: 5px;">Accepted files: DOCX, DOC, PPT, PPTX, RTF, TXT, PDF</p>
                            <br>                          

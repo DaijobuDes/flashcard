@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Place this on bin on your virtual environment
+gunicorn flashcard_frontend.wsgi:application --name flashcard --workers 8 --user=narberal --group=narberal --bind=unix:/tmp/gunicorn.sock --log-level=debug --log-file=-

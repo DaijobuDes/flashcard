@@ -66,10 +66,8 @@ class DownloadDocumentView(View):
         if mime_type == 0:
             mime_type = "text/plain"
 
-        filename = filename+"."+format.lower()
         data = HttpResponse(directory, content_type=mime_type)
         data['Content-Disposition'] = f'attachment; filename="{filename}"'
-        print("test")
         return data
 
 class UploadDocumentView(View):
@@ -89,7 +87,7 @@ class UploadDocumentView(View):
         doc_list = [] #list of file url
         for doc_file in doc_files:
             doc_file = doc_file
-            doc_name = pathlib.Path(doc_file.name).stem
+            doc_name = pathlib.Path(doc_file.name)
             print(doc_name)
             doc_format = pathlib.Path(doc_file.name).suffix.upper() #Get the file format from the file name and change it to uppercase. Example output: .PDF
             doc_format = doc_format.replace('.', "") #Remove the dot(.) in the front. Example Output: PDF
@@ -99,11 +97,11 @@ class UploadDocumentView(View):
             flag = 1
             for k, f in Document.FILE_FORMAT:
                 print(k)
-                if(doc_format == k):  
+                if(doc_format == k):
                     flag = 1
                     break
                 else:
-                    flag = 0;    
+                    flag = 0;
 
             if(flag == 0):
                 return render(request, self.template_name, {'invalidfileformat': 'Invalid file format!'})
@@ -112,8 +110,8 @@ class UploadDocumentView(View):
                 document.save()
 
             """ TODO: Check if unique name in regards with the user_id"""
-                          
-            
+
+
         return redirect("viewAllDocs")
 
     def get(self, request):
@@ -130,7 +128,7 @@ class RenameDocumentView(View):
 
         if type=="name":
             doc_name = value
-    
+
         Document.objects.filter(document_id=id).update(document_name= doc_name)
 
         return redirect("viewAllDocs")

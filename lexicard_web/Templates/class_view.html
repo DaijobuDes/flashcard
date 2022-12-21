@@ -16,7 +16,7 @@
             <h1><i class="fa-solid fa-map-pin">&nbsp;Decks in {{ class.classes_name }}</i></h1>
             <div class="flexX item-container wide scrollX">
                {% for d in decks %}
-               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/view/{{d.deck_id.deck_id}}'">{{ d.deck_name }}</div>
+               <div class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='/flashcard/view/{{d.deck_id}}'">{{ d.deck_name }}</div>
                {% endfor %}
             </div>
          </div>

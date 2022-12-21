@@ -52,6 +52,12 @@ urlpatterns = [
     path('classes/', other_views.ClassesView.as_view()),
     path('classes/view/<int:classes_id>', other_views.ClassView.as_view()),
     path('classes/create/', other_views.ClassCreateView.as_view()),
+    path('classes/rename/', other_views.ClassRenameView.as_view()),
+    path('classes/rename/<int:classes_id>', other_views.ClassRenamingView.as_view()),
+    path('classes/delete/', other_views.ClassDeleteView.as_view()),
+    path('classes/delete/<int:classes_id>', other_views.ClassDeletingView.as_view()),
+
+
 
     # Document urls
     path('document/', document_views.DocumentView.as_view(), name='viewAllDocs'),

@@ -101,6 +101,48 @@ class ClassCreateView(View):
         class_.save()
         return redirect("/classes/")
 
+class ClassRenameView(View):
+    template_name = 'classes-rename.html'
+
+    def get(self, request):
+        classes = Classes.objects.filter(user_id = request.user)
+        context = { "classes": classes }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        classes_id = request.POST.get("classes_id")
+        classes_name = request.POST.get("classes_name")
+        class_ = Classes.objects.filter(classes_id = classes_id, user_id = request.user).update(classes_name = classes_name)
+        return redirect("/classes/")
+
+class ClassRenamingView(View):
+    template_name = 'classes-renaming.html'
+    def get(self, request, classes_id):
+        classes = Classes.objects.get(classes_id=classes_id)
+        context = { "classes" : classes }
+        return render(request, self.template_name, context)
+
+    def post(self, request, classes_id):
+        classes_name = request.POST.get("classes_name")
+        class_ = Classes.objects.filter(classes_id = classes_id, user_id = request.user).update(classes_name = classes_name)
+        return redirect("/classes/")
+
+class ClassDeleteView(View):
+    template_name = 'classes-delete.html'
+
+    def get(self, request):
+        classes = Classes.objects.filter(user_id = request.user)
+        context = { "classes": classes }
+        return render(request, self.template_name, context)
+
+
+class ClassDeletingView(View):
+    def get(self, request, classes_id):
+        if not Classes.objects.filter(classes_id = classes_id, user_id = request.user).exists():
+            return redirect('/classes/')
+        class_ = Classes.objects.filter(classes_id = classes_id, user_id = request.user).delete()
+        return redirect("/classes/")
+
 
 class NotificationView(View):
     template_name = "header.html"

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Rename Class - {{ classes.classes_name }}</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'classes-header.html' %}</div>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+      <div class="pad1 flexY jbetween" style="align-items: center;margin: 150px 0px; width: clamp(390px, 40vw, 1200px); height: 200px; background-color: var(--dark-blue);">
+            <p>{{classes.classes_name}}</p>
+            <label>New name:</label><input name="classes_name">
+            <button type="submit" class="pad1" style="width: 100px; background: black;">Rename</button>
+      </div>
+      </form>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+   </body>
+</html>

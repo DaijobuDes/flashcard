@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/flashcard-styles.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>Classes Delete</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'classes-header.html' %}</div>
+      <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;">
+         <!-- <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem;"> -->
+            <h1><i class="fa-solid fa-folder-open">&nbsp;All Classes</i></h1>
+            <div class="flexX wide scrollX">
+               {% if classes|length > 0 %}
+                  {% for i in classes %}
+                  <div type="submit" class="cell test marg1 flexX bord-rad jcenter unselect" style="align-items: center; text-align: center;" onclick="location.href='{{ i.classes_id }}'" >{{ i.classes_name }}</div>
+                  {% endfor %}
+               {% else %}
+                  <div class="placeholder">
+                     <i style="font-size: 24px">You don't have classes yet. Create a <a href="/flashcard/create"><u>class</u> </a>here! Give it a try, and once you're done, I'll be heading off!</i>
+                     <img src="{% static 'studying2.png' %}">
+                  </div>
+               {% endif %}
+            </div>
+      </div>
+      {% include "footer.html" %}
+      <script src="{% static 'javascript/script.js' %}"></script>
+   </body>
+</html>

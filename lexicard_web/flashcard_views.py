@@ -89,10 +89,10 @@ class FlashcardDeleteView(View):
 
 class FlashcardDelete(View):
     def get(self, request, deck_id):
-        if not Deck.objects.filter(deck_id = deck_id).exists():
+        if not Deck.objects.filter(deck_id = deck_id, user_id= request.user).exists():
             return redirect('/flashcard/')
 
-        Deck.objects.filter(deck_id = deck_id).delete()
+        Deck.objects.filter(deck_id = deck_id, user_id= request.user).delete()
         return redirect("/flashcard/")
 
 class DeckView(View):
@@ -152,7 +152,7 @@ class EditDeckView(View):
         rename = request.POST.get("rename")
         # deck_id = request.POST.get("deck_id")
 
-        Deck.objects.filter(deck_id=deck_id).update(deck_name=rename)
+        Deck.objects.filter(deck_id=deck_id, user_id= request.user).update(deck_name=rename)
 
         Deck.objects.get(deck_id=deck_id)
 

@@ -37,6 +37,12 @@ class User(AbstractBaseUser):
 
     objects = BaseUserManager()
 
+class Messages(models.Model):
+    message_id = models.AutoField(primary_key=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
+    message_body = models.CharField(max_length=256, blank=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+
 
 class Profile(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)

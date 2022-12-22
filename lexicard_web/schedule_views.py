@@ -8,6 +8,9 @@ from django.views.generic import FormView, TemplateView, View
 from django.core.files.storage import FileSystemStorage
 from datetime import date, timedelta, datetime
 from django.utils.timezone import get_current_timezone, make_aware
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 from .forms import *
 from .generate import Generate
@@ -23,7 +26,7 @@ class ScheduleView(View):
             'reminders': reminders
         }
         return render(request, self.template_name, context)
-        
+
     """ Delete Sched """
     def post(self, request, *args, **kwargs):
         reminder_ids = request.POST.getlist('id[]')
@@ -59,8 +62,19 @@ class CreateSchedView(View):
         dt_string = date +" "+ time +":00"
         timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
 
+
+
+
         reminder = Reminders.objects.create(user_id = request.user, reminder_name = name, reminder_label = label, reminder_timestamp = timedate)
         reminder.save()
+
+
+        subject = f'Lexicard Reminder - {name}'
+        message = f'Hi {request.user.username}, your reminder ({label}) has a timestamp of {timedate} has initiated an automated email notification.'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = []
+        recipient_list.append(request.user.email)
+        send_mail( subject, message, email_from, recipient_list)
         #return render(request, self.template_name)
         return redirect("viewAllSched")
 

@@ -58,23 +58,10 @@ class CreateSchedView(View):
         label = request.POST.get("label")
         date = request.POST.get("date")
         time = request.POST.get("time")
-
         dt_string = date +" "+ time +":00"
-        timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
-
-
-
-
+        timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S"))
         reminder = Reminders.objects.create(user_id = request.user, reminder_name = name, reminder_label = label, reminder_timestamp = timedate)
         reminder.save()
-
-
-        subject = f'Lexicard Reminder - {name}'
-        message = f'Hi {request.user.username}, your reminder ({label}) has a timestamp of {timedate} has initiated an automated email notification.'
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = []
-        recipient_list.append(request.user.email)
-        send_mail( subject, message, email_from, recipient_list)
         #return render(request, self.template_name)
         return redirect("viewAllSched")
 

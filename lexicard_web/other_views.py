@@ -27,6 +27,10 @@ class DashboardView(View):
     template_name = 'dashboard.html'
 
     def get(self, request):
+
+        if not request.user.is_authenticated:
+            return redirect('/login')
+
         flashcard = Flashcard.objects.filter(
             user_id = request.user.user_id
         )
@@ -154,3 +158,9 @@ class NotificationView(View):
         # send_mail( subject, message, email_from, recipient_list )
         return render(request, self.template_name)
 
+
+class Error404Page(View):
+    template_name = "404.html"
+
+    def get(self, request):
+        return render(request, self.template_name)

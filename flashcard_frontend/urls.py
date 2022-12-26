@@ -73,9 +73,12 @@ urlpatterns = [
     path('schedule/update/',schedule_views.UpdateSchedView.as_view(), name='updateSched'),
 
 
-
+    # Homepage
     path('home/', other_views.DashboardView.as_view()),
 
+
+    # Error pages
+    path('404', other_views.Error404Page.as_view()),
 
 
 

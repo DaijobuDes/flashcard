@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+      <link rel="icon" href="{% static 'logo.png' %}" type="image/x-icon">
+      <title>404 Not Found</title>
+   </head>
+   <body>
+      <div style="width:100%">{% include 'header.html' %}</div>
+      <div class="dashboard-container wide limit" style="padding-left: 5rem; padding-right: 5rem; padding-top: 5rem; text-align: center;">
+         <h1 class="fa-solid">404 Not Found</h1>
+         <div class="image-404" onclick="history.back()">
+            <img src="{% static '404.png' %}" />
+         </div>
+         <div class="fa-solid" onclick="history.back()">Click here to go back.</div>
+      </div>
+   </body>
+</html>

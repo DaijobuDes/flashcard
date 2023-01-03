@@ -21,9 +21,10 @@ class DashboardView(View):
     Class handler for the main page.
 
     Allowed methods:
-    GET
+    GET POST
 
     """
+
     template_name = 'dashboard.html'
 
     def get(self, request):
@@ -52,7 +53,16 @@ class DashboardView(View):
 
 
 class ClassesView(View):
+    """
+    Class handler for the classes page.
+
+    Allowed methods:
+    GET POST
+
+    """
+
     template_name = 'classes.html'
+
     def get(self, request):
         classes = Classes.objects.filter(
             user_id = request.user.user_id
@@ -78,12 +88,14 @@ class ClassView(View):
     GET POST
 
     """
+
     template_name = "class_view.html"
+
     def get(self, request, classes_id):
         if not Classes.objects.filter(classes_id = classes_id).exists():
             return redirect('/home/')
         class_ = Classes.objects.get(classes_id=classes_id)
-        decks = class_.deck_set.all()
+        decks = class_.deck_set.all()                           # type: ignore
         context = {
             "decks": decks,
             "class": class_,
@@ -94,6 +106,14 @@ class ClassView(View):
         pass
 
 class ClassCreateView(View):
+    """
+    Class handler for the class creation page.
+
+    Allowed methods:
+    GET POST
+
+    """
+
     template_name = 'class_create.html'
 
     def get(self, request):
@@ -106,6 +126,14 @@ class ClassCreateView(View):
         return redirect("/classes/")
 
 class ClassRenameView(View):
+    """
+    Class handler for the class rename.
+
+    Allowed methods:
+    GET POST
+
+    """
+
     template_name = 'classes-rename.html'
 
     def get(self, request):
@@ -120,7 +148,16 @@ class ClassRenameView(View):
         return redirect("/classes/")
 
 class ClassRenamingView(View):
+    """
+    Class handler for the class rename.
+
+    Allowed methods:
+    GET POST
+
+    """
+
     template_name = 'classes-renaming.html'
+
     def get(self, request, classes_id):
         classes = Classes.objects.get(classes_id=classes_id)
         context = { "classes" : classes }
@@ -132,6 +169,14 @@ class ClassRenamingView(View):
         return redirect("/classes/")
 
 class ClassDeleteView(View):
+    """
+    Class handler for the class delete.
+
+    Allowed methods:
+    GET
+
+    """
+
     template_name = 'classes-delete.html'
 
     def get(self, request):
@@ -141,6 +186,14 @@ class ClassDeleteView(View):
 
 
 class ClassDeletingView(View):
+    """
+    Class handler for deleting classes view.
+
+    Allowed methods:
+    GET
+
+    """
+
     def get(self, request, classes_id):
         if not Classes.objects.filter(classes_id = classes_id, user_id = request.user).exists():
             return redirect('/classes/')
@@ -149,7 +202,16 @@ class ClassDeletingView(View):
 
 
 class NotificationView(View):
+    """
+    Class handler for the notification view.
+
+    Allowed methods:
+    GET
+
+    """
+
     template_name = "header.html"
+
     def get(self, request):
         # subject = 'FRICK'
         # message = f'Hi {request.user.username}, frick you'
@@ -160,6 +222,13 @@ class NotificationView(View):
 
 
 class Error404Page(View):
+    """
+    Class handler for error page.
+
+    Allowed methods:
+    GET
+
+    """
     template_name = "404.html"
 
     def get(self, request):

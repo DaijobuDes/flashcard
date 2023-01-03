@@ -57,10 +57,6 @@ class Generate():
         return self.question.save(response, "PNG")
 
     def save_zip(self, user_id, deck_id, question_list, answer_list):
-        # Overwrite file to an empty zip file
-        # with zipfile.ZipFile(f"flashcard_{user_id}_{deck_id}.zip", "w") as zf:
-        #     pass
-
         counter = 0
         flashcard = []
 
@@ -75,24 +71,15 @@ class Generate():
 
         zip_data = io.BytesIO()
 
-        # with zipfile.ZipFile(f"flashcard_{user_id}_{deck_id}.zip", "a") as zf:
         with zipfile.ZipFile(zip_data, "a") as zf:
             for i, j in zip(question_list, answer_list):
-                # print(i, j)
 
                 flashcard[counter].set_term(i)
                 flashcard[counter].set_definition(j)
                 image_data = io.BytesIO()
-                # flashcard[counter].background.save(f"{user_id}_{deck_id}_{counter+1}.png", format="PNG")
                 flashcard[counter].background.save(image_data, format="PNG")
 
-                # self.background.save(image_data, format="PNG")
-                # self.save_image(image_data)
-
                 zf.writestr(f"{user_id}_{deck_id}_{counter}.png", image_data.getbuffer())
-
-                # with open(f"{user_id}_{deck_id}_{counter}.png", "wb") as f:
-                #     f.write(image_data.getvalue())
 
                 # Close file handlers
                 image_data.close()
@@ -108,4 +95,6 @@ class Generate():
         # Return zip type data
         return zip_data
 
-
+    def save_tar(self, user_id, deck_id, question_list, answer_list):
+        # TODO: Implement tar file format
+        pass

@@ -8,6 +8,7 @@ from django.utils import timezone
 
 # Reference
 # http://www.learningaboutelectronics.com/Articles/How-to-rename-an-image-or-file-in-an-upload-Django.php
+# https://web.archive.org/web/20230103172715/http://www.learningaboutelectronics.com/Articles/How-to-rename-an-image-or-file-in-an-upload-Django.php
 def profile_picture_dir(instance, filename):
     base_filename, file_extension = os.path.splitext(filename)
     hashed_filename = md5(base_filename.encode()).hexdigest()
@@ -72,7 +73,7 @@ class Document(models.Model):
 
         if x < 512000:
             value = round(x/1024, 2)
-            ext = ' kb'
+            ext = ' Kb'
         elif x < 4194304000:
             value = round(x/1048576.0, 2)
             ext = ' Mb'

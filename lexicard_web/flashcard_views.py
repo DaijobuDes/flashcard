@@ -71,7 +71,7 @@ class FlashcardDeleteView(View):
     Class handler for the available flashcard page.
 
     Allowed methods:
-    GET POST
+    GET
 
     """
     template_name = "flashcard-delete.html"
@@ -88,6 +88,13 @@ class FlashcardDeleteView(View):
         return render(request, self.template_name, context)
 
 class FlashcardDelete(View):
+    """
+    Class handler for deleting flashcards.
+
+    Allowed methods:
+    GET
+
+    """
     def get(self, request, deck_id):
         if not Deck.objects.filter(deck_id = deck_id, user_id= request.user).exists():
             return redirect('/flashcard/')
@@ -96,6 +103,13 @@ class FlashcardDelete(View):
         return redirect("/flashcard/")
 
 class DeckView(View):
+    """
+    Class handler for viewing decks.
+
+    Allowed methods:
+    GET POST
+
+    """
     template_name = "flashcard.html"
 
     def get(self, request, deck_id):
@@ -127,11 +141,17 @@ class DeckView(View):
         pass
 
 class EditDeckView(View):
-    template_name = "flashcard-rename.html"
     """
-    TODO: name checking if exists
+    Class handler for editing decks.
+
+    Allowed methods:
+    GET POST
+
     """
 
+    template_name = "flashcard-rename.html"
+
+    # TODO: name checking if exists
     def get(self, request, deck_id):
         if not Deck.objects.filter(deck_id = deck_id).exists():
             return redirect('/home/')
@@ -159,6 +179,13 @@ class EditDeckView(View):
         return redirect("/flashcard")
 
 class EditDeckItem(View):
+    """
+    Class handler for editing decks.
+
+    Allowed methods:
+    GET POST
+
+    """
 
     template_name = "edit-question.html"
 
@@ -195,6 +222,13 @@ class EditDeckItem(View):
 
 
 class FlashcardCreateView(View):
+    """
+    Class handler for creating flashcards.
+
+    Allowed methods:
+    GET POST
+
+    """
     template_name = "test.html"
 
     def get(self, request):
@@ -281,6 +315,13 @@ class FlashcardCreateView(View):
         return redirect("/flashcard/view/" + str(deck.deck_id))
 
 class FlashcardDownload(View):
+    """
+    Class handler for downloading generated flashcards.
+
+    Allowed methods:
+    GET
+
+    """
     template_name = "flashcards-download.html"
 
     def get(self, request):
@@ -293,7 +334,11 @@ class FlashcardDownload(View):
 
 class GenerateFlashcard(View):
     """
-    Comments here
+    Class handler for generating flashcards to image.
+
+    Allowed methods:
+    GET
+
     """
 
     template_name = "generate.html"
@@ -318,13 +363,6 @@ class GenerateFlashcard(View):
         questions = [x.flashcard_question for x in qa]
         answers = [x.flashcard_answer for x in qa]
 
-        # return JsonResponse(
-        #     {
-        #         "questions": questions,
-        #         "answers": answers
-        #     }
-        # )
-
         generation = data.save_zip(request.user.user_id, deck_id, questions, answers)
 
         # Terminate if variable is not a valid zipfile
@@ -336,11 +374,19 @@ class GenerateFlashcard(View):
         return data
 
 class FlashcardRandomQuestionAndAnswer(View):
-    # NOTE: Code optimization is needed
+    """
+    Class handler for randomly generating questions.
+
+    Allowed methods:
+    GET POST
+
+    """
+
+    # TODO: Code optimization is needed
     # NOTE: What works here
     #       1. Question randomization works
     #       2. Answers also works
-    #       3. Probably a bit of moodle style? Answers are word sensitive
+    #       3. Probably a bit of moodle style? Answers are NOT word sensitive
     template_name = "random-question-and-answer.html"
 
     def get(self, request, deck_id):
@@ -394,26 +440,20 @@ class FlashcardRandomQuestionAndAnswer(View):
         messages.error(request, 'Wrong Answer')
         return render(request, self.template_name, context)
 
-            # return JsonResponse(
-            #     {
-            #         "status": "200",
-            #         "message": "Correct answer"
-            #     }
-            # )
-
-        # return JsonResponse(
-        #     {
-        #         "status": "200",
-        #         "message": "Wrong answer"
-        #     }
-        # )
-
 class FlashcardQuestionAndAnswer(View):
-    # NOTE: Code optimization is needed
+    """
+    Class handler for sequential question and answer.
+
+    Allowed methods:
+    GET POST
+
+    """
+
+    # TODO: Code optimization is needed
     # NOTE: What works here
     #       1. Question randomization works
     #       2. Answers also works
-    #       3. Probably a bit of moodle style? Answers are word sensitive
+    #       3. Probably a bit of moodle style? Answers are NOT word sensitive
     template_name = "question-and-answer.html"
 
     def get(self, request, deck_id, question_id, action):
@@ -422,10 +462,12 @@ class FlashcardQuestionAndAnswer(View):
         check = True
         qa = None
         max_id = 1
+
         # Get max ID number
         max_id = QA.objects.filter(
             flashcard_id_id=flashcard.flashcard_id,
         ).aggregate(Max("QA_id")).get("QA_id__max", 1)
+
 
         # TODO: Fix infinite loop
         # NOTE: Probably fixed, 11/22/22 02:53
@@ -451,7 +493,7 @@ class FlashcardQuestionAndAnswer(View):
                     question_id -= 1
 
         context = {
-            "qa": qa.first(),
+            "qa": qa.first(),               # type: ignore
             "question_id": question_id
         }
 
@@ -484,6 +526,13 @@ class FlashcardQuestionAndAnswer(View):
         )
 
 class FlashcardRemoveQuestion(View):
+    """
+    Class handler for removing questions.
+
+    Allowed methods:
+    GET POST
+
+    """
 
     template_name = "delete-question.html"
 
@@ -513,6 +562,14 @@ class FlashcardRemoveQuestion(View):
         return redirect(f"/flashcard/view/{deck_id}/delete")
 
 class EditPrefView(View):
+    """
+    Class handler for editing preferences.
+
+    Allowed methods:
+    GET
+
+    """
+
     def post(self, request):
         profile = User.objects.filter(user_id=request.user.user_id);
 

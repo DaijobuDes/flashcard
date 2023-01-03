@@ -16,6 +16,15 @@ from .forms import *
 from .generate import Generate
 
 class ScheduleView(View):
+    """
+    Class handler for the schedule page.
+
+    - Includes schedule deletion
+
+    Allowed methods:
+    GET POST
+
+    """
 
     template_name = "schedules.html"
 
@@ -27,7 +36,7 @@ class ScheduleView(View):
         }
         return render(request, self.template_name, context)
 
-    """ Delete Sched """
+    # Delete Sched
     def post(self, request, *args, **kwargs):
         reminder_ids = request.POST.getlist('id[]')
         for reminder_id in reminder_ids:
@@ -45,10 +54,18 @@ class ScheduleView(View):
 
 
 
-""" Create Sched """
+# Create Sched
 class CreateSchedView(View):
+    """
+    Class handler for the schedule creation.
+
+    Allowed methods:
+    GET POST
+
+    """
 
     template_name = "schedule-create.html"
+
     def get(self, request):
         return render(request, self.template_name)
 
@@ -65,41 +82,41 @@ class CreateSchedView(View):
         #return render(request, self.template_name)
         return redirect("viewAllSched")
 
-""" Update """
+# Update sched
 class UpdateSchedView(View):
+    """
+    Class handler for the main page.
+
+    Allowed methods:
+    GET POST
+
+    """
+
     def post(self, request):
-        id=request.POST.get('id','')
-        type=request.POST.get('type','')
-        value=request.POST.get('value','')
+        id = request.POST.get('id', '')
+        type = request.POST.get('type', '')
+        value = request.POST.get('value', '')
 
         rem = Reminders.objects.get(reminder_id=id)
 
-        if type=="date":
+        if type == "date":
             date = value
-            time =  rem.reminder_timestamp.strftime("%H:%M:%S")
-            dt_string = date +" "+ time
-            timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
-            Reminders.objects.filter(reminder_id=id).update(reminder_timestamp = timedate)
-            print(date)
-        if type=="time":
+            time = rem.reminder_timestamp.strftime("%H:%M:%S")
+            dt_string = date + " " + time
+            timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S"))
+            Reminders.objects.filter(reminder_id=id).update(reminder_timestamp=timedate)
+        if type == "time":
             time = value
-            date =  rem.reminder_timestamp.strftime("%Y-%m-%d")
-            dt_string = date +" "+ time+":00"
-            timedate =  make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S") )
-            Reminders.objects.filter(reminder_id=id).update(reminder_timestamp = timedate)
-        if type=="name":
+            date = rem.reminder_timestamp.strftime("%Y-%m-%d")
+            dt_string = date + " " + time + ":00"
+            timedate = make_aware(datetime.strptime(dt_string, "%Y-%m-%d %H:%M:%S"))
+            Reminders.objects.filter(reminder_id=id).update(reminder_timestamp=timedate)
+        if type == "name":
             name = value
-            Reminders.objects.filter(reminder_id=id).update(reminder_name= name)
-        if type=="details":
+            Reminders.objects.filter(reminder_id=id).update(reminder_name=name)
+        if type == "details":
             details = value
-            Reminders.objects.filter(reminder_id=id).update(reminder_label = details)
-
+            Reminders.objects.filter(reminder_id=id).update(reminder_label=details)
 
         return redirect("viewAllSched")
-        #form = DocumentForm(request.POST, instance=document)
-        #if form.is_valid():
-            # document.save()
-            #return redirect("viewAllDocs")
-         # else:
-            #return render(request, 'document.html', {'document':document})
 

@@ -19,7 +19,6 @@ class DocumentView(View):
 
     Allowed methods:
     GET
-
     """
     template_name = "documents.html"
 
@@ -42,6 +41,12 @@ class DocumentView(View):
         return redirect("viewAllDocs")
 
 class DownloadDocumentView(View):
+    """
+    Class handler for downloading documents.
+
+    Supported methods:
+    GET
+    """
     def get(self, request, document_id):
         docu = Document.objects.get(document_id=document_id)
         filename = docu.document_name
@@ -75,8 +80,7 @@ class UploadDocumentView(View):
     Class handler for the Upload Document page.
 
     Allowed methods:
-    GET
-    POST
+    GET POST
     """
     template_name = "document-upload.html"
 
@@ -84,7 +88,7 @@ class UploadDocumentView(View):
         form = UploadDocForm(request.POST, request.FILES)
 
         doc_files = request.FILES.getlist('doc_file')
-        doc_list = [] #list of file url
+        doc_list = [] # list of file url
         for doc_file in doc_files:
             doc_file = doc_file
             doc_name = pathlib.Path(doc_file.name)
@@ -93,23 +97,28 @@ class UploadDocumentView(View):
             doc_format = doc_format.replace('.', "") #Remove the dot(.) in the front. Example Output: PDF
             date_mod = str(datetime.now(tz=get_current_timezone())+timedelta(hours=8))
 
-            """ TODO: Check if valid file format """
+            # TODO: Check if valid file format
             flag = 1
             for k, f in Document.FILE_FORMAT:
-                print(k)
-                if(doc_format == k):
+                if doc_format == k:
                     flag = 1
                     break
                 else:
                     flag = 0;
 
-            if(flag == 0):
+            if flag == 0:
                 return render(request, self.template_name, {'invalidfileformat': 'Invalid file format!'})
             else:
-                document = Document.objects.create(user_id = request.user, document_file = doc_file, document_name = doc_name, document_format = doc_format, date_modified = date_mod)
+                document = Document.objects.create(
+                    user_id=request.user,
+                    document_file=doc_file,
+                    document_name=doc_name,
+                    document_format=doc_format,
+                    date_modified=date_mod
+                )
                 document.save()
 
-            """ TODO: Check if unique name in regards with the user_id"""
+            # TODO: Check if unique name in regards with the user_id
 
 
         return redirect("viewAllDocs")
@@ -119,17 +128,22 @@ class UploadDocumentView(View):
         return render(request, self.template_name, {'form': form})
 
 class RenameDocumentView(View):
+    """
+    Class handler for renaming documents.
+
+    Supported methods:
+    GET POST
+    """
 
     def post(self, request):
-        id=request.POST.get('id','')
-        type=request.POST.get('type','')
-        value=request.POST.get('value','')
-        print(value)
+        id = request.POST.get('id','')
+        type = request.POST.get('type','')
+        value = request.POST.get('value','')
 
-        if type=="name":
+        if type == "name":
             doc_name = value
 
-        Document.objects.filter(document_id=id).update(document_name= doc_name)
+        Document.objects.filter(document_id=id).update(document_name=doc_name) # type: ignore
 
         return redirect("viewAllDocs")
 

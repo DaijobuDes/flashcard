@@ -55,3 +55,19 @@ $ pip3 install -r requirements.txt
 $ py ./manage.py runserver
 ```
 
+## Deploying the server
+
+Install nginx on linux.
+
+```sh
+$ sudo apt install nginx
+```
+
+Inside `configuration` folder, configure `flashcard.conf`, change fields to where you need to place them.
+
+Add SSL server certificates in order to enable HTTPS mode. (HTTP mode, plain/text data exchange is NOT recommended.)
+
+For the `run_server` file, edit both `--user` and `--group` to your desired username and execute `chmod +x ./configuration/run_server` while being in the root of the project.
+
+Run with `./configuration/run_server`.
+

@@ -4,3 +4,4 @@ django-resized
 django-mathfilters
 pillow
 mysqlclient
+gunicorn
